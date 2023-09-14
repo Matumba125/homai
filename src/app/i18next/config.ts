@@ -17,8 +17,11 @@ export function initI18N() {
       load: "languageOnly",
       /*debug: process.env.MODE === "development",*/
       backend: {
-        loadPath: "/locales/{{lng}}/{{ns}}.yaml",
+        loadPath: "/homai/locales/{{lng}}/{{ns}}.yaml",
         parse: (data: string) => yaml.load(data) as Record<string, any>,
+        requestOptions: {
+          cache: "no-store",
+        },
       },
       interpolation: {
         escapeValue: false,
