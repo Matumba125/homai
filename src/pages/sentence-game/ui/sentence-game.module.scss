@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 80%;
+  margin: 0 auto;
+  .gameContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    .shuffledContainer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 200px;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      div {
+        cursor: pointer;
+        padding: 12px 16px;
+        font-size: 19px;
+        font-weight: 500;
+        color: rgb(75, 75, 75);
+        border: 1.5px solid rgb(229, 229, 229);
+        border-radius: 8px;
+      }
+    }
+    .resultContainer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 200px;
+      border-bottom: 2px solid rgb(229, 229, 229);
+      padding: 5px;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      div {
+        cursor: pointer;
+        padding: 12px 16px;
+        font-size: 19px;
+        font-weight: 500;
+        color: rgb(75, 75, 75);
+        border: 1.5px solid rgb(229, 229, 229);
+        border-radius: 8px;
+      }
+    }
+
+    .buttonsContainer {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .buttonsContainer {
+    gap: 30px !important;
+  }
+}

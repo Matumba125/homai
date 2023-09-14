@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 80%;
+  margin: 0 auto;
+  .gameContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    .keyword {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .imgContainer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      justify-items: center;
+      grid-row-gap: 2em;
+      grid-column-gap: 2em;
+      div {
+        cursor: pointer;
+      }
+      img {
+        width: 300px;
+        aspect-ratio: 1;
+        border-radius: 20px;
+      }
+    }
+
+    .buttonsContainer {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 95%;
+    .imgContainer {
+      img {
+        width: 150px !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.cache
+package.json
+package-lock.json
+public
+.next
+.idea
+node_modules
+.prettierrc
+build
+build-*
+tsconfig.json
+*.md
