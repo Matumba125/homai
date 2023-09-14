@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/homai/static/css/main.108f80ff.css",
-    "main.js": "/homai/static/js/main.21acd08f.js",
+    "main.js": "/homai/static/js/main.693c88a5.js",
     "static/css/84.c9af1a8a.chunk.css": "/homai/static/css/84.c9af1a8a.chunk.css",
     "static/js/84.25ff4619.chunk.js": "/homai/static/js/84.25ff4619.chunk.js",
     "static/js/845.4c539c1c.chunk.js": "/homai/static/js/845.4c539c1c.chunk.js",
@@ -11,13 +11,13 @@
     "index.html": "/homai/index.html",
     "static/media/getFetch.cjs": "/homai/static/media/getFetch.40f37ddea2378391108f.cjs",
     "main.108f80ff.css.map": "/homai/static/css/main.108f80ff.css.map",
-    "main.21acd08f.js.map": "/homai/static/js/main.21acd08f.js.map",
+    "main.693c88a5.js.map": "/homai/static/js/main.693c88a5.js.map",
     "84.c9af1a8a.chunk.css.map": "/homai/static/css/84.c9af1a8a.chunk.css.map",
     "84.25ff4619.chunk.js.map": "/homai/static/js/84.25ff4619.chunk.js.map",
     "845.4c539c1c.chunk.js.map": "/homai/static/js/845.4c539c1c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.108f80ff.css",
-    "static/js/main.21acd08f.js"
+    "static/js/main.693c88a5.js"
   ]
 }
