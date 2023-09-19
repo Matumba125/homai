@@ -1,0 +1,35 @@
+.loginWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  max-width: 300px;
+  padding: 24px 16px;
+  border: 1.5px solid rgb(229, 229, 229);
+  border-radius: 8px;
+  outline: none;
+  .loginHeader {
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+  }
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    input {
+      background-color: transparent;
+      font-size: 19px;
+      font-weight: 500;
+      border: 1.5px solid rgb(229, 229, 229);
+      border-radius: 8px;
+      width: 100%;
+      height: 25px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #0ba600;
+    }
+  }
+}

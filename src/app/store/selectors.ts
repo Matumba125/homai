@@ -15,3 +15,7 @@ export const getSentenceTasks = (state: AppStateType): SentenceTaskType[] => {
 export const getSentenceTasksLoading = (state: AppStateType): boolean => {
   return state.sentence.isLoading;
 };
+
+export const getIsLoggedIn = (state: AppStateType): boolean => {
+  return state.user.isLoggedIn;
+};

@@ -1,7 +1,8 @@
 .App {
   display: block;
-  min-width: 100vw;
-  min-height: 100vh;
+  min-width: 100%;
+  min-height: var(--100vh, 100vh);
+
   button {
     background-color: #0ba600;
     width: fit-content;

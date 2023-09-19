@@ -163,15 +163,12 @@ export const fetchCorrespondenceTasks = createAsyncThunk<any>(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const res = await Games.getCorrespondenceTasks();
-      if (res.data) {
-        dispatch(slice.actions.setTasks(res.data));
-        dispatch(slice.actions.setAvailableTasks(res.data));
-      } else {
-        dispatch(slice.actions.setTasks(testTasks));
-        dispatch(slice.actions.setAvailableTasks(testTasks));
-      }
+      dispatch(slice.actions.setTasks(res.data));
+      dispatch(slice.actions.setAvailableTasks(res.data));
     } catch (e) {
-      rejectWithValue(e);
+      dispatch(slice.actions.setTasks(testTasks));
+      dispatch(slice.actions.setAvailableTasks(testTasks));
+      /*rejectWithValue(e);*/
     }
   },
 );

@@ -19,7 +19,6 @@ const Landing = () => {
 
   return (
     <div className={style.container}>
-      <h1>Homai</h1>
       <div className={style.navContainer}>
         <GamePreview
           onClick={onStartCorrespondenceClick}

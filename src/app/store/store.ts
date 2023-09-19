@@ -4,10 +4,12 @@ import { combineReducers } from "redux";
 import { correspondenceReducer } from "../../pages/correspondence-game/bll/correspondenceReducer";
 import { useDispatch } from "react-redux";
 import { sentenceReducer } from "../../pages/sentence-game/bll/sentenceReducer";
+import { userReducer } from "../../entities/user/bll/userReducer";
 
 export const rootReducer = combineReducers({
   correspondence: correspondenceReducer,
   sentence: sentenceReducer,
+  user: userReducer,
 });
 
 export const store = configureStore({

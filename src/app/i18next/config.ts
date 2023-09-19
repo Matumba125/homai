@@ -4,7 +4,12 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import yaml from "js-yaml";
 
-const namespaces: readonly string[] = ["correspondence", "landing", "common"];
+const namespaces: readonly string[] = [
+  "correspondence",
+  "landing",
+  "common",
+  "login",
+];
 
 export function initI18N() {
   i18n
