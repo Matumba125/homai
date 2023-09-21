@@ -4,8 +4,12 @@ import { User } from "../../../app/api/api";
 export type UserDataType = {
   id: number;
   username: string;
-  avatar?: File;
+  avatar?: string;
   status: "student" | "teacher";
+};
+
+export type AvatarUpdateResponseType = {
+  url: string;
 };
 
 export type AuthDataType = {
@@ -22,7 +26,8 @@ const initialState: UserInitialStateType = {
   user: {
     id: 0,
     username: "",
-    avatar: undefined,
+    avatar:
+      "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
     status: "student",
   },
   isLoggedIn: false,
@@ -35,7 +40,7 @@ const slice = createSlice({
     setUsername(state, action: PayloadAction<string>) {
       state.user.username = action.payload;
     },
-    setAvatar(state, action: PayloadAction<File | undefined>) {
+    setAvatar(state, action: PayloadAction<string | undefined>) {
       state.user.avatar = action.payload;
     },
     setUserData(state, action: PayloadAction<UserDataType>) {
@@ -48,7 +53,7 @@ const slice = createSlice({
 });
 
 export const fakeAuthUser = createAsyncThunk<any>(
-  "user/getUser",
+  "user/fakeAuth",
   async (_, { dispatch, rejectWithValue }) => {
     dispatch(slice.actions.setUsername("Тестовый пользователь"));
     dispatch(slice.actions.setIsLoggedIn(true));
@@ -85,10 +90,10 @@ export const updateAvatar = createAsyncThunk<any, File>(
   "user/updateAvatar",
   async (data, { dispatch, rejectWithValue }) => {
     try {
-      await User.updateAvatar(data);
-      dispatch(slice.actions.setAvatar(data));
+      const res = await User.updateAvatar(data);
+      dispatch(slice.actions.setAvatar(res.data.url));
     } catch (e) {
-      dispatch(slice.actions.setAvatar(data));
+      dispatch(slice.actions.setAvatar(""));
       //rejectWithValue(e);
     }
   },

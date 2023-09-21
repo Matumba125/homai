@@ -17,4 +17,23 @@
     gap: 20px;
     margin-right: 20px;
   }
+  .userPreview {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+    span {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgb(75, 75, 75);
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    img {
+      margin-left: 0;
+    }
+  }
 }

@@ -2,14 +2,16 @@ import React from "react";
 import style from "./header.module.scss";
 import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
-import { getIsLoggedIn } from "../../app/store/selectors";
+import { getIsLoggedIn, getUserData } from "../../app/store/selectors";
 import { useTranslation } from "react-i18next";
 import homaiLogo from "../../shared/assets/img/homaiLogo.png";
 import { useNavigate } from "react-router";
 import { path } from "../../app/path";
+import { Avatar } from "shared/ui/avatar";
 
 const Header = () => {
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const user = useSelector(getUserData);
   const { t } = useTranslation(["common"]);
   const navigate = useNavigate();
 
@@ -19,6 +21,10 @@ const Header = () => {
 
   const onSignUpClick = () => {
     navigate(path.login);
+  };
+
+  const onUserInfoClick = () => {
+    navigate(path.profile);
   };
 
   return (
@@ -32,6 +38,12 @@ const Header = () => {
           <Button variant={"contained"} onClick={onSignUpClick}>
             {t("sign-up")}
           </Button>
+        </div>
+      )}
+      {isLoggedIn && (
+        <div onClick={onUserInfoClick} className={style.userPreview}>
+          <Avatar onClick={() => {}} size={"xs"} user={user} />
+          <span>{user.username}</span>
         </div>
       )}
     </header>

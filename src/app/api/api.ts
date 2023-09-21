@@ -1,14 +1,20 @@
 import axios from "axios";
 import {
   AuthDataType,
+  AvatarUpdateResponseType,
   UserDataType,
 } from "../../entities/user/bll/userReducer";
 import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/correspondenceReducer";
 import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
+import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
+
+type SpeakingAnswerResponseType = {
+  result: "OK" | "BAD";
+};
 
 const axiosLiveInstance = axios.create({
   withCredentials: true,
-  baseURL: "https://eng.aiteacher.ru/game/",
+  baseURL: "https://eng.aiteacher.ru/",
 });
 
 export const Games = {
@@ -19,6 +25,12 @@ export const Games = {
   },
   getSentenceTasks: () => {
     return axiosLiveInstance.get<SentenceTaskType[]>("sentenceTasks");
+  },
+  getSpeakingTasks: () => {
+    return axiosLiveInstance.get<SpeakingTaskType[]>("sentenceTasks");
+  },
+  sendSpeakingAnswer: (formData: FormData) => {
+    return axiosLiveInstance.post<SpeakingAnswerResponseType>("game", formData);
   },
 };
 
@@ -33,11 +45,15 @@ export const User = {
     const formData = new FormData();
     //@ts-ignore
     formData.append("image", image);
-    return axiosLiveInstance.put("user/photo", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
+    return axiosLiveInstance.put<AvatarUpdateResponseType>(
+      "user/photo",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
-    });
+    );
   },
 };
 

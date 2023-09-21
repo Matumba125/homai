@@ -39,7 +39,7 @@ const Login = () => {
       dispatch(getUser(res.data.id));
       navigate("/");
     } catch (e) {
-      dispatch(fakeAuthUser);
+      dispatch(fakeAuthUser());
       actions.setSubmitting(false);
       navigate("/");
     }

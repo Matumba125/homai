@@ -1,0 +1,20 @@
+.profileWrapper {
+  margin-top: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .profileInfo {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgb(229, 229, 229);
+  }
+  .userInfoWrapper {
+    h2 {
+      font-size: 24px;
+      font-weight: 500;
+      color: rgb(75, 75, 75);
+    }
+  }
+}

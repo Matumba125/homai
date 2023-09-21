@@ -16,6 +16,9 @@ const Landing = () => {
   const onStartSentenceClick = () => {
     navigate(path.sentence);
   };
+  const onStartSpeakingClick = () => {
+    navigate(path.speaking);
+  };
 
   return (
     <div className={style.container}>
@@ -29,6 +32,11 @@ const Landing = () => {
           onClick={onStartSentenceClick}
           backgroundImage={`url(${correspondencePng})`}
           title={t("start-sentence-game")}
+        />
+        <GamePreview
+          onClick={onStartSpeakingClick}
+          backgroundImage={`url(${correspondencePng})`}
+          title={t("start-speaking-game")}
         />
       </div>
     </div>

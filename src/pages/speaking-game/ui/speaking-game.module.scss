@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  height: calc(100vh - 60px);
+  justify-content: center;
+  width: 80%;
+  margin: 0 auto;
+  .gameContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    .gameBody {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+      h2 {
+        font-size: 24px;
+        font-weight: 500;
+        color: rgb(75, 75, 75);
+      }
+      .stopRecordBtn {
+        background-color: crimson;
+      }
+
+      .startRecordBtn {
+      }
+    }
+    .buttonsContainer {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
