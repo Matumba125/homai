@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 170px);
   justify-content: center;
   width: 80%;
   margin: 0 auto;
@@ -13,7 +13,8 @@
 
     .keyword {
       font-size: 24px;
-      font-weight: bold;
+      font-weight: 700;
+      color: #ff6668;
     }
 
     .imgContainer {
@@ -42,6 +43,7 @@
 @media only screen and (max-width: 768px) {
   .container {
     width: 95%;
+    height: calc(100vh - 85px);
     .imgContainer {
       img {
         width: 150px !important;

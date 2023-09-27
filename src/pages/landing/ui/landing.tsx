@@ -2,7 +2,6 @@ import style from "./landing.module.scss";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { path } from "../../../app/path";
-import correspondencePng from "../../../shared/assets/img/correspondence.png";
 import GamePreview from "./game-preview/game-preview";
 
 const Landing = () => {
@@ -25,18 +24,18 @@ const Landing = () => {
       <div className={style.navContainer}>
         <GamePreview
           onClick={onStartCorrespondenceClick}
-          backgroundImage={`url(${correspondencePng})`}
           title={t("start-correspondence-game")}
+          backgroundColor={"#4137EE"}
         />
         <GamePreview
           onClick={onStartSentenceClick}
-          backgroundImage={`url(${correspondencePng})`}
           title={t("start-sentence-game")}
+          backgroundColor={"#FF6668"}
         />
         <GamePreview
           onClick={onStartSpeakingClick}
-          backgroundImage={`url(${correspondencePng})`}
           title={t("start-speaking-game")}
+          backgroundColor={"#4137EE"}
         />
       </div>
     </div>

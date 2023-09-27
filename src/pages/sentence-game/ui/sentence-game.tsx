@@ -102,7 +102,7 @@ const SentenceGame = () => {
                 key={resItem}
                 onClick={() => onResultArrayItemClick(resItem)}
               >
-                {resItem}
+                <span>{resItem}</span>
               </div>
             ))}
           </div>
@@ -112,14 +112,11 @@ const SentenceGame = () => {
                 key={shuffledItem}
                 onClick={() => onShuffledArrayItemClick(shuffledItem)}
               >
-                {shuffledItem}
+                <span>{shuffledItem}</span>
               </div>
             ))}
           </div>
           <div className={style.buttonsContainer}>
-            <Button variant={"contained"} onClick={onBackClick}>
-              {t("back")}
-            </Button>
             <Button
               variant={"contained"}
               disabled={!canGoForward}

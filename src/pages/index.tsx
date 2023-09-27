@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { path } from "../app/path";
 import CorrespondenceGame from "./correspondence-game/ui/correspondence-game";
@@ -8,8 +7,7 @@ import Root from "../entities/root/root";
 import Profile from "../entities/user/ui/profile";
 import SpeakingGame from "./speaking-game/ui/speaking-game";
 import TeacherRoom from "./teacher-room/ui/teacher-room";
-
-const Landing = lazy(() => import("./landing/ui/landing"));
+import Landing from "./landing/ui/landing";
 
 export const Routing = () => {
   return (

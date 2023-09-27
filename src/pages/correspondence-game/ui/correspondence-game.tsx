@@ -81,9 +81,6 @@ const CorrespondenceGame = () => {
           </div>
           <div className={style.keyword}>{randomItem && randomItem.word}</div>
           <div className={style.buttonsContainer}>
-            <Button variant={"contained"} onClick={onBackClick}>
-              {t("back")}
-            </Button>
             <Button
               variant={"contained"}
               disabled={!canGoForward}

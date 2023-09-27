@@ -127,9 +127,6 @@ const SpeakingGame = () => {
             </Button>
           </div>
           <div className={style.buttonsContainer}>
-            <Button variant={"contained"} onClick={onBackClick}>
-              {t("back")}
-            </Button>
             <Button
               variant={"contained"}
               disabled={!canGoForward}

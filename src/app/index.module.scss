@@ -4,15 +4,22 @@
   min-height: var(--100vh, 100vh);
 
   button {
-    background-color: #0ba600;
+    background-color: #e3e3ff;
+    font-weight: 700;
+    font-size: 16px;
     width: fit-content;
-    border-radius: 8px;
-    color: rgb(229, 229, 229);
+    border-radius: 30px;
+    color: #4137ee;
+    height: 40px;
+    text-transform: none;
+    min-width: 200px;
+    box-shadow: none;
   }
 
   button:hover {
-    background-color: #0ba600;
-    color: rgb(229, 229, 229);
+    background-color: #e3e3ff;
+    color: #4137ee;
+    box-shadow: none;
   }
 
   button:disabled {

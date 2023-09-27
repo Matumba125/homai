@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 170px);
   justify-content: center;
   width: 80%;
   margin: 0 auto;
@@ -18,8 +18,8 @@
       gap: 20px;
       h2 {
         font-size: 24px;
-        font-weight: 500;
-        color: rgb(75, 75, 75);
+        font-weight: 700;
+        color: #ff6668;
       }
       .stopRecordBtn {
         background-color: crimson;
@@ -32,5 +32,11 @@
       display: flex;
       gap: 10px;
     }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    height: calc(100vh - 85px);
   }
 }
