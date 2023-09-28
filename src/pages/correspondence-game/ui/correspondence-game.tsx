@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getCorrespondenceTasks } from "../../../app/store/selectors";
 import { useSelector } from "react-redux";
 import {
@@ -14,8 +14,8 @@ import { useTranslation } from "react-i18next";
 import useSound from "use-sound";
 import winSound from "../../../shared/sound/win-sound.mp3";
 import loseSound from "../../../shared/sound/lose-sound.mp3";
-import { useNavigate } from "react-router";
 import { shuffleArray } from "../../../shared/utilities/shuffleArray";
+import speakerSvg from "../../../shared/assets/img/speaker.svg";
 
 const CorrespondenceGame = () => {
   const { t } = useTranslation(["common"]);
@@ -25,9 +25,9 @@ const CorrespondenceGame = () => {
   const [taskBundle, setTaskBundle] = useState<CorrespondenceTaskType[]>([]);
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
   const [randomItem, setRandomItem] = useState<CorrespondenceTaskType>();
-  const navigate = useNavigate();
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
+  const selectedElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     dispatch(fetchCorrespondenceTasks());
@@ -44,10 +44,19 @@ const CorrespondenceGame = () => {
   }, [tasks]);
 
   const onImageSelect = (id: number) => {
+    selectedElement.current?.classList.remove(style.correctImg, style.wrongImg);
     if (randomItem && id === randomItem.id) {
+      selectedElement.current = document.getElementById(id.toString());
+      if (selectedElement.current) {
+        selectedElement.current.classList.add(style.correctImg);
+      }
       playWinAudio();
       setCanGoForward(true);
     } else {
+      selectedElement.current = document.getElementById(id.toString());
+      if (selectedElement.current) {
+        selectedElement.current.classList.add(style.wrongImg);
+      }
       playLoseAudio();
       setCanGoForward(false);
     }
@@ -63,9 +72,8 @@ const CorrespondenceGame = () => {
     dispatch(restartCorrespondenceTest());
   };
 
-  const onBackClick = () => {
-    onRestartClick();
-    navigate(-1);
+  const onSpeakerClick = () => {
+    playWinAudio();
   };
 
   return (
@@ -74,12 +82,21 @@ const CorrespondenceGame = () => {
         <div className={style.gameContainer}>
           <div className={style.imgContainer}>
             {taskBundle.map((m) => (
-              <div id={m.id.toString()} onClick={() => onImageSelect(m.id)}>
+              <div
+                key={m.id}
+                id={m.id.toString()}
+                onClick={() => onImageSelect(m.id)}
+              >
                 <img alt={"taskImage"} src={m.image} />
               </div>
             ))}
           </div>
-          <div className={style.keyword}>{randomItem && randomItem.word}</div>
+          <div className={style.keyword}>
+            <span>{randomItem && randomItem.word}</span>
+            <div onClick={onSpeakerClick}>
+              <img alt={"speaker"} src={speakerSvg} />
+            </div>
+          </div>
           <div className={style.buttonsContainer}>
             <Button
               variant={"contained"}
