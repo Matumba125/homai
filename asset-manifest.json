@@ -1,23 +1,21 @@
 {
   "files": {
-    "main.css": "/homai/static/css/main.b67f3e84.css",
-    "main.js": "/homai/static/js/main.257bb747.js",
-    "static/css/84.01e221d7.chunk.css": "/homai/static/css/84.01e221d7.chunk.css",
-    "static/js/84.3f475694.chunk.js": "/homai/static/js/84.3f475694.chunk.js",
-    "static/js/845.4c539c1c.chunk.js": "/homai/static/js/845.4c539c1c.chunk.js",
-    "static/media/correspondence.png": "/homai/static/media/correspondence.43b5670e07fe8759df22.png",
+    "main.css": "/homai/static/css/main.18940cd6.css",
+    "main.js": "/homai/static/js/main.0974bde3.js",
+    "static/js/845.70801bb8.chunk.js": "/homai/static/js/845.70801bb8.chunk.js",
     "static/media/win-sound.mp3": "/homai/static/media/win-sound.dc5c87c7c12c12efccd2.mp3",
     "static/media/lose-sound.mp3": "/homai/static/media/lose-sound.2c9f01e97d4ba78cd173.mp3",
+    "static/media/logo.svg": "/homai/static/media/logo.caafdab9b87bd995029b1b2622cceb27.svg",
+    "static/media/navImg.svg": "/homai/static/media/navImg.af95d0ecd277562456eb3a640c864a34.svg",
     "index.html": "/homai/index.html",
+    "static/media/speaker.svg": "/homai/static/media/speaker.04b803ce330968ee2cc8369d39cede34.svg",
     "static/media/getFetch.cjs": "/homai/static/media/getFetch.40f37ddea2378391108f.cjs",
-    "main.b67f3e84.css.map": "/homai/static/css/main.b67f3e84.css.map",
-    "main.257bb747.js.map": "/homai/static/js/main.257bb747.js.map",
-    "84.01e221d7.chunk.css.map": "/homai/static/css/84.01e221d7.chunk.css.map",
-    "84.3f475694.chunk.js.map": "/homai/static/js/84.3f475694.chunk.js.map",
-    "845.4c539c1c.chunk.js.map": "/homai/static/js/845.4c539c1c.chunk.js.map"
+    "main.18940cd6.css.map": "/homai/static/css/main.18940cd6.css.map",
+    "main.0974bde3.js.map": "/homai/static/js/main.0974bde3.js.map",
+    "845.70801bb8.chunk.js.map": "/homai/static/js/845.70801bb8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b67f3e84.css",
-    "static/js/main.257bb747.js"
+    "static/css/main.18940cd6.css",
+    "static/js/main.0974bde3.js"
   ]
 }
