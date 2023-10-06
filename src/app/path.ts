@@ -5,4 +5,5 @@ export const path = {
   profile: "/profile",
   speaking: "/speaking",
   teacherRoom: "/teacher-room",
+  createLesson: "/create-lesson",
 };

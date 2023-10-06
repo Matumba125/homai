@@ -76,8 +76,12 @@
     width: 95%;
     height: calc(100vh - 85px);
     .imgContainer {
-      img {
+      div {
         width: 150px !important;
+        height: 150px !important;
+      }
+      img {
+        width: 140px !important;
       }
     }
   }

@@ -1,0 +1,84 @@
+.createLessonWrapper {
+  padding: 50px 0 50px;
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  flex-direction: column;
+  gap: 50px;
+  textarea,
+  input {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: transparent;
+    resize: none;
+    border: 3px solid #4137ee;
+    border-radius: 30px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+  }
+  textarea {
+    min-height: 200px;
+    width: 60%;
+  }
+  input {
+    min-height: 50px;
+    width: 30%;
+  }
+  h2 {
+    font-size: 24px;
+    color: #4137ee;
+    font-weight: 700;
+    margin: 0;
+  }
+  textarea:focus,
+  input:focus {
+    outline: none !important;
+  }
+  .themeWrapper {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+  }
+  .inputModuleWrapper {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    div {
+      display: flex;
+      gap: 30px;
+      align-items: flex-end;
+    }
+  }
+  .buttonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    button {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .createLessonWrapper {
+    width: 100% !important;
+    padding: 50px 20px;
+    input {
+      width: 60% !important;
+    }
+    textarea {
+      width: 80% !important;
+    }
+
+    .inputModuleWrapper {
+      div {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+    }
+  }
+}

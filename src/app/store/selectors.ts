@@ -3,6 +3,7 @@ import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/corr
 import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
 import { UserDataType } from "../../entities/user/bll/userReducer";
 import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
+import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomReducer";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,
@@ -32,4 +33,10 @@ export const getSpeakingTasks = (state: AppStateType): SpeakingTaskType[] => {
 
 export const getSpeakingTasksLoading = (state: AppStateType): boolean => {
   return state.speaking.isLoading;
+};
+
+export const getCreateLessonData = (
+  state: AppStateType,
+): CreateLessonStateType => {
+  return state.teacherRoom.createLesson;
 };

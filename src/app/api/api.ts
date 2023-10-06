@@ -7,6 +7,7 @@ import {
 import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/correspondenceReducer";
 import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
 import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
+import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomReducer";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -54,6 +55,36 @@ export const User = {
         },
       },
     );
+  },
+};
+
+type GetCreateLessonGenerateRequestType = {
+  theme: string;
+};
+
+type GetCreateLessonWordsResponseType = {
+  words: string;
+};
+
+type GetCreateLessonSentencesResponseType = {
+  sentences: string;
+};
+
+export const TeacherRoom = {
+  getCreateLessonWords: (data: GetCreateLessonGenerateRequestType) => {
+    return axiosLiveInstance.post<GetCreateLessonWordsResponseType>(
+      "generate/words",
+      data,
+    );
+  },
+  getCreateLessonSentences: (data: GetCreateLessonGenerateRequestType) => {
+    return axiosLiveInstance.post<GetCreateLessonSentencesResponseType>(
+      "generate/sentences",
+      data,
+    );
+  },
+  createLesson: (data: CreateLessonStateType) => {
+    return axiosLiveInstance.put("generate/create-lesson", data);
   },
 };
 
