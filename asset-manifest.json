@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/homai/static/css/main.18940cd6.css",
-    "main.js": "/homai/static/js/main.0974bde3.js",
+    "main.css": "/homai/static/css/main.ef9c20f3.css",
+    "main.js": "/homai/static/js/main.4e95f2de.js",
     "static/js/845.70801bb8.chunk.js": "/homai/static/js/845.70801bb8.chunk.js",
     "static/media/win-sound.mp3": "/homai/static/media/win-sound.dc5c87c7c12c12efccd2.mp3",
     "static/media/lose-sound.mp3": "/homai/static/media/lose-sound.2c9f01e97d4ba78cd173.mp3",
@@ -10,12 +10,12 @@
     "index.html": "/homai/index.html",
     "static/media/speaker.svg": "/homai/static/media/speaker.04b803ce330968ee2cc8369d39cede34.svg",
     "static/media/getFetch.cjs": "/homai/static/media/getFetch.40f37ddea2378391108f.cjs",
-    "main.18940cd6.css.map": "/homai/static/css/main.18940cd6.css.map",
-    "main.0974bde3.js.map": "/homai/static/js/main.0974bde3.js.map",
+    "main.ef9c20f3.css.map": "/homai/static/css/main.ef9c20f3.css.map",
+    "main.4e95f2de.js.map": "/homai/static/js/main.4e95f2de.js.map",
     "845.70801bb8.chunk.js.map": "/homai/static/js/845.70801bb8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.18940cd6.css",
-    "static/js/main.0974bde3.js"
+    "static/css/main.ef9c20f3.css",
+    "static/js/main.4e95f2de.js"
   ]
 }
