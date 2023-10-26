@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { path } from "../../../app/path";
 import GamePreview from "./game-preview/game-preview";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
 const Landing = () => {
   const { t } = useTranslation(["landing"]);
@@ -19,8 +20,16 @@ const Landing = () => {
     navigate(path.speaking);
   };
 
+  const onCreateLessonClick = () => {
+    navigate(path.createLesson);
+  };
+
   return (
     <div className={style.container}>
+      <ControlPointIcon
+        className={style.navCreateLesson}
+        onClick={onCreateLessonClick}
+      />
       <div className={style.navContainer}>
         <GamePreview
           onClick={onStartCorrespondenceClick}
