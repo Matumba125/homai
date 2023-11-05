@@ -10,6 +10,7 @@ const namespaces: readonly string[] = [
   "common",
   "login",
   "teacherRoom",
+  "classroom",
 ];
 
 export function initI18N() {

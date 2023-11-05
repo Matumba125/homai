@@ -4,6 +4,10 @@ import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer"
 import { UserDataType } from "../../entities/user/bll/userReducer";
 import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
 import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomReducer";
+import {
+  ClassroomType,
+  ClassType,
+} from "../../entities/ classroom/bll/ classroomReducer";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,
@@ -39,4 +43,12 @@ export const getCreateLessonData = (
   state: AppStateType,
 ): CreateLessonStateType => {
   return state.teacherRoom.createLesson;
+};
+
+export const getClassesList = (state: AppStateType): ClassroomType[] => {
+  return state.classroom.classes;
+};
+
+export const getClass = (state: AppStateType): ClassType | undefined => {
+  return state.classroom.class;
 };

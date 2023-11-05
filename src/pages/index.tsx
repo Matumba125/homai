@@ -9,6 +9,8 @@ import SpeakingGame from "./speaking-game/ui/speaking-game";
 import TeacherRoom from "./teacher-room/ui/teacher-room";
 import Landing from "./landing/ui/landing";
 import CreateLesson from "./teacher-room/ui/create-lesson/create-lesson";
+import Classroom from "../entities/ classroom/ui/ classroom";
+import EditClass from "../entities/ classroom/ui/edit-class/edit-class";
 
 export const Routing = () => {
   return (
@@ -22,6 +24,8 @@ export const Routing = () => {
         <Route path={path.speaking} element={<SpeakingGame />} />
         <Route path={path.teacherRoom} element={<TeacherRoom />} />
         <Route path={path.createLesson} element={<CreateLesson />} />
+        <Route path={path.classroom} element={<Classroom />} />
+        <Route path={`${path.editClass}/:id`} element={<EditClass />} />
       </Route>
       <Route path={path.login} element={<Login />} />
     </Routes>

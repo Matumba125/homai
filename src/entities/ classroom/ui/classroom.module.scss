@@ -1,0 +1,172 @@
+.container {
+  display: flex;
+  height: calc(100vh - 170px);
+  width: 60%;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  .classesList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    a {
+      border: 2px solid #4137ee;
+      border-radius: 20px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      min-width: 200px;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      color: #4137ee;
+    }
+  }
+}
+
+.modalContainer {
+  margin: 0 auto;
+  max-width: 280px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  textarea,
+  input {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: transparent;
+    resize: none;
+    border: 2px solid #4137ee;
+    border-radius: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+  }
+  textarea {
+    min-height: 200px;
+    min-width: 200px;
+  }
+  input {
+    min-height: 30px;
+    min-width: 200px;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+  }
+  textarea:focus,
+  input:focus {
+    outline: none !important;
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  button {
+    background-color: #4137ee;
+    font-weight: 700;
+    font-size: 16px;
+    width: fit-content;
+    border-radius: 30px;
+    color: #ffffff;
+    height: 40px;
+    text-transform: none;
+    min-width: 200px;
+    box-shadow: none;
+  }
+
+  button:hover {
+    background-color: #4137ee;
+    color: #ffffff;
+    box-shadow: none;
+  }
+
+  button:disabled {
+    background-color: #e3e3ff;
+    color: #4137ee;
+  }
+}
+
+.editClassContainer {
+  display: flex;
+  padding: 16px;
+  height: calc(100vh - 170px);
+  width: 60%;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  textarea {
+    width: 500px;
+  }
+  .classTitleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .studentsListTitle {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    h2 {
+      margin: 0;
+    }
+  }
+  .studentsListWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 16px;
+    .studentsListItem {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+
+      span {
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      button {
+        background-color: #4137ee;
+        font-weight: 700;
+        font-size: 16px;
+        width: fit-content;
+        border-radius: 20px;
+        color: #ffffff;
+        height: 30px;
+        text-transform: none;
+        min-width: 100px;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    height: calc(100vh - 85px);
+  }
+  .editClassContainer {
+    height: calc(100% - 85px);
+    width: 90%;
+    textarea {
+      width: 320px;
+    }
+  }
+}

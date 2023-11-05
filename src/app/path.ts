@@ -6,4 +6,6 @@ export const path = {
   speaking: "/speaking",
   teacherRoom: "/teacher-room",
   createLesson: "/create-lesson",
+  classroom: "/classroom",
+  editClass: "/edit-class",
 };

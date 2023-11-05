@@ -7,6 +7,7 @@ import { sentenceReducer } from "../../pages/sentence-game/bll/sentenceReducer";
 import { userReducer } from "../../entities/user/bll/userReducer";
 import { speakingReducer } from "../../pages/speaking-game/bll/speakingReducer";
 import { teacherRoomReducer } from "../../pages/teacher-room/bll/teacherRoomReducer";
+import { classroomReducer } from "../../entities/ classroom/bll/ classroomReducer";
 
 export const rootReducer = combineReducers({
   correspondence: correspondenceReducer,
@@ -14,6 +15,7 @@ export const rootReducer = combineReducers({
   user: userReducer,
   speaking: speakingReducer,
   teacherRoom: teacherRoomReducer,
+  classroom: classroomReducer,
 });
 
 export const store = configureStore({

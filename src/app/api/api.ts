@@ -8,6 +8,10 @@ import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/corr
 import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
 import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
 import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomReducer";
+import {
+  ClassroomType,
+  ClassType,
+} from "../../entities/ classroom/bll/ classroomReducer";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -70,6 +74,19 @@ type GetCreateLessonSentencesResponseType = {
   sentences: string;
 };
 
+type FetchClassesResponseType = {
+  classesList: ClassroomType[];
+};
+
+type FetchClassResponseType = {
+  class: ClassType;
+};
+
+export type AddClassRequestType = {
+  title: string;
+  studentsList: string;
+};
+
 export const TeacherRoom = {
   getCreateLessonWords: (data: GetCreateLessonGenerateRequestType) => {
     return axiosLiveInstance.post<GetCreateLessonWordsResponseType>(
@@ -85,6 +102,23 @@ export const TeacherRoom = {
   },
   createLesson: (data: CreateLessonStateType) => {
     return axiosLiveInstance.put("generate/create-lesson", data);
+  },
+  fetchClasses: () => {
+    return axiosLiveInstance.get<FetchClassesResponseType>(
+      "classes/get-classes-list",
+    );
+  },
+  fetchClass: (id: number) => {
+    return axiosLiveInstance.put<FetchClassResponseType>(
+      "classes/get-class",
+      id,
+    );
+  },
+  addClass: (data: AddClassRequestType) => {
+    return axiosLiveInstance.put<FetchClassesResponseType>(
+      "classes/add-class",
+      data,
+    );
   },
 };
 
