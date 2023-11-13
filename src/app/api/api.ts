@@ -11,6 +11,7 @@ import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomR
 import {
   ClassroomType,
   ClassType,
+  StudentType,
 } from "../../entities/ classroom/bll/ classroomReducer";
 
 type SpeakingAnswerResponseType = {
@@ -87,6 +88,17 @@ export type AddClassRequestType = {
   studentsList: string;
 };
 
+export type ChangeStudentNameRequestType = {
+  classId: number;
+  studentId: number;
+  newName: string;
+};
+
+export type UpdateClassNameRequestType = {
+  classId: number;
+  newName: string;
+};
+
 export const TeacherRoom = {
   getCreateLessonWords: (data: GetCreateLessonGenerateRequestType) => {
     return axiosLiveInstance.post<GetCreateLessonWordsResponseType>(
@@ -119,6 +131,18 @@ export const TeacherRoom = {
       "classes/add-class",
       data,
     );
+  },
+  changeStudentName: (data: ChangeStudentNameRequestType) => {
+    return axiosLiveInstance.put<StudentType>(
+      "classes/update-student-name",
+      data,
+    );
+  },
+  deleteStudent: (studentId: number) => {
+    return axiosLiveInstance.delete(`classes/delete-student/${studentId}`);
+  },
+  updateClassName: (data: UpdateClassNameRequestType) => {
+    return axiosLiveInstance.put(`classes/update-class-name}`, data);
   },
 };
 

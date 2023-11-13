@@ -1,3 +1,4 @@
+are-you-sure-you-want-to-delete: Вы уверены, что хотите удалить
 class-list: Список классов
 add-class: Добавить
 class: Класс
@@ -7,3 +8,11 @@ edit: Изменить
 delete: Удалить
 get-password: Получить пароль
 add-students: Добавить учеников
+name: Имя
+username: Имя пользователя
+password: Пароль
+full-name: ФИО
+delete-confirmation: Подтверждение удаления
+close: Закрыть
+yes: Да
+no: Нет

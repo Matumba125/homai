@@ -14,16 +14,32 @@
     a {
       border: 2px solid #4137ee;
       border-radius: 20px;
-      min-height: 40px;
+      min-height: 50px;
       display: flex;
       align-items: center;
-      min-width: 200px;
+      min-width: 300px;
       justify-content: center;
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
       text-decoration: none;
       color: #4137ee;
+      gap: 100px;
+      button {
+        cursor: pointer;
+        border: none;
+        background-color: #4137ee;
+        font-weight: 700;
+        font-size: 16px;
+        width: fit-content;
+        border-radius: 20px;
+        color: #ffffff;
+        height: 30px;
+        text-transform: none;
+        min-width: 10px;
+        padding: 5px 10px;
+        box-shadow: none;
+      }
     }
   }
 }
@@ -38,8 +54,7 @@
   align-items: center;
   gap: 16px;
   padding: 32px;
-  textarea,
-  input {
+  textarea {
     padding: 10px;
     font-size: 16px;
     font-weight: 500;
@@ -103,7 +118,7 @@
   display: flex;
   padding: 16px;
   height: calc(100vh - 170px);
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
   flex-direction: column;
   gap: 16px;
@@ -115,6 +130,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    .classTitleEditWrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      button {
+        width: auto;
+        min-width: auto;
+        height: 40px;
+      }
+    }
   }
   .studentsListTitle {
     display: flex;
@@ -126,34 +151,60 @@
     }
   }
   .studentsListWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     width: 100%;
-    gap: 16px;
-    .studentsListItem {
+    table {
+      border-collapse: collapse;
+    }
+    button {
+      width: auto;
+      min-width: auto;
+      height: 40px;
+    }
+    thead,
+    th,
+    tr,
+    td {
+      border: 3px solid #4137ee;
+      height: 62px;
+    }
+    tr,
+    td {
+      font-size: 24px;
+      font-weight: 500;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    }
+    input {
+      padding: 10px;
+      font-size: 24px;
+      font-weight: 500;
+      background-color: transparent;
+      border: 2px solid #4137ee;
+      border-radius: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    }
+    .buttonsWrapper {
+      min-width: 160px;
       display: flex;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 160px;
       align-items: center;
-      gap: 16px;
-
-      span {
-        font-weight: bold;
-        font-size: 18px;
-      }
-
-      button {
-        background-color: #4137ee;
-        font-weight: 700;
-        font-size: 16px;
-        width: fit-content;
-        border-radius: 20px;
-        color: #ffffff;
-        height: 30px;
-        text-transform: none;
-        min-width: 100px;
-        box-shadow: none;
-      }
+      border: none;
+    }
+    .studentNameWrapper {
+      width: 100%;
+      padding: 0 16px;
+    }
+    .studentIndexWrapper {
+      max-width: 40px;
+      min-width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
     }
   }
 }
@@ -167,6 +218,20 @@
     width: 90%;
     textarea {
       width: 320px;
+    }
+  }
+  .studentsListWrapper {
+    button {
+      width: 25px !important;
+      height: 25px !important;
+      svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+    }
+    .buttonsWrapper {
+      min-width: 80px !important;
+      max-width: 80px !important;
     }
   }
 }
