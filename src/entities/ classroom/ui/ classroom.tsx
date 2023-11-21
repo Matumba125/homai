@@ -30,7 +30,7 @@ const Classroom = () => {
     classId: number,
   ) => {
     event.preventDefault();
-    navigate(`${path.editClass}/${classId}/true`);
+    navigate(`${path.editClass}/${classId}`);
   };
 
   return (
@@ -40,7 +40,7 @@ const Classroom = () => {
       <div className={style.classesList}>
         {classes.map((m) => {
           return (
-            <Link to={`${path.editClass}/${m.id}/false`}>
+            <Link to={`${path.lessonsList}/${m.id}`}>
               <span>{m.title}</span>{" "}
               <button onClick={(e) => onEditClick(e, m.id)}>{t("edit")}</button>
             </Link>

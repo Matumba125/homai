@@ -3,7 +3,10 @@ import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/corr
 import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
 import { UserDataType } from "../../entities/user/bll/userReducer";
 import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
-import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomReducer";
+import {
+  CreateLessonStateType,
+  LessonType,
+} from "../../entities/ classroom/bll/lessonsReducer";
 import {
   ClassroomType,
   ClassType,
@@ -42,7 +45,7 @@ export const getSpeakingTasksLoading = (state: AppStateType): boolean => {
 export const getCreateLessonData = (
   state: AppStateType,
 ): CreateLessonStateType => {
-  return state.teacherRoom.createLesson;
+  return state.lessons.createLesson;
 };
 
 export const getClassesList = (state: AppStateType): ClassroomType[] => {
@@ -51,4 +54,18 @@ export const getClassesList = (state: AppStateType): ClassroomType[] => {
 
 export const getClass = (state: AppStateType): ClassType | undefined => {
   return state.classroom.class;
+};
+
+export const getClassLessons = (
+  state: AppStateType,
+): LessonType[] | undefined => {
+  return state.lessons.lessons;
+};
+
+export const getClassLoading = (state: AppStateType): boolean => {
+  return state.lessons.isLoading;
+};
+
+export const getWrongWords = (state: AppStateType): string | undefined => {
+  return state.lessons.wrongWords;
 };

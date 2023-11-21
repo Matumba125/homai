@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { sentenceReducer } from "../../pages/sentence-game/bll/sentenceReducer";
 import { userReducer } from "../../entities/user/bll/userReducer";
 import { speakingReducer } from "../../pages/speaking-game/bll/speakingReducer";
-import { teacherRoomReducer } from "../../pages/teacher-room/bll/teacherRoomReducer";
+import { lessonsReducer } from "../../entities/ classroom/bll/lessonsReducer";
 import { classroomReducer } from "../../entities/ classroom/bll/ classroomReducer";
 
 export const rootReducer = combineReducers({
@@ -14,7 +14,7 @@ export const rootReducer = combineReducers({
   sentence: sentenceReducer,
   user: userReducer,
   speaking: speakingReducer,
-  teacherRoom: teacherRoomReducer,
+  lessons: lessonsReducer,
   classroom: classroomReducer,
 });
 

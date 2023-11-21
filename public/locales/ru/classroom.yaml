@@ -1,4 +1,5 @@
 are-you-sure-you-want-to-delete: Вы уверены, что хотите удалить
+are-you-sure-you-want-to-delete-lesson: Вы уверены, что хотите удалить урок
 class-list: Список классов
 add-class: Добавить
 class: Класс
@@ -16,3 +17,17 @@ delete-confirmation: Подтверждение удаления
 close: Закрыть
 yes: Да
 no: Нет
+share: Поделиться
+results: Результаты
+lesson-theme: Тема урока
+lessons-list: Список уроков
+correspondence-game: Игра Соответствие
+sentence-game: Соствь Предложение
+speaking-game: Произнеси слово
+generate: Сгенерировать
+words-to-learn: Слова для изучения
+sentences-to-learn: Предложения для изучения
+poem-to-learn: Стихотворение для изучения
+reading: Чтение
+theme: Тема
+create-lesson: Создать урок

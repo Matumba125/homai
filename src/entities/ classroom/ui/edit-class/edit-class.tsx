@@ -20,11 +20,10 @@ import ReactDOM from "react-dom";
 
 type EditClassParams = {
   id: string;
-  edit: string;
 };
 
 const EditClass = () => {
-  const { id, edit } = useParams<EditClassParams>();
+  const { id } = useParams<EditClassParams>();
   const dispatch = useDispatch<AppDispatch>();
   const currentClass = useSelector(getClass);
   const { t } = useTranslation(["classroom"]);
@@ -109,9 +108,9 @@ const EditClass = () => {
   };
 
   const cellStyle: React.CSSProperties = {
-    border: "1px solid #dddddd",
+    border: "2px solid #dddddd",
     textAlign: "center",
-    padding: "10px",
+    padding: "16px",
   };
 
   const handleEdit = (id: number, name: string) => {
@@ -181,11 +180,9 @@ const EditClass = () => {
           ) : (
             <h2>{currentClass?.title}</h2>
           )}
-          {edit === "true" && (
-            <IconButton onClick={handleEditClassName}>
-              <EditIcon />
-            </IconButton>
-          )}
+          <IconButton onClick={handleEditClassName}>
+            <EditIcon />
+          </IconButton>
         </div>
       </div>
       <div className={style.studentsListTitle}>
@@ -200,7 +197,7 @@ const EditClass = () => {
             <tr>
               <th>№</th>
               <th>{t("full-name")}</th>
-              {edit === "true" && <th></th>}
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -220,25 +217,23 @@ const EditClass = () => {
                       <>{student.name}</>
                     )}
                   </td>
-                  {edit === "true" && (
-                    <td className={style.buttonsWrapper}>
-                      <IconButton
-                        onClick={() => handleEdit(student.id, student.name)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleOpenDeleteModal({ ...student })}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleOpenPasswordModal({ ...student })}
-                      >
-                        <VpnKeyIcon />
-                      </IconButton>
-                    </td>
-                  )}
+                  <td className={style.buttonsWrapper}>
+                    <IconButton
+                      onClick={() => handleEdit(student.id, student.name)}
+                    >
+                      <EditIcon titleAccess={t("edit")} />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleOpenDeleteModal({ ...student })}
+                    >
+                      <DeleteIcon titleAccess={t("delete")} />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleOpenPasswordModal({ ...student })}
+                    >
+                      <VpnKeyIcon titleAccess={t("password")} />
+                    </IconButton>
+                  </td>
                 </tr>
               ))}
           </tbody>

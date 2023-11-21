@@ -8,4 +8,5 @@ export const path = {
   createLesson: "/create-lesson",
   classroom: "/classroom",
   editClass: "/edit-class",
+  lessonsList: "/lessons-list",
 };

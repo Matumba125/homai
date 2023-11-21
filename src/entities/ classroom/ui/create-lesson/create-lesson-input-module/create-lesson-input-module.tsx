@@ -9,6 +9,7 @@ type CreateLessonInputModuleProps = {
   setValue: (data: string) => void;
   generative?: boolean;
   title: string;
+  disabled?: boolean;
 };
 
 const CreateLessonInputModule: FC<CreateLessonInputModuleProps> = ({
@@ -17,6 +18,7 @@ const CreateLessonInputModule: FC<CreateLessonInputModuleProps> = ({
   setValue,
   generative,
   title,
+  disabled,
 }) => {
   const { t } = useTranslation(["teacherRoom"]);
 
@@ -28,8 +30,16 @@ const CreateLessonInputModule: FC<CreateLessonInputModuleProps> = ({
     <div className={style.inputModuleWrapper}>
       <h2>{title}</h2>
       <div>
-        <textarea value={text} onChange={onTextareaValueChange} />
-        {generative && <Button onClick={onClick}>{t("generate")}</Button>}
+        <textarea
+          disabled={disabled}
+          value={text}
+          onChange={onTextareaValueChange}
+        />
+        {generative && (
+          <Button disabled={disabled} onClick={onClick}>
+            {t("generate")}
+          </Button>
+        )}
       </div>
     </div>
   );

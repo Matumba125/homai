@@ -3,6 +3,16 @@
   min-width: 100%;
   min-height: var(--100vh, 100vh);
 
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   button {
     background-color: #4137ee;
     font-weight: 700;

@@ -7,12 +7,16 @@ import {
 import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/correspondenceReducer";
 import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
 import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
-import { CreateLessonStateType } from "../../pages/teacher-room/bll/teacherRoomReducer";
+import {
+  CreateLessonStateType,
+  LessonType,
+} from "../../entities/ classroom/bll/lessonsReducer";
 import {
   ClassroomType,
   ClassType,
   StudentType,
 } from "../../entities/ classroom/bll/ classroomReducer";
+import { number } from "yup";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -65,10 +69,12 @@ export const User = {
 
 type GetCreateLessonGenerateRequestType = {
   theme: string;
+  existingWords?: string;
 };
 
-type GetCreateLessonWordsResponseType = {
+export type GetCreateLessonWordsResponseType = {
   words: string;
+  wrongWords?: string;
 };
 
 type GetCreateLessonSentencesResponseType = {
@@ -83,9 +89,18 @@ type FetchClassResponseType = {
   class: ClassType;
 };
 
+type FetchClassLessonsResponseType = {
+  lessons: LessonType[];
+};
+
 export type AddClassRequestType = {
   title: string;
   studentsList: string;
+};
+
+export type EditLessonRequestType = CreateLessonStateType & {
+  lessonId: number;
+  classId: number;
 };
 
 export type ChangeStudentNameRequestType = {
@@ -115,6 +130,9 @@ export const TeacherRoom = {
   createLesson: (data: CreateLessonStateType) => {
     return axiosLiveInstance.put("generate/create-lesson", data);
   },
+  editLesson: (data: EditLessonRequestType) => {
+    return axiosLiveInstance.put("generate/edit-lesson", data);
+  },
   fetchClasses: () => {
     return axiosLiveInstance.get<FetchClassesResponseType>(
       "classes/get-classes-list",
@@ -124,6 +142,17 @@ export const TeacherRoom = {
     return axiosLiveInstance.put<FetchClassResponseType>(
       "classes/get-class",
       id,
+    );
+  },
+  fetchClassLessons: (id: number) => {
+    return axiosLiveInstance.put<FetchClassLessonsResponseType>(
+      "classes/get-class-lessons",
+      id,
+    );
+  },
+  deleteLesson: (data: { lessonId: number; classId: number }) => {
+    return axiosLiveInstance.delete(
+      `classes/delete-lesson/${data.lessonId}/${data.classId}`,
     );
   },
   addClass: (data: AddClassRequestType) => {
@@ -143,6 +172,11 @@ export const TeacherRoom = {
   },
   updateClassName: (data: UpdateClassNameRequestType) => {
     return axiosLiveInstance.put(`classes/update-class-name}`, data);
+  },
+  fetchLessonById: (lessonId: number, classId: number) => {
+    return axiosLiveInstance.get<CreateLessonStateType>(
+      `classes/fetch-lesson/${lessonId}/${classId}`,
+    );
   },
 };
 
