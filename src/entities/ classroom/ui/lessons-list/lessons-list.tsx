@@ -16,6 +16,7 @@ import {
 } from "../../bll/lessonsReducer";
 import { path } from "../../../../app/path";
 import { fetchClass } from "../../bll/ classroomReducer";
+import { format } from "date-fns";
 
 type LessonsListParams = {
   id: string;
@@ -51,7 +52,7 @@ const LessonsList = () => {
 
   const handleEdit = (id: number) => {
     if (currentClass) {
-      navigate(`${path.createLesson}/${id}/${currentClass.id}`);
+      navigate(`${path.createLesson}/${id}`);
     }
   };
 
@@ -71,6 +72,14 @@ const LessonsList = () => {
     }
   };
 
+  const handleResultsClick = (id: number) => {
+    navigate(`${path.lessonResults}/${id}`);
+  };
+
+  const onAddLessonClick = () => {
+    navigate(path.createLesson);
+  };
+
   return (
     <div className={style.editClassContainer}>
       <div className={style.classTitleWrapper}>
@@ -87,6 +96,7 @@ const LessonsList = () => {
           <thead>
             <tr>
               <th>№</th>
+              <th>{t("date")}</th>
               <th>{t("lesson-theme")}</th>
               <th></th>
               <th></th>
@@ -98,11 +108,16 @@ const LessonsList = () => {
               currentClassLessons.map((lesson, index) => (
                 <tr key={lesson.id}>
                   <td className={style.studentIndexWrapper}>{index + 1}</td>
+                  <td className={style.dateWrapper}>
+                    {format(lesson.date, "d.MM.Y ")}
+                  </td>
                   <td className={style.studentNameWrapper}>
                     <span>{lesson.title}</span>
                   </td>
                   <td>
-                    <Button>{t("results")}</Button>
+                    <Button onClick={() => handleResultsClick(lesson.id)}>
+                      {t("results")}
+                    </Button>
                   </td>
                   <td className={style.buttonsWrapper}>
                     <IconButton
@@ -123,6 +138,7 @@ const LessonsList = () => {
               ))}
           </tbody>
         </table>
+        <Button onClick={onAddLessonClick}>{t("add-class")}</Button>
       </div>
 
       {/* Delete Modal */}

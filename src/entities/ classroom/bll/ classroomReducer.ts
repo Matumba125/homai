@@ -6,6 +6,22 @@ import {
   UpdateClassNameRequestType,
 } from "../../../app/api/api";
 
+export type StudentResults = {
+  id: number;
+  name: string;
+  correspondenceResult?: number;
+  sentenceResult?: number;
+  speakingResult?: number;
+};
+
+export type LessonResults = {
+  lessonTitle: string;
+  studentsResults: StudentResults[];
+  maxCorrespondenceResult: number;
+  maxSentenceResult: number;
+  maxSpeakingResult: number;
+};
+
 export type ClassroomType = {
   id: number;
   title: string;
@@ -23,6 +39,36 @@ export type ClassType = {
   id: number;
   title: string;
   studentsList: StudentType[];
+};
+
+const testResults: LessonResults = {
+  lessonTitle: "Город",
+  studentsResults: [
+    {
+      id: 1,
+      name: "Иванов",
+      correspondenceResult: 8,
+      sentenceResult: 4,
+      speakingResult: 7,
+    },
+    {
+      id: 2,
+      name: "Петров",
+      correspondenceResult: 4,
+      sentenceResult: 5,
+      speakingResult: 8,
+    },
+    {
+      id: 3,
+      name: "Сидоров",
+      correspondenceResult: 10,
+      sentenceResult: 2,
+      speakingResult: 8,
+    },
+  ],
+  maxCorrespondenceResult: 10,
+  maxSentenceResult: 5,
+  maxSpeakingResult: 0,
 };
 
 const testClass: ClassType = {
@@ -80,6 +126,7 @@ export type ClassroomInitialStateType = {
   classes: ClassroomType[];
   class?: ClassType;
   isLoading: boolean;
+  lessonResults?: LessonResults;
 };
 
 const initialState: ClassroomInitialStateType = {
@@ -124,6 +171,9 @@ const slice = createSlice({
         state.class.title = action.payload;
       }
     },
+    setLessonResults(state, action: PayloadAction<LessonResults>) {
+      state.lessonResults = action.payload;
+    },
   },
 });
 
@@ -152,6 +202,22 @@ export const fetchClass = createAsyncThunk<any, number>(
       dispatch(slice.actions.setClass(res.data.class));
     } catch (e) {
       dispatch(slice.actions.setClass(testClass));
+      //rejectWithValue(e);
+    } finally {
+      dispatch(slice.actions.setLoading(false));
+    }
+  },
+);
+
+export const fetchLessonResults = createAsyncThunk<any, number>(
+  "classroom/fetchLessonResults",
+  async (id, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(slice.actions.setLoading(true));
+      const res = await TeacherRoom.fetchLessonResults(id);
+      dispatch(slice.actions.setLessonResults(res.data.lessonResults));
+    } catch (e) {
+      dispatch(slice.actions.setLessonResults(testResults));
       //rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));

@@ -7,7 +7,6 @@ import {
   getSpeakingTasksLoading,
 } from "../../../app/store/selectors";
 import { useAppDispatch } from "../../../app/store/store";
-import { useNavigate } from "react-router";
 import useSound from "use-sound";
 import winSound from "../../../shared/sound/win-sound.mp3";
 import loseSound from "../../../shared/sound/lose-sound.mp3";
@@ -30,7 +29,6 @@ const SpeakingGame = () => {
 
   const [selectedTask, setSelectedTask] = useState<SpeakingTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
 
@@ -105,11 +103,6 @@ const SpeakingGame = () => {
 
   const onRestartClick = () => {
     dispatch(restartSpeakingTest());
-  };
-
-  const onBackClick = () => {
-    onRestartClick();
-    navigate(-1);
   };
 
   return (

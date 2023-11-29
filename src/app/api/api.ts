@@ -14,9 +14,10 @@ import {
 import {
   ClassroomType,
   ClassType,
+  LessonResults,
   StudentType,
 } from "../../entities/ classroom/bll/ classroomReducer";
-import { number } from "yup";
+import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -41,6 +42,9 @@ export const Games = {
   },
   sendSpeakingAnswer: (formData: FormData) => {
     return axiosLiveInstance.post<SpeakingAnswerResponseType>("game", formData);
+  },
+  getPoem: (id: number) => {
+    return axiosLiveInstance.get<PoemPartType[]>(`poem/${id}`);
   },
 };
 
@@ -89,6 +93,10 @@ type FetchClassResponseType = {
   class: ClassType;
 };
 
+type FetchLessonResultsResponseType = {
+  lessonResults: LessonResults;
+};
+
 type FetchClassLessonsResponseType = {
   lessons: LessonType[];
 };
@@ -112,6 +120,11 @@ export type ChangeStudentNameRequestType = {
 export type UpdateClassNameRequestType = {
   classId: number;
   newName: string;
+};
+
+export type FetchLessonByIdResponseType = {
+  lesson: CreateLessonStateType;
+  classId: number;
 };
 
 export const TeacherRoom = {
@@ -144,6 +157,12 @@ export const TeacherRoom = {
       id,
     );
   },
+  fetchLessonResults: (id: number) => {
+    return axiosLiveInstance.put<FetchLessonResultsResponseType>(
+      "classes/get-lesson-results",
+      id,
+    );
+  },
   fetchClassLessons: (id: number) => {
     return axiosLiveInstance.put<FetchClassLessonsResponseType>(
       "classes/get-class-lessons",
@@ -173,9 +192,9 @@ export const TeacherRoom = {
   updateClassName: (data: UpdateClassNameRequestType) => {
     return axiosLiveInstance.put(`classes/update-class-name}`, data);
   },
-  fetchLessonById: (lessonId: number, classId: number) => {
-    return axiosLiveInstance.get<CreateLessonStateType>(
-      `classes/fetch-lesson/${lessonId}/${classId}`,
+  fetchLessonById: (lessonId: number) => {
+    return axiosLiveInstance.get<FetchLessonByIdResponseType>(
+      `classes/fetch-lesson/${lessonId}`,
     );
   },
 };

@@ -10,7 +10,9 @@ import {
 import {
   ClassroomType,
   ClassType,
+  LessonResults,
 } from "../../entities/ classroom/bll/ classroomReducer";
+import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,
@@ -56,6 +58,12 @@ export const getClass = (state: AppStateType): ClassType | undefined => {
   return state.classroom.class;
 };
 
+export const getLessonResults = (
+  state: AppStateType,
+): LessonResults | undefined => {
+  return state.classroom.lessonResults;
+};
+
 export const getClassLessons = (
   state: AppStateType,
 ): LessonType[] | undefined => {
@@ -68,4 +76,8 @@ export const getClassLoading = (state: AppStateType): boolean => {
 
 export const getWrongWords = (state: AppStateType): string | undefined => {
   return state.lessons.wrongWords;
+};
+
+export const getPoem = (state: AppStateType): PoemPartType[] | undefined => {
+  return state.poem.poem;
 };

@@ -54,7 +54,8 @@
   align-items: center;
   gap: 16px;
   padding: 32px;
-  textarea, input {
+  textarea,
+  input {
     padding: 10px;
     font-size: 16px;
     font-weight: 500;
@@ -193,11 +194,19 @@
       max-width: 160px;
       align-items: center;
       border: none;
-      gap: 10px
+      gap: 10px;
     }
     .studentNameWrapper {
       width: 100%;
       padding: 0 16px;
+    }
+    .resultWrapper {
+      min-width: 100px;
+      padding: 0 16px;
+      text-align: center;
+    }
+    .grayCell {
+      background-color: darkgray;
     }
     .studentIndexWrapper {
       max-width: 40px;

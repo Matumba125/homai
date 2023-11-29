@@ -20,7 +20,7 @@ const CreateLessonInputModule: FC<CreateLessonInputModuleProps> = ({
   title,
   disabled,
 }) => {
-  const { t } = useTranslation(["teacherRoom"]);
+  const { t } = useTranslation(["classRoom"]);
 
   const onTextareaValueChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);

@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import CreateLessonInputModule from "./create-lesson-input-module/create-lesson-input-module";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getClass,
   getClassLoading,
   getCreateLessonData,
   getWrongWords,
@@ -23,7 +24,6 @@ import CheckmarkRow from "./checkmark-row/checkmark-row";
 
 type CreateLessonParams = {
   lessonId: string;
-  classId: string;
 };
 
 const CreateLesson = () => {
@@ -31,10 +31,11 @@ const CreateLesson = () => {
     useSelector(getCreateLessonData);
   const lessonLoading = useSelector(getClassLoading);
   const wrongWords = useSelector(getWrongWords);
+  const currentClass = useSelector(getClass);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { lessonId, classId } = useParams<CreateLessonParams>();
+  const { lessonId } = useParams<CreateLessonParams>();
 
   const { t } = useTranslation(["classroom"]);
 
@@ -99,10 +100,8 @@ const CreateLesson = () => {
   };
 
   useEffect(() => {
-    if (lessonId && classId) {
-      dispatch(
-        fetchLessonByIdThunk({ lessonId: +lessonId, classId: +classId }),
-      );
+    if (lessonId) {
+      dispatch(fetchLessonByIdThunk({ lessonId: +lessonId }));
     }
   }, []);
 
@@ -125,10 +124,10 @@ const CreateLesson = () => {
   }, [reading, poem, words, sentences]);
 
   const onCreateLessonClick = () => {
-    if (lessonId && classId) {
-      dispatch(createLessonThunk({ lessonId: +lessonId, classId: +classId }))
+    if (lessonId && currentClass) {
+      dispatch(createLessonThunk({ lessonId: +lessonId }))
         .unwrap()
-        .then(() => navigate(`${path.lessonsList}/${classId}`));
+        .then(() => navigate(`${path.lessonsList}/${currentClass.id}`));
     } else {
       dispatch(createLessonThunk({}))
         .unwrap()
@@ -156,7 +155,8 @@ const CreateLesson = () => {
       />
       {wrongWords && (
         <div>
-          <span>{wrongWords}</span>
+          {t("wrong-words")}:{" "}
+          <span className={style.wrongWords}>{wrongWords}</span>
         </div>
       )}
       <CreateLessonInputModule
@@ -209,7 +209,9 @@ const CreateLesson = () => {
       </div>
 
       <div className={style.buttonWrapper}>
-        <Button onClick={onCreateLessonClick}>{t("create-lesson")}</Button>
+        <Button onClick={onCreateLessonClick}>
+          {t(lessonId ? "save" : "create-lesson")}
+        </Button>
       </div>
     </div>
   );

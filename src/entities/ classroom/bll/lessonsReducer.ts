@@ -4,6 +4,7 @@ import {
   TeacherRoom,
 } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
+import { fetchClass } from "./ classroomReducer";
 
 export type CreateLessonStateType = {
   theme: string;
@@ -17,6 +18,7 @@ export type LessonType = {
   id: number;
   title: string;
   link: string;
+  date: Date;
 };
 
 export type TeacherRoomInitialStateType = {
@@ -37,26 +39,31 @@ const testLessons: LessonType[] = [
     id: 1,
     title: "Город",
     link: "https://www.google.com/",
+    date: new Date(),
   },
   {
     id: 2,
     title: "Животные",
     link: "https://www.google.com/",
+    date: new Date(),
   },
   {
     id: 3,
     title: "Природа",
     link: "https://www.google.com/",
+    date: new Date(),
   },
   {
     id: 4,
     title: "Море",
     link: "https://www.google.com/",
+    date: new Date(),
   },
   {
     id: 5,
     title: "Космос",
     link: "https://www.google.com/",
+    date: new Date(),
   },
 ];
 
@@ -231,48 +238,21 @@ export const deleteLessonThunk = createAsyncThunk<
   },
 );
 
-export const fetchLessonByIdThunk = createAsyncThunk<
-  any,
-  { lessonId: number; classId: number }
->("lessons/fetchLessonById", async (data, { dispatch, rejectWithValue }) => {
-  try {
-    dispatch(slice.actions.setLoading(true));
-    const res = await TeacherRoom.fetchLessonById(data.lessonId, data.classId);
-    dispatch(slice.actions.setCreateLessonData(res.data));
-  } catch (e) {
-    dispatch(slice.actions.setCreateLessonData(testFetchData));
-  } finally {
-    dispatch(slice.actions.setLoading(false));
-  }
-});
+export const fetchLessonByIdThunk = createAsyncThunk<any, { lessonId: number }>(
+  "lessons/fetchLessonById",
+  async (data, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(slice.actions.setLoading(true));
+      const res = await TeacherRoom.fetchLessonById(data.lessonId);
+      dispatch(slice.actions.setCreateLessonData(res.data.lesson));
+      dispatch(fetchClass(res.data.classId));
+    } catch (e) {
+      dispatch(slice.actions.setCreateLessonData(testFetchData));
+      dispatch(fetchClass(1));
+    } finally {
+      dispatch(slice.actions.setLoading(false));
+    }
+  },
+);
 
 export const lessonsReducer = slice.reducer;
-
-const test = [
-  {
-    audio: "",
-    parts: [
-      {
-        smallAudio: "",
-        text: "lksmfklsdm",
-      },
-      {
-        smallAudio: "",
-        text: "lsadasdas",
-      },
-    ],
-  },
-  {
-    audio: "",
-    parts: [
-      {
-        smallAudio: "",
-        text: "lksmfklsdm",
-      },
-      {
-        smallAudio: "",
-        text: "lsadasdas",
-      },
-    ],
-  },
-];

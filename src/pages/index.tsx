@@ -11,6 +11,8 @@ import CreateLesson from "../entities/ classroom/ui/create-lesson/create-lesson"
 import Classroom from "../entities/ classroom/ui/ classroom";
 import EditClass from "../entities/ classroom/ui/edit-class/edit-class";
 import LessonsList from "../entities/ classroom/ui/lessons-list/lessons-list";
+import LessonResults from "../entities/ classroom/ui/lesson-results/lesson-results";
+import PoemReading from "./poem-reading/ui/poem-reading";
 
 export const Routing = () => {
   return (
@@ -24,12 +26,14 @@ export const Routing = () => {
         <Route path={path.speaking} element={<SpeakingGame />} />
         <Route path={path.createLesson} element={<CreateLesson />} />
         <Route
-          path={`${path.createLesson}/:lessonId/:classId`}
+          path={`${path.createLesson}/:lessonId`}
           element={<CreateLesson />}
         />
         <Route path={path.classroom} element={<Classroom />} />
         <Route path={`${path.editClass}/:id`} element={<EditClass />} />
         <Route path={`${path.lessonsList}/:id`} element={<LessonsList />} />
+        <Route path={`${path.lessonResults}/:id`} element={<LessonResults />} />
+        <Route path={path.poem} element={<PoemReading />} />
       </Route>
       <Route path={path.login} element={<Login />} />
     </Routes>

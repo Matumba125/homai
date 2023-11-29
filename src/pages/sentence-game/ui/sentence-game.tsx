@@ -6,7 +6,6 @@ import {
   getSentenceTasksLoading,
 } from "../../../app/store/selectors";
 import { useAppDispatch } from "../../../app/store/store";
-import { useNavigate } from "react-router";
 import useSound from "use-sound";
 import winSound from "../../../shared/sound/win-sound.mp3";
 import loseSound from "../../../shared/sound/lose-sound.mp3";
@@ -30,7 +29,6 @@ const SentenceGame = () => {
   const [resultArray, setResultArray] = useState<string[]>([]);
   const [selectedTask, setSelectedTask] = useState<SentenceTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
 
@@ -85,11 +83,6 @@ const SentenceGame = () => {
 
   const onRestartClick = () => {
     dispatch(restartSentenceTest());
-  };
-
-  const onBackClick = () => {
-    onRestartClick();
-    navigate(-1);
   };
 
   return (

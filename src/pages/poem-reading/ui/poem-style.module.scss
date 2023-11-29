@@ -1,0 +1,38 @@
+.poemContainer {
+  display: flex;
+  height: calc(100vh - 170px);
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  gap: 32px;
+  .poem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-direction: column;
+    .rowWrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      .smallAudioButton {
+        width: 20px;
+        height: 20px;
+        min-width: 0;
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    .audioButton {
+      width: 40px;
+      height: 40px;
+      min-width: 0;
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}

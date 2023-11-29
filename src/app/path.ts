@@ -9,4 +9,6 @@ export const path = {
   classroom: "/classroom",
   editClass: "/edit-class",
   lessonsList: "/lessons-list",
+  lessonResults: "/lesson-results",
+  poem: "/poem",
 };
