@@ -34,13 +34,19 @@ const ReadingText = () => {
     audio.play();
   };
 
-  const getTextColor = (start: number, end: number): string => {
+  const getTextColor = (start: number, end: number): any => {
     if (currentAudioMs < start) {
-      return "#8b8b8b";
+      return { color: "#686868" };
     } else if (currentAudioMs >= start && currentAudioMs <= end) {
-      return "#1c1c1c";
+      return {
+        backgroundColor:
+          "rgba(149, 117, 205, 0.5)" /* Semi-transparent purple */,
+        color: "#FFFFFF" /* White text for better readability */,
+        borderRadius: "4px" /* Soften the corners */,
+        padding: "0 5px" /* Slight padding to the highlight */,
+      };
     } else {
-      return "#c5c5c5";
+      return { color: "#c5c5c5" };
     }
   };
 
@@ -73,9 +79,7 @@ const ReadingText = () => {
                 {paragraph.sentences.map((sentence, idx) => (
                   <span
                     key={idx}
-                    style={{
-                      color: getTextColor(sentence.start, sentence.end),
-                    }}
+                    style={getTextColor(sentence.start, sentence.end)}
                     onClick={() => handleSentenceClick(sentence.start)}
                   >
                     {sentence.text}{" "}

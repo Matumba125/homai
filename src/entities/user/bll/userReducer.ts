@@ -27,7 +27,7 @@ const userTestData: UserDataType = {
   username: "",
   avatar:
     "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
-  role: "student",
+  role: "teacher",
 };
 
 const initialState: UserInitialStateType = {
