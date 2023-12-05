@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games } from "../../../app/api/api";
+import { AppStateType } from "../../../app/store/store";
 
 export type SpeakingTaskType = {
   id: number;
@@ -53,12 +54,15 @@ export const { removeAvailableSpeakingTasks, restartSpeakingTest } =
 
 export const fetchSpeakingTasks = createAsyncThunk<any>(
   "sentence/fetchTasks",
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     try {
-      dispatch(slice.actions.setLoading(true));
-      const res = await Games.getSpeakingTasks();
-      dispatch(slice.actions.setTasks(res.data));
-      dispatch(slice.actions.setAvailableTasks(res.data));
+      const state = getState() as AppStateType;
+      if (state.lessonMenu.lesson.id) {
+        dispatch(slice.actions.setLoading(true));
+        const res = await Games.getSpeakingTasks(state.lessonMenu.lesson.id);
+        dispatch(slice.actions.setTasks(res.data));
+        dispatch(slice.actions.setAvailableTasks(res.data));
+      }
     } catch (e) {
       dispatch(slice.actions.setTasks(testTasks));
       dispatch(slice.actions.setAvailableTasks(testTasks));

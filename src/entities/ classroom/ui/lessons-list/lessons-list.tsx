@@ -17,12 +17,14 @@ import {
 import { path } from "../../../../app/path";
 import { fetchClass } from "../../bll/ classroomReducer";
 import { format } from "date-fns";
+import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
 
 type LessonsListParams = {
   id: string;
 };
 
 const LessonsList = () => {
+  useCheckTeacherRole();
   const { id } = useParams<LessonsListParams>();
   const dispatch = useDispatch<AppDispatch>();
   const currentClassLessons = useSelector(getClassLessons);

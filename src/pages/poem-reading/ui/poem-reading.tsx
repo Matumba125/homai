@@ -6,8 +6,10 @@ import { AppDispatch } from "../../../app/store/store";
 import { fetchPoem } from "../bll/poemReducer";
 import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
 
 const PoemReading = () => {
+  useCheckStudentRole();
   const dispatch = useDispatch<AppDispatch>();
   const poem = useSelector(getPoem);
 
@@ -22,7 +24,7 @@ const PoemReading = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchPoem(1));
+    dispatch(fetchPoem());
   }, []);
 
   return (

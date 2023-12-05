@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games } from "../../../app/api/api";
+import { AppStateType } from "../../../app/store/store";
 
 export type PoemPartType = {
   audio: string;
@@ -55,12 +56,15 @@ const slice = createSlice({
   },
 });
 
-export const fetchPoem = createAsyncThunk<any, number>(
+export const fetchPoem = createAsyncThunk<any>(
   "poem/fetchPoem",
-  async (id, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     try {
-      const res = await Games.getPoem(id);
-      dispatch(slice.actions.setPoem(res.data));
+      const state = getState() as AppStateType;
+      if (state.lessonMenu.lesson.id) {
+        const res = await Games.getPoem(state.lessonMenu.lesson.id);
+        dispatch(slice.actions.setPoem(res.data));
+      }
     } catch (e) {
       dispatch(slice.actions.setPoem(test));
       //rejectWithValue(e);

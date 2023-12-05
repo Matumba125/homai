@@ -13,6 +13,8 @@ import {
   LessonResults,
 } from "../../entities/ classroom/bll/ classroomReducer";
 import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
+import { ReadingTextType } from "../../pages/text-reading/bll/textReducer";
+import { LessonMenuType } from "../../pages/lesson/bll/lessonReducer";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,
@@ -32,8 +34,16 @@ export const getIsLoggedIn = (state: AppStateType): boolean => {
   return state.user.isLoggedIn;
 };
 
-export const getUserData = (state: AppStateType): UserDataType => {
+export const getUserData = (state: AppStateType): UserDataType | undefined => {
   return state.user.user;
+};
+
+export const getLessonMenu = (state: AppStateType): LessonMenuType => {
+  return state.lessonMenu.lesson;
+};
+
+export const getLessonMenuError = (state: AppStateType): string | null => {
+  return state.lessonMenu.error;
 };
 
 export const getSpeakingTasks = (state: AppStateType): SpeakingTaskType[] => {
@@ -80,4 +90,10 @@ export const getWrongWords = (state: AppStateType): string | undefined => {
 
 export const getPoem = (state: AppStateType): PoemPartType[] | undefined => {
   return state.poem.poem;
+};
+
+export const getReadingText = (
+  state: AppStateType,
+): ReadingTextType | undefined => {
+  return state.text.readingText;
 };

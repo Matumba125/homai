@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games } from "../../../app/api/api";
 import _ from "lodash";
+import { AppStateType } from "../../../app/store/store";
 
 export type CorrespondenceTaskType = {
   id: number;
@@ -160,11 +161,16 @@ export const { removeAvailableCorrespondenceTasks, restartCorrespondenceTest } =
 
 export const fetchCorrespondenceTasks = createAsyncThunk<any>(
   "correspondence/fetchTasks",
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     try {
-      const res = await Games.getCorrespondenceTasks();
-      dispatch(slice.actions.setTasks(res.data));
-      dispatch(slice.actions.setAvailableTasks(res.data));
+      const state = getState() as AppStateType;
+      if (state.lessonMenu.lesson.id) {
+        const res = await Games.getCorrespondenceTasks(
+          state.lessonMenu.lesson.id,
+        );
+        dispatch(slice.actions.setTasks(res.data));
+        dispatch(slice.actions.setAvailableTasks(res.data));
+      }
     } catch (e) {
       dispatch(slice.actions.setTasks(testTasks));
       dispatch(slice.actions.setAvailableTasks(testTasks));

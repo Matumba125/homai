@@ -21,12 +21,14 @@ import { Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { path } from "../../../../app/path";
 import CheckmarkRow from "./checkmark-row/checkmark-row";
+import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
 
 type CreateLessonParams = {
   lessonId: string;
 };
 
 const CreateLesson = () => {
+  useCheckTeacherRole();
   const { theme, reading, poem, words, sentences } =
     useSelector(getCreateLessonData);
   const lessonLoading = useSelector(getClassLoading);

@@ -16,8 +16,10 @@ import winSound from "../../../shared/sound/win-sound.mp3";
 import loseSound from "../../../shared/sound/lose-sound.mp3";
 import { shuffleArray } from "../../../shared/utilities/shuffleArray";
 import speakerSvg from "../../../shared/assets/img/speaker.svg";
+import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
 
 const CorrespondenceGame = () => {
+  useCheckStudentRole();
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getCorrespondenceTasks);
   const dispatch = useAppDispatch();

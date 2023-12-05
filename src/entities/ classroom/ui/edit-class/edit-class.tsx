@@ -17,12 +17,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import ReactDOM from "react-dom";
+import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
 
 type EditClassParams = {
   id: string;
 };
 
 const EditClass = () => {
+  useCheckTeacherRole();
   const { id } = useParams<EditClassParams>();
   const dispatch = useDispatch<AppDispatch>();
   const currentClass = useSelector(getClass);

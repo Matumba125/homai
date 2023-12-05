@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import style from "../landing.module.scss";
+import style from "../lesson-menu.module.scss";
 import navImg from "../../../../shared/assets/img/navImg.svg";
 
 export type GamePreviewProps = {

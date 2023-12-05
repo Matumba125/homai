@@ -18,6 +18,7 @@ import {
   StudentType,
 } from "../../entities/ classroom/bll/ classroomReducer";
 import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
+import { ReadingTextType } from "../../pages/text-reading/bll/textReducer";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -28,23 +29,41 @@ const axiosLiveInstance = axios.create({
   baseURL: "https://eng.aiteacher.ru/",
 });
 
+export type LessonMenuResponseType = {
+  id: number;
+  title: string;
+  tasks: Array<string>;
+};
+
 export const Games = {
-  getCorrespondenceTasks: () => {
-    return axiosLiveInstance.get<CorrespondenceTaskType[]>(
-      "correspondenceTasks",
+  getLessonMenu: (lessonId: number) => {
+    return axiosLiveInstance.get<LessonMenuResponseType>(
+      `lessonMenu/${lessonId}`,
     );
   },
-  getSentenceTasks: () => {
-    return axiosLiveInstance.get<SentenceTaskType[]>("sentenceTasks");
+  getCorrespondenceTasks: (lessonId: number) => {
+    return axiosLiveInstance.get<CorrespondenceTaskType[]>(
+      `correspondenceTasks/${lessonId}`,
+    );
   },
-  getSpeakingTasks: () => {
-    return axiosLiveInstance.get<SpeakingTaskType[]>("sentenceTasks");
+  getSentenceTasks: (lessonId: number) => {
+    return axiosLiveInstance.get<SentenceTaskType[]>(
+      `sentenceTasks/${lessonId}`,
+    );
+  },
+  getSpeakingTasks: (lessonId: number) => {
+    return axiosLiveInstance.get<SpeakingTaskType[]>(
+      `speakingTasks/${lessonId}`,
+    );
   },
   sendSpeakingAnswer: (formData: FormData) => {
     return axiosLiveInstance.post<SpeakingAnswerResponseType>("game", formData);
   },
-  getPoem: (id: number) => {
-    return axiosLiveInstance.get<PoemPartType[]>(`poem/${id}`);
+  getPoem: (lessonId: number) => {
+    return axiosLiveInstance.get<PoemPartType[]>(`poem/${lessonId}`);
+  },
+  getText: (lessonId: number) => {
+    return axiosLiveInstance.get<ReadingTextType>(`text/${lessonId}`);
   },
 };
 

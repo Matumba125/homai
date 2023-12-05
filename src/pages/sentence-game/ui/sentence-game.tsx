@@ -18,8 +18,10 @@ import {
 } from "../bll/sentenceReducer";
 import style from "./sentence-game.module.scss";
 import { Button } from "@mui/material";
+import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
 
 const SentenceGame = () => {
+  useCheckStudentRole();
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getSentenceTasks);
   const isLoading = useSelector(getSentenceTasksLoading);

@@ -7,12 +7,14 @@ import { useTranslation } from "react-i18next";
 import { fetchLessonResults } from "../../bll/ classroomReducer";
 import style from "../classroom.module.scss";
 import ResultCell from "./result-cell/result-cell";
+import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
 
 type LessonResultsParams = {
   id: string;
 };
 
 const LessonResults = () => {
+  useCheckTeacherRole();
   const { id } = useParams<LessonResultsParams>();
   const dispatch = useDispatch<AppDispatch>();
   const currentClass = useSelector(getClass);
@@ -34,7 +36,7 @@ const LessonResults = () => {
         </div>
       </div>
       <div className={style.studentsListTitle}>
-        <h2>{t("students-list")}</h2>
+        <h2>{lessonResults?.lessonTitle}</h2>
       </div>
       <div className={style.studentsListWrapper}>
         <table>

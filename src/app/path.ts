@@ -11,4 +11,5 @@ export const path = {
   lessonsList: "/lessons-list",
   lessonResults: "/lesson-results",
   poem: "/poem",
+  reading: "/reading",
 };

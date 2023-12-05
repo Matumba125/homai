@@ -36,3 +36,10 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .poemContainer {
+    height: calc(100vh - 85px);
+    width: 90%;
+  }
+}

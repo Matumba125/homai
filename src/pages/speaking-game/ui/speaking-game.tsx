@@ -19,8 +19,10 @@ import {
 } from "../bll/speakingReducer";
 import style from "./speaking-game.module.scss";
 import { Button } from "@mui/material";
+import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
 
 const SpeakingGame = () => {
+  useCheckStudentRole();
   const [recording, setRecording] = useState<boolean>(false);
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getSpeakingTasks);

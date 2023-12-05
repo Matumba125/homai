@@ -1,0 +1,45 @@
+.readingContainer {
+  height: calc(100vh - 170px);
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .textWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 60%;
+    .audioButton {
+      width: 40px;
+      height: 40px;
+      min-width: 0;
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    .paragraphsWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      .paragraph {
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .readingContainer {
+    height: calc(100vh - 85px);
+    width: 90%;
+    .textWrapper {
+      max-width: 90%;
+    }
+  }
+}

@@ -9,6 +9,8 @@ import { speakingReducer } from "../../pages/speaking-game/bll/speakingReducer";
 import { lessonsReducer } from "../../entities/ classroom/bll/lessonsReducer";
 import { classroomReducer } from "../../entities/ classroom/bll/ classroomReducer";
 import { poemReducer } from "pages/poem-reading/bll/poemReducer";
+import { textReducer } from "pages/text-reading/bll/textReducer";
+import { lessonMenuReducer } from "../../pages/lesson/bll/lessonReducer";
 
 export const rootReducer = combineReducers({
   correspondence: correspondenceReducer,
@@ -18,6 +20,8 @@ export const rootReducer = combineReducers({
   lessons: lessonsReducer,
   classroom: classroomReducer,
   poem: poemReducer,
+  text: textReducer,
+  lessonMenu: lessonMenuReducer,
 });
 
 export const store = configureStore({

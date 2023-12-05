@@ -5,7 +5,7 @@ export type UserDataType = {
   id: number;
   username: string;
   avatar?: string;
-  status: "student" | "teacher";
+  role: "student" | "teacher";
 };
 
 export type AvatarUpdateResponseType = {
@@ -18,18 +18,19 @@ export type AuthDataType = {
 };
 
 export type UserInitialStateType = {
-  user: UserDataType;
+  user?: UserDataType;
   isLoggedIn: boolean;
 };
 
+const userTestData: UserDataType = {
+  id: 0,
+  username: "",
+  avatar:
+    "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
+  role: "student",
+};
+
 const initialState: UserInitialStateType = {
-  user: {
-    id: 0,
-    username: "",
-    avatar:
-      "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
-    status: "student",
-  },
   isLoggedIn: false,
 };
 
@@ -38,10 +39,14 @@ const slice = createSlice({
   initialState,
   reducers: {
     setUsername(state, action: PayloadAction<string>) {
-      state.user.username = action.payload;
+      if (state.user) {
+        state.user.username = action.payload;
+      }
     },
     setAvatar(state, action: PayloadAction<string | undefined>) {
-      state.user.avatar = action.payload;
+      if (state.user) {
+        state.user.avatar = action.payload;
+      }
     },
     setUserData(state, action: PayloadAction<UserDataType>) {
       state.user = action.payload;
@@ -55,7 +60,7 @@ const slice = createSlice({
 export const fakeAuthUser = createAsyncThunk<any>(
   "user/fakeAuth",
   async (_, { dispatch, rejectWithValue }) => {
-    dispatch(slice.actions.setUsername("Тестовый пользователь"));
+    dispatch(slice.actions.setUserData(userTestData));
     dispatch(slice.actions.setIsLoggedIn(true));
   },
 );

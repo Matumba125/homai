@@ -6,19 +6,55 @@ import Login from "../entities/login/ui/login";
 import Root from "../entities/root/root";
 import Profile from "../entities/user/ui/profile";
 import SpeakingGame from "./speaking-game/ui/speaking-game";
-import Landing from "./landing/ui/landing";
+import LessonMenu from "./lesson/ui/lessonMenu";
 import CreateLesson from "../entities/ classroom/ui/create-lesson/create-lesson";
 import Classroom from "../entities/ classroom/ui/ classroom";
 import EditClass from "../entities/ classroom/ui/edit-class/edit-class";
 import LessonsList from "../entities/ classroom/ui/lessons-list/lessons-list";
 import LessonResults from "../entities/ classroom/ui/lesson-results/lesson-results";
 import PoemReading from "./poem-reading/ui/poem-reading";
+import ReadingText from "./text-reading/ui/text-reading";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsLoggedIn, getUserData } from "../app/store/selectors";
+import { useEffect } from "react";
+import { useLocation } from "react-router";
+import { setLessonId } from "./lesson/bll/lessonReducer";
+import Landing from "./landing/ui/landing";
 
 export const Routing = () => {
+  const user = useSelector(getUserData);
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  const lessonId = new URLSearchParams(location.search).get("lessonId");
+
+  useEffect(() => {
+    if (lessonId) {
+      dispatch(setLessonId(+lessonId));
+    }
+  }, []);
+
+  if (!isLoggedIn) {
+    return (
+      <Routes>
+        <Route path={"/"} element={<Root />}>
+          <Route index element={<Landing />} />
+        </Route>
+        <Route path={path.login} element={<Login />} />
+      </Routes>
+    );
+  }
+
   return (
     <Routes>
       <Route path={"/"} element={<Root />}>
-        <Route index element={<Landing />} />
+        <Route
+          index
+          element={
+            user && user.role === "student" ? <LessonMenu /> : <Classroom />
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path={path.correspondence} element={<CorrespondenceGame />} />
         <Route path={path.sentence} element={<SentenceGame />} />
@@ -34,6 +70,7 @@ export const Routing = () => {
         <Route path={`${path.lessonsList}/:id`} element={<LessonsList />} />
         <Route path={`${path.lessonResults}/:id`} element={<LessonResults />} />
         <Route path={path.poem} element={<PoemReading />} />
+        <Route path={path.reading} element={<ReadingText />} />
       </Route>
       <Route path={path.login} element={<Login />} />
     </Routes>

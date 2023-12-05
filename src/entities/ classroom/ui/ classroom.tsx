@@ -10,8 +10,10 @@ import style from "./classroom.module.scss";
 import { Link } from "react-router-dom";
 import AddClassModal from "./add-class-modal/add-class-modal";
 import { useNavigate } from "react-router";
+import { useCheckTeacherRole } from "../../../shared/utilities/checkUserRole";
 
 const Classroom = () => {
+  useCheckTeacherRole();
   const classes = useSelector(getClassesList);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
