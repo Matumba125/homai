@@ -14,7 +14,10 @@ import {
 } from "../../entities/ classroom/bll/ classroomReducer";
 import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
 import { ReadingTextType } from "../../pages/text-reading/bll/textReducer";
-import { LessonMenuType } from "../../pages/lesson/bll/lessonReducer";
+import {
+  LessonListItemType,
+  LessonMenuType,
+} from "../../pages/lessons-menu/bll/lessonReducer";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,
@@ -40,6 +43,10 @@ export const getUserData = (state: AppStateType): UserDataType | undefined => {
 
 export const getLessonMenu = (state: AppStateType): LessonMenuType => {
   return state.lessonMenu.lesson;
+};
+
+export const getLessonsList = (state: AppStateType): LessonListItemType[] => {
+  return state.lessonMenu.lessonsList;
 };
 
 export const getLessonMenuError = (state: AppStateType): string | null => {

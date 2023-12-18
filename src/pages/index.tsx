@@ -6,7 +6,7 @@ import Login from "../entities/login/ui/login";
 import Root from "../entities/root/root";
 import Profile from "../entities/user/ui/profile";
 import SpeakingGame from "./speaking-game/ui/speaking-game";
-import LessonMenu from "./lesson/ui/lessonMenu";
+import LessonMenu from "./lessons-menu/ui/lesson-menu/lesson-menu";
 import CreateLesson from "../entities/ classroom/ui/create-lesson/create-lesson";
 import Classroom from "../entities/ classroom/ui/ classroom";
 import EditClass from "../entities/ classroom/ui/edit-class/edit-class";
@@ -18,8 +18,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, getUserData } from "../app/store/selectors";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
-import { setLessonId } from "./lesson/bll/lessonReducer";
+import { setLessonId } from "./lessons-menu/bll/lessonReducer";
 import Landing from "./landing/ui/landing";
+import LessonsMenu from "./lessons-menu/ui/lessons-menu";
 
 export const Routing = () => {
   const user = useSelector(getUserData);
@@ -40,6 +41,7 @@ export const Routing = () => {
       <Routes>
         <Route path={"/"} element={<Root />}>
           <Route index element={<Landing />} />
+          <Route path={`${path.lesson}/:id`} element={<LessonMenu />} />
         </Route>
         <Route path={path.login} element={<Login />} />
       </Routes>
@@ -52,7 +54,7 @@ export const Routing = () => {
         <Route
           index
           element={
-            user && user.role === "student" ? <LessonMenu /> : <Classroom />
+            user && user.role === "student" ? <LessonsMenu /> : <Classroom />
           }
         />
         <Route path="*" element={<Navigate to="/" />} />
@@ -68,6 +70,7 @@ export const Routing = () => {
         <Route path={path.classroom} element={<Classroom />} />
         <Route path={`${path.editClass}/:id`} element={<EditClass />} />
         <Route path={`${path.lessonsList}/:id`} element={<LessonsList />} />
+        <Route path={`${path.lesson}/:id`} element={<LessonMenu />} />
         <Route path={`${path.lessonResults}/:id`} element={<LessonResults />} />
         <Route path={path.poem} element={<PoemReading />} />
         <Route path={path.reading} element={<ReadingText />} />

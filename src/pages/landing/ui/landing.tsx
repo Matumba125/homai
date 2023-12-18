@@ -10,7 +10,7 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const onLoginClick = () => {
-    navigate(path.login);
+    navigate(`${path.login}?redirectTo=/`);
   };
 
   return (

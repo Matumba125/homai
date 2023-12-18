@@ -126,6 +126,12 @@
       max-width: 40px;
       min-width: 40px;
       text-align: center;
+      .checkmark {
+        width: 20px !important;
+        min-width: 0 !important;
+        height: 20px;
+        cursor: pointer;
+      }
     }
     .dateWrapper {
       text-align: center;

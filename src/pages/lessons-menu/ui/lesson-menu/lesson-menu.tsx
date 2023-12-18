@@ -1,34 +1,46 @@
-import style from "./lesson-menu.module.scss";
+import style from "../lesson-menu.module.scss";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import GamePreview from "./game-preview/game-preview";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getIsLoggedIn,
   getLessonMenu,
   getLessonMenuError,
-} from "../../../app/store/selectors";
+} from "../../../../app/store/selectors";
 import { useEffect } from "react";
-import { AppDispatch } from "../../../app/store/store";
-import { fetchLessonMenu } from "../bll/lessonReducer";
-import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
+import { AppDispatch } from "../../../../app/store/store";
+import { fetchLessonMenu } from "../../bll/lessonReducer";
+import { useCheckStudentRole } from "../../../../shared/utilities/checkUserRole";
+import { path } from "../../../../app/path";
+
+type LessonMenuParams = {
+  id: string;
+};
 
 const LessonMenu = () => {
   useCheckStudentRole();
   const { t } = useTranslation(["landing"]);
   const navigate = useNavigate();
-  const lessonMenu = useSelector(getLessonMenu);
   const error = useSelector(getLessonMenuError);
+  const lessonMenu = useSelector(getLessonMenu);
   const dispatch = useDispatch<AppDispatch>();
+  const { id } = useParams<LessonMenuParams>();
+  const isLoggedIn = useSelector(getIsLoggedIn);
 
   useEffect(() => {
-    if (lessonMenu.id) {
-      dispatch(fetchLessonMenu(lessonMenu.id));
+    if (id) {
+      dispatch(fetchLessonMenu(+id));
     }
   }, []);
 
   const onMenuItemClick = (task: string) => {
     navigate(`/${task}`);
   };
+
+  if (!isLoggedIn) {
+    navigate(`${path.login}?redirectTo=${path.lesson}/${id}`);
+  }
 
   return (
     <div className={style.container}>

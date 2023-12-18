@@ -19,6 +19,7 @@ import {
 } from "../../entities/ classroom/bll/ classroomReducer";
 import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
 import { ReadingTextType } from "../../pages/text-reading/bll/textReducer";
+import { LessonListItemType } from "../../pages/lessons-menu/bll/lessonReducer";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -40,6 +41,9 @@ export const Games = {
     return axiosLiveInstance.get<LessonMenuResponseType>(
       `lessonMenu/${lessonId}`,
     );
+  },
+  getLessonsList: () => {
+    return axiosLiveInstance.get<LessonListItemType[]>(`lessonsList`);
   },
   getCorrespondenceTasks: (lessonId: number) => {
     return axiosLiveInstance.get<CorrespondenceTaskType[]>(
@@ -146,6 +150,11 @@ export type FetchLessonByIdResponseType = {
   classId: number;
 };
 
+export type SetLessonAvailableRequestType = {
+  lessonId: number;
+  available: boolean;
+};
+
 export const TeacherRoom = {
   getCreateLessonWords: (data: GetCreateLessonGenerateRequestType) => {
     return axiosLiveInstance.post<GetCreateLessonWordsResponseType>(
@@ -215,6 +224,9 @@ export const TeacherRoom = {
     return axiosLiveInstance.get<FetchLessonByIdResponseType>(
       `classes/fetch-lesson/${lessonId}`,
     );
+  },
+  setLessonAvailable: (data: SetLessonAvailableRequestType) => {
+    return axiosLiveInstance.post<LessonType>(`classes/update-lesson`, data);
   },
 };
 

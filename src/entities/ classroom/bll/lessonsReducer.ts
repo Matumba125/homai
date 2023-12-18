@@ -19,6 +19,7 @@ export type LessonType = {
   title: string;
   link: string;
   date: Date;
+  available: boolean;
 };
 
 export type TeacherRoomInitialStateType = {
@@ -40,30 +41,35 @@ const testLessons: LessonType[] = [
     title: "Город",
     link: "https://www.google.com/",
     date: new Date(),
+    available: true,
   },
   {
     id: 2,
     title: "Животные",
     link: "https://www.google.com/",
     date: new Date(),
+    available: true,
   },
   {
     id: 3,
     title: "Природа",
     link: "https://www.google.com/",
     date: new Date(),
+    available: true,
   },
   {
     id: 4,
     title: "Море",
     link: "https://www.google.com/",
     date: new Date(),
+    available: false,
   },
   {
     id: 5,
     title: "Космос",
     link: "https://www.google.com/",
     date: new Date(),
+    available: false,
   },
 ];
 
@@ -116,6 +122,16 @@ const slice = createSlice({
     },
     setLessons(state, action: PayloadAction<LessonType[]>) {
       state.lessons = action.payload;
+    },
+    setLesson(state, action: PayloadAction<LessonType>) {
+      if (state.lessons) {
+        const index = state.lessons.findIndex(
+          (lesson) => lesson.id === action.payload.id,
+        );
+        if (index !== -1) {
+          state.lessons[index] = action.payload;
+        }
+      }
     },
     deleteLesson(state, action: PayloadAction<number>) {
       // Assuming lessons is an array of LessonType objects
@@ -249,6 +265,32 @@ export const fetchLessonByIdThunk = createAsyncThunk<any, { lessonId: number }>(
     } catch (e) {
       dispatch(slice.actions.setCreateLessonData(testFetchData));
       dispatch(fetchClass(1));
+    } finally {
+      dispatch(slice.actions.setLoading(false));
+    }
+  },
+);
+
+export const setLessonAvailableThunk = createAsyncThunk<
+  any,
+  { lessonId: number; available: boolean }
+>(
+  "lessons/setLessonAvailable",
+  async (data, { dispatch, rejectWithValue, getState }) => {
+    const state = getState() as AppStateType;
+    try {
+      dispatch(slice.actions.setLoading(true));
+      const res = await TeacherRoom.setLessonAvailable(data);
+      dispatch(slice.actions.setLesson(res.data));
+    } catch (e) {
+      if (state.lessons.lessons) {
+        const tempLesson = state.lessons.lessons.find(
+          (f) => f.id === data.lessonId,
+        ) as LessonType;
+        dispatch(
+          slice.actions.setLesson({ ...tempLesson, available: data.available }),
+        );
+      }
     } finally {
       dispatch(slice.actions.setLoading(false));
     }

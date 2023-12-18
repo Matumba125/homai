@@ -13,6 +13,7 @@ import {
   deleteLessonThunk,
   fetchClassLessons,
   LessonType,
+  setLessonAvailableThunk,
 } from "../../bll/lessonsReducer";
 import { path } from "../../../../app/path";
 import { fetchClass } from "../../bll/ classroomReducer";
@@ -78,6 +79,10 @@ const LessonsList = () => {
     navigate(`${path.lessonResults}/${id}`);
   };
 
+  const handleCheckmarkChange = (id: number, available: boolean) => {
+    dispatch(setLessonAvailableThunk({ lessonId: id, available: !available }));
+  };
+
   const onAddLessonClick = () => {
     navigate(path.createLesson);
   };
@@ -99,6 +104,7 @@ const LessonsList = () => {
             <tr>
               <th>№</th>
               <th>{t("date")}</th>
+              <th>{t("available")}</th>
               <th>{t("lesson-theme")}</th>
               <th></th>
               <th></th>
@@ -112,6 +118,16 @@ const LessonsList = () => {
                   <td className={style.studentIndexWrapper}>{index + 1}</td>
                   <td className={style.dateWrapper}>
                     {format(lesson.date, "d.MM.Y ")}
+                  </td>
+                  <td className={style.studentIndexWrapper}>
+                    <input
+                      className={style.checkmark}
+                      type="checkbox"
+                      checked={lesson.available}
+                      onChange={() =>
+                        handleCheckmarkChange(lesson.id, lesson.available)
+                      }
+                    />
                   </td>
                   <td className={style.studentNameWrapper}>
                     <span>{lesson.title}</span>

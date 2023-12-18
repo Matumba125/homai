@@ -8,9 +8,10 @@ import { Auth } from "../../../app/api/api";
 import { useDispatch } from "react-redux";
 import { fakeAuthUser, getUser } from "../../user/bll/userReducer";
 import { AppDispatch } from "../../../app/store/store";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FormSubmitButton } from "../../../shared/ui/form-submit-button";
+import { path } from "../../../app/path";
 
 export interface SignInFormValues {
   username: "";
@@ -27,6 +28,19 @@ const Login = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(["login"]);
 
+  let [searchParams] = useSearchParams();
+  const location = useLocation();
+  const state = location.state;
+
+  console.log(state);
+
+  if (searchParams.size === 0) {
+    navigate(`${path.login}?redirectTo=/`);
+    return;
+  }
+
+  const redirectTo = searchParams.get("redirectTo") || state.redirectTo;
+
   const schema = yup.object().shape({
     email: yup.string().required(t("please-enter-to-continue")),
     password: yup.string().required(t("please-enter-to-continue")),
@@ -37,11 +51,11 @@ const Login = () => {
     try {
       const res = await Auth.login(values);
       dispatch(getUser(res.data.id));
-      navigate("/");
+      navigate(redirectTo || "/");
     } catch (e) {
       dispatch(fakeAuthUser());
       actions.setSubmitting(false);
-      navigate("/");
+      navigate(redirectTo || "/");
     }
   };
 
