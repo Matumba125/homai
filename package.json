@@ -33,7 +33,6 @@
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },
-  "homepage": "https://matumba125.github.io/homai",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
