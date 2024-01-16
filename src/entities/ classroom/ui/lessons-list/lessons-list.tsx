@@ -1,4 +1,4 @@
-import { Button, IconButton, Modal } from "@mui/material";
+import { Button, IconButton, Modal, styled, Switch } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,12 @@ import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole"
 type LessonsListParams = {
   id: string;
 };
+
+const BlueSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: "#4137ee",
+  },
+}));
 
 const LessonsList = () => {
   useCheckTeacherRole();
@@ -120,14 +126,17 @@ const LessonsList = () => {
                     {format(lesson.date, "d.MM.Y ")}
                   </td>
                   <td className={style.studentIndexWrapper}>
-                    <input
-                      className={style.checkmark}
-                      type="checkbox"
+                    <BlueSwitch
                       checked={lesson.available}
                       onChange={() =>
                         handleCheckmarkChange(lesson.id, lesson.available)
                       }
                     />
+                    {/*                  <input
+                      className={style.checkmark}
+                      type="checkbox"
+
+                    />*/}
                   </td>
                   <td className={style.studentNameWrapper}>
                     <span>{lesson.title}</span>

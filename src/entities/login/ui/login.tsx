@@ -36,7 +36,7 @@ const Login = () => {
 
   if (searchParams.size === 0) {
     navigate(`${path.login}?redirectTo=/`);
-    return;
+    return <></>;
   }
 
   const redirectTo = searchParams.get("redirectTo") || state.redirectTo;

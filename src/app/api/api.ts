@@ -1,25 +1,4 @@
 import axios from "axios";
-import {
-  AuthDataType,
-  AvatarUpdateResponseType,
-  UserDataType,
-} from "../../entities/user/bll/userReducer";
-import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/correspondenceReducer";
-import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
-import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
-import {
-  CreateLessonStateType,
-  LessonType,
-} from "../../entities/ classroom/bll/lessonsReducer";
-import {
-  ClassroomType,
-  ClassType,
-  LessonResults,
-  StudentType,
-} from "../../entities/ classroom/bll/ classroomReducer";
-import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
-import { ReadingTextType } from "../../pages/text-reading/bll/textReducer";
-import { LessonListItemType } from "../../pages/lessons-menu/bll/lessonReducer";
 
 type SpeakingAnswerResponseType = {
   result: "OK" | "BAD";
@@ -36,39 +15,120 @@ export type LessonMenuResponseType = {
   tasks: Array<string>;
 };
 
+export type ClassroomType = {
+  id: number;
+  title: string;
+};
+
+export type LessonResults = {
+  lessonTitle: string;
+  studentsResults: StudentResults[];
+  maxCorrespondenceResult: number;
+  maxSentenceResult: number;
+  maxSpeakingResult: number;
+};
+
+export type StudentResults = {
+  id: number;
+  name: string;
+  correspondenceResult?: number;
+  sentenceResult?: number;
+  speakingResult?: number;
+};
+
+export type ClassType = {
+  id: number;
+  title: string;
+  studentsList: StudentType[];
+};
+
+export type LessonListItemType = {
+  id: number;
+  title: string;
+};
+
+export type CorrespondenceTaskType = {
+  id: number;
+  word: string;
+  image: string;
+};
+
+export type SentenceTaskType = {
+  id: number;
+  sentence: string;
+};
+
+export type SpeakingTaskType = {
+  id: number;
+  text: string;
+};
+
+export type PoemPartType = {
+  audio: string;
+  parts: Array<{ smallAudio: string; rowOne: string; rowTwo: string }>;
+};
+
+export type ReadingTextType = {
+  title: string;
+  audio: string;
+  paragraphs: ParagraphType[];
+};
+
+export type ParagraphType = {
+  sentences: Array<{
+    text: string;
+    start: number;
+    end: number;
+  }>;
+};
+
 export const Games = {
   getLessonMenu: (lessonId: number) => {
     return axiosLiveInstance.get<LessonMenuResponseType>(
-      `lessonMenu/${lessonId}`,
+      `lesson-menu/${lessonId}`,
     );
   },
   getLessonsList: () => {
-    return axiosLiveInstance.get<LessonListItemType[]>(`lessonsList`);
+    return axiosLiveInstance.get<LessonListItemType[]>(`lessons-list`);
   },
   getCorrespondenceTasks: (lessonId: number) => {
     return axiosLiveInstance.get<CorrespondenceTaskType[]>(
-      `correspondenceTasks/${lessonId}`,
+      `tasks/correspondence/${lessonId}`,
     );
   },
   getSentenceTasks: (lessonId: number) => {
     return axiosLiveInstance.get<SentenceTaskType[]>(
-      `sentenceTasks/${lessonId}`,
+      `tasks/sentence/${lessonId}`,
     );
   },
   getSpeakingTasks: (lessonId: number) => {
     return axiosLiveInstance.get<SpeakingTaskType[]>(
-      `speakingTasks/${lessonId}`,
+      `tasks/speaking/${lessonId}`,
     );
   },
   sendSpeakingAnswer: (formData: FormData) => {
-    return axiosLiveInstance.post<SpeakingAnswerResponseType>("game", formData);
+    return axiosLiveInstance.post<SpeakingAnswerResponseType>(
+      "tasks/speaking",
+      formData,
+    );
   },
   getPoem: (lessonId: number) => {
-    return axiosLiveInstance.get<PoemPartType[]>(`poem/${lessonId}`);
+    return axiosLiveInstance.get<PoemPartType[]>(`tasks/poem/${lessonId}`);
   },
   getText: (lessonId: number) => {
-    return axiosLiveInstance.get<ReadingTextType>(`text/${lessonId}`);
+    return axiosLiveInstance.get<ReadingTextType>(`tasks/text/${lessonId}`);
   },
+};
+
+export type UserDataType = {
+  id: number;
+  username: string;
+  avatar?: string;
+  role: "student" | "teacher";
+};
+
+export type AvatarUpdateResponseType = {
+  url: string;
 };
 
 export const User = {
@@ -80,7 +140,6 @@ export const User = {
   },
   updateAvatar: (image: File) => {
     const formData = new FormData();
-    //@ts-ignore
     formData.append("image", image);
     return axiosLiveInstance.put<AvatarUpdateResponseType>(
       "user/photo",
@@ -155,6 +214,30 @@ export type SetLessonAvailableRequestType = {
   available: boolean;
 };
 
+export type CreateLessonStateType = {
+  theme: string;
+  words: string;
+  sentences: string;
+  poem?: string;
+  reading?: string;
+};
+
+export type StudentType = {
+  id: number;
+  classId: number;
+  name: string;
+  username: string;
+  password: string;
+};
+
+export type LessonType = {
+  id: number;
+  title: string;
+  link: string;
+  date: Date;
+  available: boolean;
+};
+
 export const TeacherRoom = {
   getCreateLessonWords: (data: GetCreateLessonGenerateRequestType) => {
     return axiosLiveInstance.post<GetCreateLessonWordsResponseType>(
@@ -218,7 +301,9 @@ export const TeacherRoom = {
     return axiosLiveInstance.delete(`classes/delete-student/${studentId}`);
   },
   updateClassName: (data: UpdateClassNameRequestType) => {
-    return axiosLiveInstance.put(`classes/update-class-name}`, data);
+    return axiosLiveInstance.put(`classes/update-class-name/${data.classId}`, {
+      newName: data.newName,
+    });
   },
   fetchLessonById: (lessonId: number) => {
     return axiosLiveInstance.get<FetchLessonByIdResponseType>(
@@ -228,6 +313,11 @@ export const TeacherRoom = {
   setLessonAvailable: (data: SetLessonAvailableRequestType) => {
     return axiosLiveInstance.post<LessonType>(`classes/update-lesson`, data);
   },
+};
+
+export type AuthDataType = {
+  username: string;
+  password: string;
 };
 
 export const Auth = {

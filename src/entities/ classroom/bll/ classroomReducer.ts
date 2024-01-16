@@ -2,44 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AddClassRequestType,
   ChangeStudentNameRequestType,
+  ClassroomType,
+  ClassType,
+  LessonResults,
+  StudentType,
   TeacherRoom,
   UpdateClassNameRequestType,
 } from "../../../app/api/api";
-
-export type StudentResults = {
-  id: number;
-  name: string;
-  correspondenceResult?: number;
-  sentenceResult?: number;
-  speakingResult?: number;
-};
-
-export type LessonResults = {
-  lessonTitle: string;
-  studentsResults: StudentResults[];
-  maxCorrespondenceResult: number;
-  maxSentenceResult: number;
-  maxSpeakingResult: number;
-};
-
-export type ClassroomType = {
-  id: number;
-  title: string;
-};
-
-export type StudentType = {
-  id: number;
-  classId: number;
-  name: string;
-  username: string;
-  password: string;
-};
-
-export type ClassType = {
-  id: number;
-  title: string;
-  studentsList: StudentType[];
-};
 
 const testResults: LessonResults = {
   lessonTitle: "Город",

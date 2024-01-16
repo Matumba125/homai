@@ -1,13 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Games } from "../../../app/api/api";
+import { CorrespondenceTaskType, Games } from "../../../app/api/api";
 import _ from "lodash";
 import { AppStateType } from "../../../app/store/store";
-
-export type CorrespondenceTaskType = {
-  id: number;
-  word: string;
-  image: string;
-};
 
 const testTasks = [
   {

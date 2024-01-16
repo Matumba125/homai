@@ -1,26 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  CreateLessonStateType,
   GetCreateLessonWordsResponseType,
+  LessonType,
   TeacherRoom,
 } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 import { fetchClass } from "./ classroomReducer";
-
-export type CreateLessonStateType = {
-  theme: string;
-  words: string;
-  sentences: string;
-  poem?: string;
-  reading?: string;
-};
-
-export type LessonType = {
-  id: number;
-  title: string;
-  link: string;
-  date: Date;
-  available: boolean;
-};
 
 export type TeacherRoomInitialStateType = {
   createLesson: CreateLessonStateType;

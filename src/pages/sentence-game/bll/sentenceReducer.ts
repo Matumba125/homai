@@ -2,11 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 
-export type SentenceTaskType = {
-  id: number;
-  sentence: string;
-};
-
 const testTasks = [
   {
     id: 1,

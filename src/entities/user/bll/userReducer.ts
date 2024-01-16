@@ -1,21 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../../app/api/api";
-
-export type UserDataType = {
-  id: number;
-  username: string;
-  avatar?: string;
-  role: "student" | "teacher";
-};
-
-export type AvatarUpdateResponseType = {
-  url: string;
-};
-
-export type AuthDataType = {
-  username: string;
-  password: string;
-};
+import { User, UserDataType } from "../../../app/api/api";
 
 export type UserInitialStateType = {
   user?: UserDataType;
@@ -27,7 +11,7 @@ const userTestData: UserDataType = {
   username: "",
   avatar:
     "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
-  role: "teacher",
+  role: "student",
 };
 
 const initialState: UserInitialStateType = {

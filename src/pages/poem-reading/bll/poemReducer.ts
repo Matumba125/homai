@@ -2,11 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 
-export type PoemPartType = {
-  audio: string;
-  parts: Array<{ smallAudio: string; rowOne: string; rowTwo: string }>;
-};
-
 const test: PoemPartType[] = [
   {
     audio: "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",

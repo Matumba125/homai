@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Games, LessonMenuResponseType } from "../../../app/api/api";
+import {
+  Games,
+  LessonListItemType,
+  LessonMenuResponseType,
+} from "../../../app/api/api";
 
 export type LessonMenuType = {
   id?: number;
   title?: string;
   tasks?: Array<string>;
-};
-
-export type LessonListItemType = {
-  id: number;
-  title: string;
 };
 
 const testLessonMenu: LessonMenuResponseType = {

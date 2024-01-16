@@ -2,20 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 
-export type ReadingTextType = {
-  title: string;
-  audio: string;
-  paragraphs: ParagraphType[];
-};
-
-export type ParagraphType = {
-  sentences: Array<{
-    text: string;
-    start: number;
-    end: number;
-  }>;
-};
-
 const temp = {
   title: "Test",
   audio: "https://cdn.pixabay.com/audio/2022/03/14/audio_f6e45b1aaf.mp3",
