@@ -179,14 +179,14 @@ export const getCreateLessonSentences = createAsyncThunk<any>(
 
 export const createLessonThunk = createAsyncThunk<
   any,
-  { lessonId?: number; classId?: number }
+  { lessonId?: number; classId: number }
 >(
   "lessons/CreateLesson",
   async (lessonData, { dispatch, rejectWithValue, getState }) => {
     try {
       dispatch(slice.actions.setLoading(true));
       const data = getState() as AppStateType;
-      if (lessonData.lessonId && lessonData.classId) {
+      if (lessonData.lessonId) {
         await TeacherRoom.editLesson({
           ...data.lessons.createLesson,
           lessonId: lessonData.lessonId,
@@ -195,6 +195,7 @@ export const createLessonThunk = createAsyncThunk<
       } else {
         await TeacherRoom.createLesson({
           ...data.lessons.createLesson,
+          classId: lessonData.classId,
         });
       }
     } catch (e) {

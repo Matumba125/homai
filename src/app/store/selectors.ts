@@ -1,23 +1,19 @@
 import { AppStateType } from "./store";
-import { CorrespondenceTaskType } from "../../pages/correspondence-game/bll/correspondenceReducer";
-import { SentenceTaskType } from "../../pages/sentence-game/bll/sentenceReducer";
-import { UserDataType } from "../../entities/user/bll/userReducer";
-import { SpeakingTaskType } from "../../pages/speaking-game/bll/speakingReducer";
-import {
-  CreateLessonStateType,
-  LessonType,
-} from "../../entities/ classroom/bll/lessonsReducer";
+import { LessonMenuType } from "../../pages/lessons-menu/bll/lessonReducer";
 import {
   ClassroomType,
   ClassType,
-  LessonResults,
-} from "../../entities/ classroom/bll/ classroomReducer";
-import { PoemPartType } from "../../pages/poem-reading/bll/poemReducer";
-import { ReadingTextType } from "../../pages/text-reading/bll/textReducer";
-import {
+  CorrespondenceTaskType,
+  CreateLessonStateType,
   LessonListItemType,
-  LessonMenuType,
-} from "../../pages/lessons-menu/bll/lessonReducer";
+  LessonResults,
+  LessonType,
+  PoemPartType,
+  ReadingTextType,
+  SentenceTaskType,
+  SpeakingTaskType,
+  UserDataType,
+} from "app/api/api";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,

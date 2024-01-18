@@ -126,14 +126,18 @@ const CreateLesson = () => {
   }, [reading, poem, words, sentences]);
 
   const onCreateLessonClick = () => {
-    if (lessonId && currentClass) {
-      dispatch(createLessonThunk({ lessonId: +lessonId }))
-        .unwrap()
-        .then(() => navigate(`${path.lessonsList}/${currentClass.id}`));
-    } else {
-      dispatch(createLessonThunk({}))
-        .unwrap()
-        .then(() => navigate("/"));
+    if (currentClass) {
+      if (lessonId) {
+        dispatch(
+          createLessonThunk({ lessonId: +lessonId, classId: currentClass.id }),
+        )
+          .unwrap()
+          .then(() => navigate(`${path.lessonsList}/${currentClass.id}`));
+      } else {
+        dispatch(createLessonThunk({ classId: currentClass.id }))
+          .unwrap()
+          .then(() => navigate("/"));
+      }
     }
   };
 

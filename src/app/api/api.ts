@@ -222,6 +222,10 @@ export type CreateLessonStateType = {
   reading?: string;
 };
 
+export type CreateLessonRequestType = CreateLessonStateType & {
+  classId: number;
+};
+
 export type StudentType = {
   id: number;
   classId: number;
@@ -251,7 +255,7 @@ export const TeacherRoom = {
       data,
     );
   },
-  createLesson: (data: CreateLessonStateType) => {
+  createLesson: (data: CreateLessonRequestType) => {
     return axiosLiveInstance.put("generate/create-lesson", data);
   },
   editLesson: (data: EditLessonRequestType) => {
