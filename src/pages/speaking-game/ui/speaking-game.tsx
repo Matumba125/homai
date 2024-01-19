@@ -1,4 +1,4 @@
-import { Games } from "app/api/api";
+import { Games, SpeakingTaskType } from "app/api/api";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -15,11 +15,11 @@ import {
   fetchSpeakingTasks,
   removeAvailableSpeakingTasks,
   restartSpeakingTest,
-  SpeakingTaskType,
 } from "../bll/speakingReducer";
 import style from "./speaking-game.module.scss";
 import { Button } from "@mui/material";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
+import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
 
 const SpeakingGame = () => {
   useCheckStudentRole();
@@ -28,6 +28,7 @@ const SpeakingGame = () => {
   const tasks = useSelector(getSpeakingTasks);
   const isLoading = useSelector(getSpeakingTasksLoading);
   const dispatch = useAppDispatch();
+  useCheckLessonId();
 
   const [selectedTask, setSelectedTask] = useState<SpeakingTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);

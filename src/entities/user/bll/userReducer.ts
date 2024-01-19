@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User, UserDataType } from "../../../app/api/api";
+import { Auth, AuthDataType, User, UserDataType } from "../../../app/api/api";
 
 export type UserInitialStateType = {
   user?: UserDataType;
@@ -11,7 +11,7 @@ const userTestData: UserDataType = {
   username: "",
   avatar:
     "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
-  role: "student",
+  role: "teacher",
 };
 
 const initialState: UserInitialStateType = {
@@ -41,11 +41,33 @@ const slice = createSlice({
   },
 });
 
-export const fakeAuthUser = createAsyncThunk<any>(
-  "user/fakeAuth",
+export const authUser = createAsyncThunk<any, AuthDataType>(
+  "user/auth",
+  async (data, { dispatch, rejectWithValue }) => {
+    try {
+      const res = await Auth.login(data);
+      dispatch(slice.actions.setUserData(res.data));
+      dispatch(slice.actions.setIsLoggedIn(true));
+    } catch (e) {
+      dispatch(slice.actions.setUserData(userTestData));
+      dispatch(slice.actions.setIsLoggedIn(true));
+      //rejectWithValue(e);
+    }
+  },
+);
+
+export const authUserPing = createAsyncThunk(
+  "user/authPing",
   async (_, { dispatch, rejectWithValue }) => {
-    dispatch(slice.actions.setUserData(userTestData));
-    dispatch(slice.actions.setIsLoggedIn(true));
+    try {
+      const res = await Auth.me();
+      dispatch(slice.actions.setUserData(res.data));
+      dispatch(slice.actions.setIsLoggedIn(true));
+    } catch (e) {
+      dispatch(slice.actions.setUserData(userTestData));
+      dispatch(slice.actions.setIsLoggedIn(true));
+      //rejectWithValue(e);
+    }
   },
 );
 

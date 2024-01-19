@@ -95,6 +95,10 @@ export const getPoem = (state: AppStateType): PoemPartType[] | undefined => {
   return state.poem.poem;
 };
 
+export const getCurrentLessonId = (state: AppStateType): number | undefined => {
+  return state.lessonMenu.lesson.id;
+};
+
 export const getReadingText = (
   state: AppStateType,
 ): ReadingTextType | undefined => {

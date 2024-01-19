@@ -7,13 +7,15 @@ import style from "./text-style.module.scss";
 import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
+import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
 
 const ReadingText = () => {
   useCheckStudentRole();
-  const [audio, setAudio] = useState(new Audio());
+  const [audio] = useState(new Audio());
   const [currentAudioMs, setCurrentAudioMs] = useState(0);
   const text = useSelector(getReadingText);
   const dispatch = useDispatch<AppDispatch>();
+  useCheckLessonId();
 
   const handlePlayAudio = () => {
     if (text) {

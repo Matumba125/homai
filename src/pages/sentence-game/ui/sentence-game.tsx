@@ -14,11 +14,12 @@ import {
   fetchSentenceTasks,
   removeAvailableSentenceTasks,
   restartSentenceTest,
-  SentenceTaskType,
 } from "../bll/sentenceReducer";
 import style from "./sentence-game.module.scss";
 import { Button } from "@mui/material";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
+import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
+import { SentenceTaskType } from "app/api/api";
 
 const SentenceGame = () => {
   useCheckStudentRole();
@@ -26,6 +27,7 @@ const SentenceGame = () => {
   const tasks = useSelector(getSentenceTasks);
   const isLoading = useSelector(getSentenceTasksLoading);
   const dispatch = useAppDispatch();
+  useCheckLessonId();
 
   const [shuffledArray, setShuffledArray] = useState<string[]>([]);
   const [resultArray, setResultArray] = useState<string[]>([]);

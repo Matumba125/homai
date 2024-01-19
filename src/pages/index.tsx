@@ -21,11 +21,13 @@ import { useLocation } from "react-router";
 import { setLessonId } from "./lessons-menu/bll/lessonReducer";
 import Landing from "./landing/ui/landing";
 import LessonsMenu from "./lessons-menu/ui/lessons-menu";
+import { authUserPing } from "../entities/user/bll/userReducer";
+import { AppDispatch } from "../app/store/store";
 
 export const Routing = () => {
   const user = useSelector(getUserData);
   const isLoggedIn = useSelector(getIsLoggedIn);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const location = useLocation();
   const lessonId = new URLSearchParams(location.search).get("lessonId");
@@ -34,6 +36,7 @@ export const Routing = () => {
     if (lessonId) {
       dispatch(setLessonId(+lessonId));
     }
+    dispatch(authUserPing());
   }, []);
 
   if (!isLoggedIn) {

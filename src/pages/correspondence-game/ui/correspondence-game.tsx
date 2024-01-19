@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { getCorrespondenceTasks } from "../../../app/store/selectors";
 import { useSelector } from "react-redux";
 import {
-  CorrespondenceTaskType,
   fetchCorrespondenceTasks,
   removeAvailableCorrespondenceTasks,
   restartCorrespondenceTest,
@@ -17,12 +16,15 @@ import loseSound from "../../../shared/sound/lose-sound.mp3";
 import { shuffleArray } from "../../../shared/utilities/shuffleArray";
 import speakerSvg from "../../../shared/assets/img/speaker.svg";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
+import { CorrespondenceTaskType } from "app/api/api";
+import { useCheckLessonId } from "shared/utilities/checkLessonIdAvailable";
 
 const CorrespondenceGame = () => {
   useCheckStudentRole();
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getCorrespondenceTasks);
   const dispatch = useAppDispatch();
+  useCheckLessonId();
 
   const [taskBundle, setTaskBundle] = useState<CorrespondenceTaskType[]>([]);
   const [canGoForward, setCanGoForward] = useState<boolean>(false);

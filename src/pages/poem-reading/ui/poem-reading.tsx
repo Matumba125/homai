@@ -7,11 +7,13 @@ import { fetchPoem } from "../bll/poemReducer";
 import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
+import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
 
 const PoemReading = () => {
   useCheckStudentRole();
   const dispatch = useDispatch<AppDispatch>();
   const poem = useSelector(getPoem);
+  useCheckLessonId();
 
   const handleSmallAudioClick = (smallAudio: string) => {
     let sound = new Audio(smallAudio);
