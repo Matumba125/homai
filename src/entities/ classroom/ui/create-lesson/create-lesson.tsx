@@ -13,7 +13,12 @@ import {
   fetchLessonByIdThunk,
   getCreateLessonSentences,
   getCreateLessonWords,
+  setCreateLessonDate,
+  setCreateLessonPoem,
+  setCreateLessonReading,
+  setCreateLessonSentences,
   setCreateLessonTheme,
+  setCreateLessonWords,
 } from "../../bll/lessonsReducer";
 import style from "./create-lesson.module.scss";
 import { useTranslation } from "react-i18next";
@@ -22,6 +27,7 @@ import { useNavigate, useParams } from "react-router";
 import { path } from "../../../../app/path";
 import CheckmarkRow from "./checkmark-row/checkmark-row";
 import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
+import { EnabledTask } from "../../../../app/api/api";
 
 type CreateLessonParams = {
   lessonId: string;
@@ -54,6 +60,7 @@ const CreateLesson = () => {
   const [wordsNumber, setWordsNumber] = useState<number>(10);
   const [sentencesNumber, setSentencesNumber] = useState<number>(10);
   const [listeningNumber, setListeningNumber] = useState<number>(10);
+  const [enabledTasks, setEnabledTasks] = useState<EnabledTask[]>([]);
 
   const onWordsGenerateClick = () => {
     dispatch(getCreateLessonWords({ existingWords: wordsValue }));
@@ -72,33 +79,151 @@ const CreateLesson = () => {
     }
   };
 
+  const onWordsBlur = () => {
+    if (wordsValue) {
+      dispatch(setCreateLessonWords(wordsValue));
+      setCheckmark1(true);
+      setCheckmark3(true);
+
+      // Update enabledTasks array for correspondence and speaking
+      setEnabledTasks((prevTasks) => {
+        const updatedTasks = prevTasks.filter(
+          (task) => task.type !== "correspondence" && task.type !== "speaking",
+        );
+        return [
+          ...updatedTasks,
+          { type: "correspondence", maxScore: wordsNumber },
+          { type: "speaking", maxScore: listeningNumber },
+        ];
+      });
+    }
+  };
+
+  const onSentencesBlur = () => {
+    if (sentencesValue) {
+      dispatch(setCreateLessonSentences(sentencesValue));
+      setCheckmark2(true);
+
+      // Update enabledTasks array for sentence
+      setEnabledTasks((prevTasks) => {
+        const updatedTasks = prevTasks.filter(
+          (task) => task.type !== "sentence",
+        );
+        return [
+          ...updatedTasks,
+          { type: "sentence", maxScore: sentencesNumber },
+        ];
+      });
+    }
+  };
+
+  const onPoemBlur = () => {
+    if (poemValue) {
+      dispatch(setCreateLessonPoem(poemValue));
+    }
+  };
+  const onReadingBlur = () => {
+    if (readingValue) {
+      dispatch(setCreateLessonReading(readingValue));
+    }
+  };
+
   // New handlers for checkmarks and number inputs
   const handleCheckmark1Change = (event: ChangeEvent<HTMLInputElement>) => {
-    setCheckmark1(event.target.checked);
-  };
+    const isChecked = event.target.checked;
+    setCheckmark1(isChecked);
 
-  const handleCheckmark2Change = (event: ChangeEvent<HTMLInputElement>) => {
-    setCheckmark2(event.target.checked);
-  };
-
-  const handleCheckmark3Change = (event: ChangeEvent<HTMLInputElement>) => {
-    setCheckmark3(event.target.checked);
+    if (isChecked) {
+      setEnabledTasks((prevTasks) => [
+        ...prevTasks,
+        { type: "correspondence", maxScore: wordsNumber },
+      ]);
+    } else {
+      setEnabledTasks((prevTasks) =>
+        prevTasks.filter((task) => task.type !== "correspondence"),
+      );
+    }
   };
 
   const handleWordsNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWordsNumber(Number(event.target.value));
+    const newWordsNumber = Number(event.target.value);
+    setWordsNumber(newWordsNumber);
+
+    if (checkmark1) {
+      setEnabledTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.type === "correspondence"
+            ? { ...task, maxScore: newWordsNumber }
+            : task,
+        ),
+      );
+    }
+  };
+
+  const handleCheckmark2Change = (event: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setCheckmark2(isChecked);
+
+    if (isChecked) {
+      setEnabledTasks((prevTasks) => [
+        ...prevTasks,
+        { type: "sentence", maxScore: sentencesNumber },
+      ]);
+    } else {
+      setEnabledTasks((prevTasks) =>
+        prevTasks.filter((task) => task.type !== "sentence"),
+      );
+    }
   };
 
   const handleSentencesNumberChange = (
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    setSentencesNumber(Number(event.target.value));
+    const newSentencesNumber = Number(event.target.value);
+    setSentencesNumber(newSentencesNumber);
+
+    if (checkmark2) {
+      setEnabledTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.type === "sentence"
+            ? { ...task, maxScore: newSentencesNumber }
+            : task,
+        ),
+      );
+    }
+  };
+
+  const handleCheckmark3Change = (event: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setCheckmark3(isChecked);
+
+    if (isChecked) {
+      setEnabledTasks((prevTasks) => [
+        ...prevTasks,
+        { type: "speaking", maxScore: listeningNumber },
+      ]);
+    } else {
+      setEnabledTasks((prevTasks) =>
+        prevTasks.filter((task) => task.type !== "speaking"),
+      );
+    }
   };
 
   const handleListeningNumberChange = (
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    setListeningNumber(Number(event.target.value));
+    const newListeningNumber = Number(event.target.value);
+    setListeningNumber(newListeningNumber);
+
+    if (checkmark3) {
+      setEnabledTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.type === "speaking"
+            ? { ...task, maxScore: newListeningNumber }
+            : task,
+        ),
+      );
+    }
   };
 
   useEffect(() => {
@@ -127,20 +252,21 @@ const CreateLesson = () => {
 
   const onCreateLessonClick = () => {
     if (currentClass) {
-      if (lessonId) {
-        dispatch(
-          createLessonThunk({ lessonId: +lessonId, classId: currentClass.id }),
-        )
-          .unwrap()
-          .then(() => navigate(`${path.lessonsList}/${currentClass.id}`));
-      } else {
-        dispatch(createLessonThunk({ classId: currentClass.id }))
-          .unwrap()
-          .then(() => navigate("/"));
-      }
+      dispatch(
+        createLessonThunk({
+          lessonId: lessonId ? +lessonId : undefined,
+          classId: currentClass.id,
+          enabledTasks: enabledTasks,
+        }),
+      )
+        .unwrap()
+        .then(() => navigate(`${path.lessonsList}/${currentClass.id}`));
     }
   };
 
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCreateLessonDate(new Date(e.target.value));
+  };
   return (
     <div className={style.createLessonWrapper}>
       <div className={style.themeWrapper}>
@@ -151,10 +277,20 @@ const CreateLesson = () => {
           onBlur={onThemeBlur}
         />
       </div>
+      <div className={style.themeWrapper}>
+        <h2>{t("date")}</h2>
+        <input
+          type="date"
+          name="dateofbirth"
+          id="dateofbirth"
+          onChange={handleDateChange}
+        />
+      </div>
       <CreateLessonInputModule
         onClick={onWordsGenerateClick}
         text={wordsValue}
         setValue={setWordsValue}
+        onBlur={onWordsBlur}
         generative
         title={t("words-to-learn")}
         disabled={lessonLoading}
@@ -169,6 +305,7 @@ const CreateLesson = () => {
         onClick={onSentencesGenerateClick}
         text={sentencesValue}
         setValue={setSentencesValue}
+        onBlur={onSentencesBlur}
         generative
         title={t("sentences-to-learn")}
       />
@@ -176,12 +313,14 @@ const CreateLesson = () => {
         onClick={() => {}}
         text={poemValue}
         setValue={setPoemValue}
+        onBlur={onPoemBlur}
         title={t("poem-to-learn")}
       />
       <CreateLessonInputModule
         onClick={() => {}}
         text={readingValue}
         setValue={setReadingValue}
+        onBlur={onReadingBlur}
         title={t("reading")}
       />
 

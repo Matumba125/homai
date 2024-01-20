@@ -188,9 +188,15 @@ export type AddClassRequestType = {
   studentsList: string;
 };
 
+export type EnabledTask = {
+  type: "correspondence" | "sentence" | "speaking";
+  maxScore: number;
+};
+
 export type EditLessonRequestType = CreateLessonStateType & {
   lessonId: number;
   classId: number;
+  enabledTasks: EnabledTask[];
 };
 
 export type ChangeStudentNameRequestType = {
@@ -220,10 +226,12 @@ export type CreateLessonStateType = {
   sentences: string;
   poem?: string;
   reading?: string;
+  date: Date;
 };
 
 export type CreateLessonRequestType = CreateLessonStateType & {
   classId: number;
+  enabledTasks: EnabledTask[];
 };
 
 export type StudentType = {

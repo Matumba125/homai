@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateLessonStateType,
+  EnabledTask,
   GetCreateLessonWordsResponseType,
   LessonType,
   TeacherRoom,
@@ -65,6 +66,7 @@ const testFetchData: CreateLessonStateType = {
   sentences:
     "asdassds asdasdasd asdasfasfasfaff.  asdasdasfasfasf. adfasfsafsa afsasfasfasf.",
   poem: "sadfdaa",
+  date: new Date(),
 };
 
 const initialState: TeacherRoomInitialStateType = {
@@ -74,6 +76,7 @@ const initialState: TeacherRoomInitialStateType = {
     sentences: "",
     poem: "",
     reading: "",
+    date: new Date(),
   },
   isLoading: false,
 };
@@ -96,6 +99,9 @@ const slice = createSlice({
     },
     setCreateLessonPoem(state, action: PayloadAction<string>) {
       state.createLesson.poem = action.payload;
+    },
+    setCreateLessonDate(state, action: PayloadAction<Date>) {
+      state.createLesson.date = action.payload;
     },
     setCreateLessonReading(state, action: PayloadAction<string>) {
       state.createLesson.reading = action.payload;
@@ -128,7 +134,14 @@ const slice = createSlice({
   },
 });
 
-export const { setCreateLessonTheme } = slice.actions;
+export const {
+  setCreateLessonTheme,
+  setCreateLessonSentences,
+  setCreateLessonWords,
+  setCreateLessonReading,
+  setCreateLessonPoem,
+  setCreateLessonDate,
+} = slice.actions;
 
 export const getCreateLessonWords = createAsyncThunk<
   any,
@@ -179,7 +192,7 @@ export const getCreateLessonSentences = createAsyncThunk<any>(
 
 export const createLessonThunk = createAsyncThunk<
   any,
-  { lessonId?: number; classId: number }
+  { lessonId?: number; classId: number; enabledTasks: EnabledTask[] }
 >(
   "lessons/CreateLesson",
   async (lessonData, { dispatch, rejectWithValue, getState }) => {
@@ -191,13 +204,25 @@ export const createLessonThunk = createAsyncThunk<
           ...data.lessons.createLesson,
           lessonId: lessonData.lessonId,
           classId: lessonData.classId,
+          enabledTasks: lessonData.enabledTasks,
         });
       } else {
         await TeacherRoom.createLesson({
           ...data.lessons.createLesson,
           classId: lessonData.classId,
+          enabledTasks: lessonData.enabledTasks,
         });
       }
+      dispatch(
+        slice.actions.setCreateLessonData({
+          theme: "",
+          words: "",
+          sentences: "",
+          poem: "",
+          reading: "",
+          date: new Date(),
+        }),
+      );
     } catch (e) {
       //rejectWithValue(e);
     } finally {
