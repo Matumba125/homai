@@ -326,9 +326,9 @@ export type AuthDataType = {
 
 export const Auth = {
   login: (authData: AuthDataType) => {
-    return axiosLiveInstance.post<UserDataType>("auth/login");
+    return axiosLiveInstance.post<UserDataType>("auth/login", authData);
   },
   me: () => {
-    return axiosLiveInstance.post<UserDataType>("auth/me");
+    return axiosLiveInstance.get<UserDataType>("auth/me");
   },
 };
