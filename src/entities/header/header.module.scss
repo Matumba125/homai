@@ -19,6 +19,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
       gap: 10px;
       .logoText {
         display: flex;
@@ -80,5 +81,15 @@
     width: 30px;
     border-top-left-radius: 30px;
     box-shadow: 0 -30px 0 0 #a5a6ff;
+  }
+
+  .logoutWrapper {
+    position: absolute;
+    top: calc(50% - 20px);
+    right: 24px;
+    button {
+      border: none;
+      min-width: 100px;
+    }
   }
 }

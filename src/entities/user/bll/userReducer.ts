@@ -32,7 +32,7 @@ const slice = createSlice({
         state.user.avatar = action.payload;
       }
     },
-    setUserData(state, action: PayloadAction<UserDataType>) {
+    setUserData(state, action: PayloadAction<UserDataType | undefined>) {
       state.user = action.payload;
     },
     setIsLoggedIn(state, action: PayloadAction<boolean>) {
@@ -66,6 +66,21 @@ export const authUserPing = createAsyncThunk(
     } catch (e) {
       dispatch(slice.actions.setUserData(userTestData));
       dispatch(slice.actions.setIsLoggedIn(true));
+      //rejectWithValue(e);
+    }
+  },
+);
+
+export const logOutThunk = createAsyncThunk<any>(
+  "user/getUser",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      await User.logOut();
+      dispatch(slice.actions.setUserData(undefined));
+      dispatch(slice.actions.setIsLoggedIn(false));
+    } catch (e) {
+      dispatch(slice.actions.setUserData(undefined));
+      dispatch(slice.actions.setIsLoggedIn(false));
       //rejectWithValue(e);
     }
   },

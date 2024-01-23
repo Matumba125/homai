@@ -138,6 +138,9 @@ export const User = {
   updateUsername: (username: string) => {
     return axiosLiveInstance.put("user/username", { username });
   },
+  logOut: () => {
+    return axiosLiveInstance.post("user/logout");
+  },
   updateAvatar: (image: File) => {
     const formData = new FormData();
     formData.append("image", image);

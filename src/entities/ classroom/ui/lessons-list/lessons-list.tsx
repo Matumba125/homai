@@ -12,13 +12,13 @@ import ShareIcon from "@mui/icons-material/Share";
 import {
   deleteLessonThunk,
   fetchClassLessons,
-  LessonType,
   setLessonAvailableThunk,
 } from "../../bll/lessonsReducer";
 import { path } from "../../../../app/path";
 import { fetchClass } from "../../bll/ classroomReducer";
 import { format } from "date-fns";
 import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
+import { LessonType } from "app/api/api";
 
 type LessonsListParams = {
   id: string;
@@ -123,7 +123,7 @@ const LessonsList = () => {
                 <tr key={lesson.id}>
                   <td className={style.studentIndexWrapper}>{index + 1}</td>
                   <td className={style.dateWrapper}>
-                    {format(lesson.date, "d.MM.Y ")}
+                    {format(new Date(lesson.date), "d.MM.Y ")}
                   </td>
                   <td className={style.studentIndexWrapper}>
                     <BlueSwitch

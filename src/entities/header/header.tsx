@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
 import style from "./header.module.scss";
 import homaiLogo from "../../shared/assets/img/logo.svg";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { logOutThunk } from "../user/bll/userReducer";
+import { AppDispatch } from "../../app/store/store";
+import { useNavigate } from "react-router";
+import { getIsLoggedIn } from "../../app/store/selectors";
 
 const Header = () => {
   /*  const isLoggedIn = useSelector(getIsLoggedIn);
   const user = useSelector(getUserData);
-  const { t } = useTranslation(["common"]);
   const navigate = useNavigate();*/
 
   /*  const onSignInClick = () => {
@@ -19,6 +24,11 @@ const Header = () => {
   /*  const onUserInfoClick = () => {
     navigate(path.profile);
   };*/
+
+  const { t } = useTranslation(["common"]);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(getIsLoggedIn);
 
   useEffect(() => {
     if (window.location.pathname !== "/" && window.innerWidth < 768) {
@@ -39,6 +49,11 @@ const Header = () => {
     }
   }, [window.location.pathname]);
 
+  const onLogoutClick = async () => {
+    await dispatch(logOutThunk());
+    navigate("/");
+  };
+
   return (
     <header className={style.header} id={"header"}>
       <div className={style.headerTop} id={"headerTop"}>
@@ -49,6 +64,11 @@ const Header = () => {
             <span>PUZ</span>
           </div>
         </div>
+        {isLoggedIn && (
+          <div className={style.logoutWrapper}>
+            <button onClick={onLogoutClick}>{t("log-out")}</button>
+          </div>
+        )}
         {/*        {!isLoggedIn && (
           <div className={style.headerControls}>
             <Button variant={"contained"} onClick={onSignInClick}>

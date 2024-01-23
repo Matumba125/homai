@@ -265,7 +265,7 @@ const CreateLesson = () => {
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCreateLessonDate(new Date(e.target.value));
+    dispatch(setCreateLessonDate(new Date(e.target.value)));
   };
   return (
     <div className={style.createLessonWrapper}>
