@@ -239,8 +239,7 @@ export const fetchClassLessons = createAsyncThunk<any, number>(
       const res = await TeacherRoom.fetchClassLessons(id);
       dispatch(slice.actions.setLessons(res.data.lessons));
     } catch (e) {
-      dispatch(slice.actions.setLessons(testLessons));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -258,8 +257,7 @@ export const deleteLessonThunk = createAsyncThunk<
       await TeacherRoom.deleteLesson(data);
       dispatch(slice.actions.deleteLesson(data.lessonId));
     } catch (e) {
-      dispatch(slice.actions.deleteLesson(data.lessonId));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -275,8 +273,7 @@ export const fetchLessonByIdThunk = createAsyncThunk<any, { lessonId: number }>(
       dispatch(slice.actions.setCreateLessonData(res.data.lesson));
       dispatch(fetchClass(res.data.classId));
     } catch (e) {
-      dispatch(slice.actions.setCreateLessonData(testFetchData));
-      dispatch(fetchClass(1));
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -295,14 +292,7 @@ export const setLessonAvailableThunk = createAsyncThunk<
       const res = await TeacherRoom.setLessonAvailable(data);
       dispatch(slice.actions.setLesson(res.data));
     } catch (e) {
-      if (state.lessons.lessons) {
-        const tempLesson = state.lessons.lessons.find(
-          (f) => f.id === data.lessonId,
-        ) as LessonType;
-        dispatch(
-          slice.actions.setLesson({ ...tempLesson, available: data.available }),
-        );
-      }
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }

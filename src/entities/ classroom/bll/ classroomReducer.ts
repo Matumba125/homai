@@ -154,8 +154,7 @@ export const fetchClassesList = createAsyncThunk<any>(
       const res = await TeacherRoom.fetchClasses();
       dispatch(slice.actions.setClasses(res.data.classesList));
     } catch (e) {
-      dispatch(slice.actions.setClasses(testClasses));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -170,8 +169,7 @@ export const fetchClass = createAsyncThunk<any, number>(
       const res = await TeacherRoom.fetchClass(id);
       dispatch(slice.actions.setClass(res.data.class));
     } catch (e) {
-      dispatch(slice.actions.setClass(testClass));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -186,8 +184,7 @@ export const fetchLessonResults = createAsyncThunk<any, number>(
       const res = await TeacherRoom.fetchLessonResults(id);
       dispatch(slice.actions.setLessonResults(res.data.lessonResults));
     } catch (e) {
-      dispatch(slice.actions.setLessonResults(testResults));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -202,13 +199,7 @@ export const addClassThunk = createAsyncThunk<any, AddClassRequestType>(
       const res = await TeacherRoom.addClass(data);
       dispatch(slice.actions.setClasses(res.data.classesList));
     } catch (e) {
-      dispatch(
-        slice.actions.setClasses([
-          ...testClasses,
-          { id: Math.floor(Math.random()), title: data.title },
-        ]),
-      );
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -226,17 +217,7 @@ export const changeStudentNameThunk = createAsyncThunk<
       const res = await TeacherRoom.changeStudentName(data);
       dispatch(slice.actions.changeStudentData(res.data));
     } catch (e) {
-      dispatch(
-        slice.actions.changeStudentData({
-          id: data.studentId,
-          classId: data.classId,
-          name: data.newName,
-          username: "Ivanov",
-          password: "sadas",
-        }),
-      );
-      console.error("Error changing student name:", e);
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -251,9 +232,7 @@ export const deleteStudentThunk = createAsyncThunk<any, number>(
       await TeacherRoom.deleteStudent(studentId);
       dispatch(slice.actions.deleteStudent(studentId));
     } catch (e) {
-      dispatch(slice.actions.deleteStudent(studentId));
-      console.error("Error deleting student:", e);
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -271,9 +250,7 @@ export const updateClassNameThunk = createAsyncThunk<
       await TeacherRoom.updateClassName({ ...data });
       dispatch(slice.actions.setUpdatedClassName(data.newName));
     } catch (e) {
-      dispatch(slice.actions.setUpdatedClassName(data.newName));
-      console.error("Error updating class name:", e);
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }

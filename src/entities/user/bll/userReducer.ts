@@ -49,9 +49,7 @@ export const authUser = createAsyncThunk<any, AuthDataType>(
       dispatch(slice.actions.setUserData(res.data));
       dispatch(slice.actions.setIsLoggedIn(true));
     } catch (e) {
-      dispatch(slice.actions.setUserData(userTestData));
-      dispatch(slice.actions.setIsLoggedIn(true));
-      //rejectWithValue(e);
+      dispatch(slice.actions.setIsLoggedIn(false));
     }
   },
 );
@@ -61,12 +59,15 @@ export const authUserPing = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const res = await Auth.me();
-      dispatch(slice.actions.setUserData(res.data));
-      dispatch(slice.actions.setIsLoggedIn(true));
+      if (res.data) {
+        dispatch(slice.actions.setUserData(res.data));
+        dispatch(slice.actions.setIsLoggedIn(true));
+      } else {
+        throw Error("User not found");
+      }
     } catch (e) {
-      dispatch(slice.actions.setUserData(userTestData));
-      dispatch(slice.actions.setIsLoggedIn(true));
-      //rejectWithValue(e);
+      dispatch(slice.actions.setIsLoggedIn(false));
+      rejectWithValue(e);
     }
   },
 );
@@ -79,9 +80,7 @@ export const logOutThunk = createAsyncThunk<any>(
       dispatch(slice.actions.setUserData(undefined));
       dispatch(slice.actions.setIsLoggedIn(false));
     } catch (e) {
-      dispatch(slice.actions.setUserData(undefined));
-      dispatch(slice.actions.setIsLoggedIn(false));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     }
   },
 );

@@ -278,21 +278,18 @@ export const TeacherRoom = {
     );
   },
   fetchClass: (id: number) => {
-    return axiosLiveInstance.put<FetchClassResponseType>(
-      "classes/get-class",
-      id,
+    return axiosLiveInstance.get<FetchClassResponseType>(
+      `classes/get-class/${id}`,
     );
   },
   fetchLessonResults: (id: number) => {
-    return axiosLiveInstance.put<FetchLessonResultsResponseType>(
-      "classes/get-lesson-results",
-      id,
+    return axiosLiveInstance.get<FetchLessonResultsResponseType>(
+      `classes/get-lesson-results/${id}`,
     );
   },
   fetchClassLessons: (id: number) => {
-    return axiosLiveInstance.put<FetchClassLessonsResponseType>(
-      "classes/get-class-lessons",
-      id,
+    return axiosLiveInstance.get<FetchClassLessonsResponseType>(
+      `classes/get-class-lessons/${id}`,
     );
   },
   deleteLesson: (data: { lessonId: number; classId: number }) => {

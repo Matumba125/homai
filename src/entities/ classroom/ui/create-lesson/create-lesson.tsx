@@ -251,6 +251,7 @@ const CreateLesson = () => {
   }, [reading, poem, words, sentences]);
 
   const onCreateLessonClick = () => {
+    debugger;
     if (currentClass) {
       dispatch(
         createLessonThunk({

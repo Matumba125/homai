@@ -1,9 +1,9 @@
 export const path = {
-  correspondence: "/correspondence",
-  sentence: "/sentence",
+  correspondence: "/nouns",
+  sentence: "/pronouns",
   login: "/login",
   profile: "/profile",
-  speaking: "/speaking",
+  speaking: "/verbs",
   teacherRoom: "/teacher-room",
   createLesson: "/create-lesson",
   classroom: "/classroom",
@@ -11,6 +11,6 @@ export const path = {
   lessonsList: "/lessons-list",
   lessonResults: "/lesson-results",
   poem: "/poem",
-  reading: "/reading",
+  reading: "/read",
   lesson: "/lesson",
 };

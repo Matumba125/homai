@@ -35,7 +35,7 @@ const LessonMenu = () => {
   }, []);
 
   const onMenuItemClick = (task: string) => {
-    navigate(`/${task}`);
+    navigate(`/${task.toLowerCase()}`);
   };
 
   if (!isLoggedIn) {
@@ -51,7 +51,7 @@ const LessonMenu = () => {
             return (
               <GamePreview
                 onClick={() => onMenuItemClick(task)}
-                title={t(task)}
+                title={t(task.toLowerCase())}
                 backgroundColor={index % 2 === 0 ? "#4137EE" : "#FF6668"}
               />
             );
