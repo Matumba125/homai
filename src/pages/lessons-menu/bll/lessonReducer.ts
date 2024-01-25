@@ -85,9 +85,8 @@ export const fetchLessonMenu = createAsyncThunk<
     dispatch(slice.actions.setLessonMenu(res.data));
     return res.data;
   } catch (e) {
-    dispatch(slice.actions.setLessonMenu(testLessonMenu));
-    /*dispatch(slice.actions.setError("Failed to fetch lesson menu."));
-        return rejectWithValue("Failed to fetch lesson menu.");*/
+    dispatch(slice.actions.setError("Failed to fetch lesson menu."));
+    return rejectWithValue("Failed to fetch lesson menu.");
   }
 });
 
@@ -99,9 +98,8 @@ export const fetchLessonsList = createAsyncThunk<any>(
       dispatch(slice.actions.setLessonsList(res.data));
       return res.data;
     } catch (e) {
-      dispatch(slice.actions.setLessonsList(testLessonsList));
-      /*dispatch(slice.actions.setError("Failed to fetch lesson menu."));
-        return rejectWithValue("Failed to fetch lesson menu.");*/
+      dispatch(slice.actions.setError("Failed to fetch lesson menu."));
+      return rejectWithValue("Failed to fetch lesson menu.");
     }
   },
 );

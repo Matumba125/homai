@@ -1,29 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Games } from "../../../app/api/api";
+import { Games, SentenceTaskType } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
-
-const testTasks = [
-  {
-    id: 1,
-    sentence: "Я люблю кушать",
-  },
-  {
-    id: 2,
-    sentence: "Я вижу гору за поворотом",
-  },
-  {
-    id: 3,
-    sentence: "Поезд приближается к станции",
-  },
-  {
-    id: 4,
-    sentence: "Солнце заходит за горизонт",
-  },
-  {
-    id: 5,
-    sentence: "Цветок растёт перед верандой",
-  },
-];
 
 export type SentenceInitialStateType = {
   tasks: SentenceTaskType[];
@@ -75,9 +52,7 @@ export const fetchSentenceTasks = createAsyncThunk<any>(
         dispatch(slice.actions.setAvailableTasks(res.data));
       }
     } catch (e) {
-      dispatch(slice.actions.setTasks(testTasks));
-      dispatch(slice.actions.setAvailableTasks(testTasks));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }

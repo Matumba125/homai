@@ -6,14 +6,6 @@ export type UserInitialStateType = {
   isLoggedIn: boolean;
 };
 
-const userTestData: UserDataType = {
-  id: 0,
-  username: "",
-  avatar:
-    "https://img.freepik.com/premium-photo/there-is-white-cat-that-is-laying-down-green-surface-generative-ai_955884-17559.jpg?w=360",
-  role: "teacher",
-};
-
 const initialState: UserInitialStateType = {
   isLoggedIn: false,
 };
@@ -92,8 +84,7 @@ export const getUser = createAsyncThunk<any, number>(
       const res = await User.getUser(data);
       dispatch(slice.actions.setUserData(res.data));
     } catch (e) {
-      dispatch(slice.actions.setUsername("Тестовый пользователь"));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     }
   },
 );
@@ -105,8 +96,7 @@ export const updateUsername = createAsyncThunk<any, string>(
       await User.updateUsername(data);
       dispatch(slice.actions.setUsername(data));
     } catch (e) {
-      dispatch(slice.actions.setUsername(data));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     }
   },
 );
@@ -118,8 +108,7 @@ export const updateAvatar = createAsyncThunk<any, File>(
       const res = await User.updateAvatar(data);
       dispatch(slice.actions.setAvatar(res.data.url));
     } catch (e) {
-      dispatch(slice.actions.setAvatar(""));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     }
   },
 );

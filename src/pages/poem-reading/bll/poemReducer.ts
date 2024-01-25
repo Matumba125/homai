@@ -1,43 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Games } from "../../../app/api/api";
+import { Games, PoemPartType } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
-
-const test: PoemPartType[] = [
-  {
-    audio: "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",
-    parts: [
-      {
-        smallAudio:
-          "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",
-        rowOne: "some text",
-        rowTwo: "some text",
-      },
-      {
-        smallAudio:
-          "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",
-        rowOne: "some text",
-        rowTwo: "some text",
-      },
-    ],
-  },
-  {
-    audio: "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",
-    parts: [
-      {
-        smallAudio:
-          "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",
-        rowOne: "some text",
-        rowTwo: "some text",
-      },
-      {
-        smallAudio:
-          "https://cdn.pixabay.com/audio/2021/08/04/audio_473a42432c.mp3",
-        rowOne: "some text",
-        rowTwo: "some text",
-      },
-    ],
-  },
-];
 
 const initialState: { poem?: PoemPartType[] } = {};
 
@@ -61,8 +24,7 @@ export const fetchPoem = createAsyncThunk<any>(
         dispatch(slice.actions.setPoem(res.data));
       }
     } catch (e) {
-      dispatch(slice.actions.setPoem(test));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
     }
   },

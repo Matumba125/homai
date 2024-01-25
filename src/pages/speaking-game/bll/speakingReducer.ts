@@ -2,13 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Games, SpeakingTaskType } from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 
-const testTasks = [
-  {
-    id: 1,
-    text: "атай",
-  },
-];
-
 export type SentenceInitialStateType = {
   tasks: SpeakingTaskType[];
   availableTasks: SpeakingTaskType[];
@@ -59,9 +52,7 @@ export const fetchSpeakingTasks = createAsyncThunk<any>(
         dispatch(slice.actions.setAvailableTasks(res.data));
       }
     } catch (e) {
-      dispatch(slice.actions.setTasks(testTasks));
-      dispatch(slice.actions.setAvailableTasks(testTasks));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
