@@ -112,6 +112,15 @@ export const Games = {
       formData,
     );
   },
+  sendCorrespondenceResult: (result: number) => {
+    return axiosLiveInstance.put("tasks/correspondence/result", { result });
+  },
+  sendSentenceResult: (result: number) => {
+    return axiosLiveInstance.put("tasks/sentence/result", { result });
+  },
+  sendSpeakingResult: (result: number) => {
+    return axiosLiveInstance.put("tasks/speaking/result", { result });
+  },
   getPoem: (lessonId: number) => {
     return axiosLiveInstance.get<PoemPartType[]>(`tasks/poem/${lessonId}`);
   },

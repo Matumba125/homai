@@ -19,7 +19,8 @@ import style from "./sentence-game.module.scss";
 import { Button } from "@mui/material";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
 import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
-import { SentenceTaskType } from "app/api/api";
+import { Games, SentenceTaskType } from "app/api/api";
+import { useNavigate } from "react-router";
 
 const SentenceGame = () => {
   useCheckStudentRole();
@@ -27,6 +28,7 @@ const SentenceGame = () => {
   const tasks = useSelector(getSentenceTasks);
   const isLoading = useSelector(getSentenceTasksLoading);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useCheckLessonId();
 
   const [shuffledArray, setShuffledArray] = useState<string[]>([]);
@@ -35,6 +37,8 @@ const SentenceGame = () => {
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
+  const [counter, setCounter] = useState<number>(0);
+  const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(fetchSentenceTasks());
@@ -54,13 +58,16 @@ const SentenceGame = () => {
     const tempResultArray = [...resultArray];
     tempResultArray.push(e);
     setResultArray(tempResultArray);
-    console.log(tempShuffledArray);
     if (tempShuffledArray.length === 0 && selectedTask) {
-      console.log(tempResultArray.join(" "));
       if (tempResultArray.join(" ") === selectedTask.sentence) {
         playWinAudio();
         setCanGoForward(true);
+        if (isFirstTime) {
+          setIsFirstTime(false);
+          setCounter((prevState) => prevState + 1);
+        }
       } else {
+        setIsFirstTime(false);
         playLoseAudio();
       }
     }
@@ -82,11 +89,24 @@ const SentenceGame = () => {
       setSelectedTask(undefined);
       setResultArray([]);
       setCanGoForward(false);
+      setIsFirstTime(true);
+    }
+  };
+
+  const onCompleteClick = async () => {
+    try {
+      await Games.sendCorrespondenceResult(counter);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setCounter(0);
+      navigate(-1);
     }
   };
 
   const onRestartClick = () => {
     dispatch(restartSentenceTest());
+    setCounter(0);
   };
 
   return (
@@ -127,6 +147,9 @@ const SentenceGame = () => {
       {tasks.length === 0 && !isLoading && (
         <div className={style.gameContainer}>
           <div className={style.buttonsContainer}>
+            <Button onClick={onCompleteClick} variant={"contained"}>
+              {t("complete")}
+            </Button>
             <Button onClick={onRestartClick} variant={"contained"}>
               {t("restart")}
             </Button>

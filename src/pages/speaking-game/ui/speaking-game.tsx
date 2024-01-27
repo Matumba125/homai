@@ -20,6 +20,7 @@ import style from "./speaking-game.module.scss";
 import { Button } from "@mui/material";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
 import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
+import { useNavigate } from "react-router";
 
 const SpeakingGame = () => {
   useCheckStudentRole();
@@ -28,10 +29,13 @@ const SpeakingGame = () => {
   const tasks = useSelector(getSpeakingTasks);
   const isLoading = useSelector(getSpeakingTasksLoading);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useCheckLessonId();
 
   const [selectedTask, setSelectedTask] = useState<SpeakingTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
+  const [counter, setCounter] = useState<number>(0);
+  const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
 
@@ -70,11 +74,15 @@ const SpeakingGame = () => {
         formData.append("audio", recording, "atai.ogg");
 
         const res = await Games.sendSpeakingAnswer(formData);
-        debugger;
         if (res.data.result === "OK") {
           playWinAudio();
           setCanGoForward(true);
+          if (isFirstTime) {
+            setCounter((prevState) => prevState + 1);
+            setIsFirstTime(false);
+          }
         } else {
+          setIsFirstTime(false);
           playLoseAudio();
         }
       }
@@ -101,11 +109,23 @@ const SpeakingGame = () => {
       dispatch(removeAvailableSpeakingTasks(selectedTask.id));
       setSelectedTask(undefined);
       setCanGoForward(false);
+      setIsFirstTime(true);
     }
   };
 
   const onRestartClick = () => {
     dispatch(restartSpeakingTest());
+  };
+
+  const onCompleteClick = async () => {
+    try {
+      await Games.sendCorrespondenceResult(counter);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setCounter(0);
+      navigate(-1);
+    }
   };
 
   return (
@@ -136,6 +156,9 @@ const SpeakingGame = () => {
       {tasks.length === 0 && !isLoading && (
         <div className={style.gameContainer}>
           <div className={style.buttonsContainer}>
+            <Button onClick={onCompleteClick} variant={"contained"}>
+              {t("complete")}
+            </Button>
             <Button onClick={onRestartClick} variant={"contained"}>
               {t("restart")}
             </Button>

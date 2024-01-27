@@ -8,7 +8,7 @@ import {
   getLessonMenu,
   getLessonMenuError,
 } from "../../../../app/store/selectors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppDispatch } from "../../../../app/store/store";
 import { fetchLessonMenu } from "../../bll/lessonReducer";
 import { useCheckStudentRole } from "../../../../shared/utilities/checkUserRole";
@@ -27,6 +27,7 @@ const LessonMenu = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<LessonMenuParams>();
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -38,26 +39,44 @@ const LessonMenu = () => {
     navigate(`/${task.toLowerCase()}`);
   };
 
-  if (!isLoggedIn) {
-    navigate(`${path.login}?redirectTo=${path.lesson}/${id}`);
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const id = setTimeout(() => {
+        navigate(`${path.login}?redirectTo=${path.lesson}/${id}`);
+      }, 2000);
+      setTimeoutId(id);
+    } else {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isLoggedIn]);
 
   return (
-    <div className={style.container}>
-      <div className={style.navContainer}>
-        {error && <div>{error}</div>}
-        {!error &&
-          lessonMenu.tasks?.map((task, index) => {
-            return (
-              <GamePreview
-                onClick={() => onMenuItemClick(task)}
-                title={t(task.toLowerCase())}
-                backgroundColor={index % 2 === 0 ? "#4137EE" : "#FF6668"}
-              />
-            );
-          })}
-      </div>
-    </div>
+    <>
+      {isLoggedIn && (
+        <div className={style.container}>
+          <div className={style.navContainer}>
+            {error && <div>{error}</div>}
+            {!error &&
+              lessonMenu.tasks?.map((task, index) => {
+                return (
+                  <GamePreview
+                    onClick={() => onMenuItemClick(task)}
+                    title={t(task.toLowerCase())}
+                    backgroundColor={index % 2 === 0 ? "#4137EE" : "#FF6668"}
+                  />
+                );
+              })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

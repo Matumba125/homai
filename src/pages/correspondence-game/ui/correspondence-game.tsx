@@ -16,14 +16,16 @@ import loseSound from "../../../shared/sound/lose-sound.mp3";
 import { shuffleArray } from "../../../shared/utilities/shuffleArray";
 import speakerSvg from "../../../shared/assets/img/speaker.svg";
 import { useCheckStudentRole } from "../../../shared/utilities/checkUserRole";
-import { CorrespondenceTaskType } from "app/api/api";
-import { useCheckLessonId } from "shared/utilities/checkLessonIdAvailable";
+import { CorrespondenceTaskType, Games } from "app/api/api";
+import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailable";
+import { useNavigate } from "react-router";
 
 const CorrespondenceGame = () => {
   useCheckStudentRole();
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getCorrespondenceTasks);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useCheckLessonId();
 
   const [taskBundle, setTaskBundle] = useState<CorrespondenceTaskType[]>([]);
@@ -31,6 +33,8 @@ const CorrespondenceGame = () => {
   const [randomItem, setRandomItem] = useState<CorrespondenceTaskType>();
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
+  const [selectedCorrectly, setSelectedCorrectly] = useState<boolean>(false);
+  const [counter, setCounter] = useState<number>(0);
   const selectedElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -56,6 +60,10 @@ const CorrespondenceGame = () => {
       }
       playWinAudio();
       setCanGoForward(true);
+      if (!selectedCorrectly) {
+        setCounter((prevCounter) => prevCounter + 1);
+        setSelectedCorrectly(true);
+      }
     } else {
       selectedElement.current = document.getElementById(id.toString());
       if (selectedElement.current) {
@@ -63,6 +71,7 @@ const CorrespondenceGame = () => {
       }
       playLoseAudio();
       setCanGoForward(false);
+      setSelectedCorrectly(false);
     }
   };
 
@@ -70,6 +79,18 @@ const CorrespondenceGame = () => {
     setTaskBundle([]);
     dispatch(removeAvailableCorrespondenceTasks(taskBundle.map((m) => m.id)));
     setCanGoForward(false);
+    setSelectedCorrectly(false); // Reset selectedCorrectly state
+  };
+
+  const onCompleteClick = async () => {
+    try {
+      await Games.sendCorrespondenceResult(counter);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setCounter(0);
+      navigate(-1);
+    }
   };
 
   const onRestartClick = () => {
@@ -115,6 +136,9 @@ const CorrespondenceGame = () => {
       {taskBundle.length === 0 && (
         <div className={style.gameContainer}>
           <div className={style.buttonsContainer}>
+            <Button onClick={onCompleteClick} variant={"contained"}>
+              {t("complete")}
+            </Button>
             <Button onClick={onRestartClick} variant={"contained"}>
               {t("restart")}
             </Button>
