@@ -95,6 +95,7 @@ const CorrespondenceGame = () => {
 
   const onRestartClick = () => {
     dispatch(restartCorrespondenceTest());
+    setCounter(0);
   };
 
   const onSpeakerClick = () => {

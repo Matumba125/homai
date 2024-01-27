@@ -115,6 +115,7 @@ const SpeakingGame = () => {
 
   const onRestartClick = () => {
     dispatch(restartSpeakingTest());
+    setCounter(0);
   };
 
   const onCompleteClick = async () => {
