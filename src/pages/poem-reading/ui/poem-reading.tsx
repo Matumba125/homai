@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./poem-style.module.scss";
 import { getPoem } from "../../../app/store/selectors";
@@ -14,15 +14,34 @@ const PoemReading = () => {
   const dispatch = useDispatch<AppDispatch>();
   const poem = useSelector(getPoem);
   useCheckLessonId();
+  const smallAudioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleSmallAudioClick = (smallAudio: string) => {
-    let sound = new Audio(smallAudio);
+    if (smallAudioRef.current) {
+      smallAudioRef.current.pause(); // Pause previous small audio if exists
+      smallAudioRef.current = null;
+      return;
+    }
+    const sound = new Audio(smallAudio);
+    sound.loop = true; // Set audio to loop
     sound.play();
+    smallAudioRef.current = sound; // Store reference to current small audio
   };
 
   const handleAudioClick = (audio: string) => {
-    let sound = new Audio(audio);
+    if (audioRef.current) {
+      audioRef.current.pause(); // Pause previous audio if exists
+      audioRef.current = null;
+      return;
+    }
+    const sound = new Audio(audio);
+    sound.addEventListener("ended", () => {
+      sound.currentTime = 0; // Reset audio to start
+      sound.play(); // Play audio again when it ends
+    });
     sound.play();
+    audioRef.current = sound; // Store reference to current audio
   };
 
   useEffect(() => {

@@ -7,7 +7,7 @@ export type UserInitialStateType = {
 };
 
 const initialState: UserInitialStateType = {
-  isLoggedIn: false,
+  isLoggedIn: true,
 };
 
 const slice = createSlice({

@@ -54,10 +54,14 @@ const Header = () => {
     navigate("/");
   };
 
+  const onLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <header className={style.header} id={"header"}>
       <div className={style.headerTop} id={"headerTop"}>
-        <div id={"logo"} className={style.logo}>
+        <div onClick={onLogoClick} id={"logo"} className={style.logo}>
           <img alt={"homaiLogo"} src={homaiLogo} />
           <div className={style.logoText}>
             <span>BA</span>
