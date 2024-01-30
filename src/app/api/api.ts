@@ -112,14 +112,17 @@ export const Games = {
       formData,
     );
   },
-  sendCorrespondenceResult: (result: number) => {
-    return axiosLiveInstance.put("tasks/correspondence/result", { result });
+  sendCorrespondenceResult: (result: number, lessonId: number) => {
+    return axiosLiveInstance.put("tasks/correspondence/result", {
+      result,
+      lessonId,
+    });
   },
-  sendSentenceResult: (result: number) => {
-    return axiosLiveInstance.put("tasks/sentence/result", { result });
+  sendSentenceResult: (result: number, lessonId: number) => {
+    return axiosLiveInstance.put("tasks/sentence/result", { result, lessonId });
   },
-  sendSpeakingResult: (result: number) => {
-    return axiosLiveInstance.put("tasks/speaking/result", { result });
+  sendSpeakingResult: (result: number, lessonId: number) => {
+    return axiosLiveInstance.put("tasks/speaking/result", { result, lessonId });
   },
   getPoem: (lessonId: number) => {
     return axiosLiveInstance.get<PoemPartType[]>(`tasks/poem/${lessonId}`);

@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getCorrespondenceTasks } from "../../../app/store/selectors";
+import {
+  getCorrespondenceTasks,
+  getCurrentLessonId,
+} from "../../../app/store/selectors";
 import { useSelector } from "react-redux";
 import {
   fetchCorrespondenceTasks,
@@ -24,6 +27,7 @@ const CorrespondenceGame = () => {
   useCheckStudentRole();
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getCorrespondenceTasks);
+  const lessonId = useSelector(getCurrentLessonId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useCheckLessonId();
@@ -83,13 +87,15 @@ const CorrespondenceGame = () => {
   };
 
   const onCompleteClick = async () => {
-    try {
-      await Games.sendCorrespondenceResult(counter);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setCounter(0);
-      navigate(-1);
+    if (lessonId) {
+      try {
+        await Games.sendCorrespondenceResult(counter, lessonId);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setCounter(0);
+        navigate(-1);
+      }
     }
   };
 

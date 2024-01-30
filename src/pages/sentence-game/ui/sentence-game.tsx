@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import {
+  getCurrentLessonId,
   getSentenceTasks,
   getSentenceTasksLoading,
 } from "../../../app/store/selectors";
@@ -27,6 +28,7 @@ const SentenceGame = () => {
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getSentenceTasks);
   const isLoading = useSelector(getSentenceTasksLoading);
+  const lessonId = useSelector(getCurrentLessonId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useCheckLessonId();
@@ -94,13 +96,15 @@ const SentenceGame = () => {
   };
 
   const onCompleteClick = async () => {
-    try {
-      await Games.sendCorrespondenceResult(counter);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setCounter(0);
-      navigate(-1);
+    if (lessonId) {
+      try {
+        await Games.sendSentenceResult(counter, lessonId);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setCounter(0);
+        navigate(-1);
+      }
     }
   };
 

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import {
+  getCurrentLessonId,
   getSpeakingTasks,
   getSpeakingTasksLoading,
 } from "../../../app/store/selectors";
@@ -28,6 +29,7 @@ const SpeakingGame = () => {
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getSpeakingTasks);
   const isLoading = useSelector(getSpeakingTasksLoading);
+  const lessonId = useSelector(getCurrentLessonId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useCheckLessonId();
@@ -119,13 +121,15 @@ const SpeakingGame = () => {
   };
 
   const onCompleteClick = async () => {
-    try {
-      await Games.sendCorrespondenceResult(counter);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setCounter(0);
-      navigate(-1);
+    if (lessonId) {
+      try {
+        await Games.sendSpeakingResult(counter, lessonId);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setCounter(0);
+        navigate(-1);
+      }
     }
   };
 

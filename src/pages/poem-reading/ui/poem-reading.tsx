@@ -18,24 +18,36 @@ const PoemReading = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleSmallAudioClick = (smallAudio: string) => {
+    const sound = new Audio(smallAudio);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
     if (smallAudioRef.current) {
       smallAudioRef.current.pause(); // Pause previous small audio if exists
-      smallAudioRef.current = null;
-      return;
+      if (smallAudioRef.current.src === sound.src) {
+        smallAudioRef.current = null;
+        return;
+      }
     }
-    const sound = new Audio(smallAudio);
     sound.loop = true; // Set audio to loop
     sound.play();
     smallAudioRef.current = sound; // Store reference to current small audio
   };
 
   const handleAudioClick = (audio: string) => {
+    const sound = new Audio(audio);
+    if (smallAudioRef.current) {
+      smallAudioRef.current.pause();
+      smallAudioRef.current = null;
+    }
     if (audioRef.current) {
       audioRef.current.pause(); // Pause previous audio if exists
-      audioRef.current = null;
-      return;
+      if (audioRef.current.src === sound.src) {
+        audioRef.current = null;
+        return;
+      }
     }
-    const sound = new Audio(audio);
     sound.addEventListener("ended", () => {
       sound.currentTime = 0; // Reset audio to start
       sound.play(); // Play audio again when it ends
