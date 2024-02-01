@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./poem-style.module.scss";
 import { getPoem } from "../../../app/store/selectors";
@@ -15,13 +15,16 @@ const PoemReading = () => {
   const poem = useSelector(getPoem);
   useCheckLessonId();
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [activePart, setActivePart] = useState<number>();
 
-  const handleSmallAudioClick = (smallAudio: string) => {
+  const handleSmallAudioClick = (smallAudio: string, id: number) => {
     const sound = new Audio(smallAudio);
+    setActivePart(id);
     if (audioRef.current) {
       audioRef.current.pause();
       if (audioRef.current.src === sound.src) {
         audioRef.current = null;
+        setActivePart(undefined);
         return;
       }
       audioRef.current = null;
@@ -31,12 +34,14 @@ const PoemReading = () => {
     audioRef.current = sound; // Store reference to current small audio
   };
 
-  const handleAudioClick = (audio: string) => {
+  const handleAudioClick = (audio: string, id: number) => {
     const sound = new Audio(audio);
+    setActivePart(id);
     if (audioRef.current) {
       audioRef.current.pause(); // Pause previous audio if exists
       if (audioRef.current.src === sound.src) {
         audioRef.current = null;
+        setActivePart(undefined);
         return;
       }
       audioRef.current = null;
@@ -65,8 +70,14 @@ const PoemReading = () => {
                   <p>{part.rowTwo}</p>
                 </div>
                 <IconButton
-                  className={styles.smallAudioButton}
-                  onClick={() => handleSmallAudioClick(part.smallAudio)}
+                  className={
+                    activePart === part.id
+                      ? styles.activeSmallAudioButton
+                      : styles.smallAudioButton
+                  }
+                  onClick={() =>
+                    handleSmallAudioClick(part.smallAudio, part.id)
+                  }
                 >
                   <VolumeUpIcon />
                 </IconButton>
@@ -74,8 +85,12 @@ const PoemReading = () => {
             ))}
             <div className={styles.centerButtonContainer}>
               <IconButton
-                className={styles.audioButton}
-                onClick={() => handleAudioClick(poem.audio)}
+                className={
+                  activePart === poem.id
+                    ? styles.activeAudioButton
+                    : styles.audioButton
+                }
+                onClick={() => handleAudioClick(poem.audio, poem.id)}
               >
                 <VolumeUpIcon />
               </IconButton>

@@ -78,7 +78,13 @@ export type SpeakingTaskType = {
 
 export type PoemPartType = {
   audio: string;
-  parts: Array<{ smallAudio: string; rowOne: string; rowTwo: string }>;
+  parts: Array<{
+    smallAudio: string;
+    rowOne: string;
+    rowTwo: string;
+    id: number;
+  }>;
+  id: number;
 };
 
 export type ReadingTextType = {

@@ -50,9 +50,10 @@ const LessonMenu = () => {
           lessonMenu.tasks?.map((task, index) => {
             return (
               <GamePreview
-                onClick={() => onMenuItemClick(task)}
-                title={t(task.toLowerCase())}
+                onClick={() => onMenuItemClick(task.name)}
+                title={t(task.name.toLowerCase())}
                 backgroundColor={index % 2 === 0 ? "#4137EE" : "#FF6668"}
+                score={`${task.currentScore}/${task.maxScore}`}
               />
             );
           })}

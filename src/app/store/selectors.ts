@@ -1,11 +1,11 @@
 import { AppStateType } from "./store";
-import { LessonMenuType } from "../../pages/lessons-menu/bll/lessonReducer";
 import {
   ClassroomType,
   ClassType,
   CorrespondenceTaskType,
   CreateLessonStateType,
   LessonListItemType,
+  LessonMenuResponseType,
   LessonResults,
   LessonType,
   PoemPartType,
@@ -55,7 +55,7 @@ export const getUserData = (state: AppStateType): UserDataType | undefined => {
   return state.user.user;
 };
 
-export const getLessonMenu = (state: AppStateType): LessonMenuType => {
+export const getLessonMenu = (state: AppStateType): LessonMenuResponseType => {
   return state.lessonMenu.lesson;
 };
 

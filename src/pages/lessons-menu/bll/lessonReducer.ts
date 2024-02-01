@@ -2,48 +2,22 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   Games,
   LessonListItemType,
+  LessonMenuItemType,
   LessonMenuResponseType,
 } from "../../../app/api/api";
 
-export type LessonMenuType = {
-  id?: number;
-  title?: string;
-  tasks?: Array<string>;
-};
-
-const testLessonMenu: LessonMenuResponseType = {
-  id: 1,
-  title: "Город",
-  tasks: ["correspondence", "sentence", "speaking", "poem", "reading"],
-};
-
-const testLessonsList: LessonListItemType[] = [
-  {
-    id: 1,
-    title: "Город",
-  },
-  {
-    id: 2,
-    title: "Природа",
-  },
-  {
-    id: 3,
-    title: "Лес",
-  },
-  {
-    id: 4,
-    title: "Машины",
-  },
-];
-
 interface LessonMenuState {
-  lesson: LessonMenuType;
+  lesson: LessonMenuResponseType;
   error: string | null;
   lessonsList: LessonListItemType[];
 }
 
 const initialState: LessonMenuState = {
-  lesson: {},
+  lesson: {
+    id: 0,
+    title: "",
+    tasks: [],
+  },
   error: null,
   lessonsList: [],
 };
@@ -58,7 +32,7 @@ const slice = createSlice({
     setLessonTitle(state, action: PayloadAction<string>) {
       state.lesson.title = action.payload;
     },
-    setLessonTasks(state, action: PayloadAction<string[]>) {
+    setLessonTasks(state, action: PayloadAction<LessonMenuItemType[]>) {
       state.lesson.tasks = action.payload;
     },
     setLessonMenu(state, action: PayloadAction<LessonMenuResponseType>) {
