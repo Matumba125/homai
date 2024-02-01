@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateLessonStateType,
   EnabledTask,
-  GetCreateLessonWordsResponseType,
   LessonType,
   TeacherRoom,
 } from "../../../app/api/api";
@@ -16,59 +15,6 @@ export type TeacherRoomInitialStateType = {
   wrongWords?: string;
 };
 
-const testWords: GetCreateLessonWordsResponseType = {
-  words:
-    "blabla, blabla, blabla, blabla, blabla, asda, asdasd, adasd, asdasd, asdas",
-  wrongWords: "blabla, blabla, blabla, blabla",
-};
-
-const testLessons: LessonType[] = [
-  {
-    id: 1,
-    title: "Город",
-    link: "https://www.google.com/",
-    date: new Date(),
-    available: true,
-  },
-  {
-    id: 2,
-    title: "Животные",
-    link: "https://www.google.com/",
-    date: new Date(),
-    available: true,
-  },
-  {
-    id: 3,
-    title: "Природа",
-    link: "https://www.google.com/",
-    date: new Date(),
-    available: true,
-  },
-  {
-    id: 4,
-    title: "Море",
-    link: "https://www.google.com/",
-    date: new Date(),
-    available: false,
-  },
-  {
-    id: 5,
-    title: "Космос",
-    link: "https://www.google.com/",
-    date: new Date(),
-    available: false,
-  },
-];
-
-const testFetchData: CreateLessonStateType = {
-  theme: "TestTheme",
-  words: "asdas sdadsa dasada sdasda dasd a",
-  sentences:
-    "asdassds asdasdasd asdasfasfasfaff.  asdasdasfasfasf. adfasfsafsa afsasfasfasf.",
-  poem: "sadfdaa",
-  date: new Date(),
-};
-
 const initialState: TeacherRoomInitialStateType = {
   createLesson: {
     theme: "",
@@ -77,6 +23,7 @@ const initialState: TeacherRoomInitialStateType = {
     poem: "",
     reading: "",
     date: new Date(),
+    enabledTasks: [],
   },
   isLoading: false,
 };
@@ -161,11 +108,7 @@ export const getCreateLessonWords = createAsyncThunk<
         dispatch(slice.actions.setCreateLessonWrongWords(res.data.wrongWords));
       }
     } catch (e) {
-      dispatch(slice.actions.setCreateLessonWords(testWords.words));
-      if (testWords.wrongWords) {
-        dispatch(slice.actions.setCreateLessonWrongWords(testWords.wrongWords));
-      }
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }
@@ -182,8 +125,7 @@ export const getCreateLessonSentences = createAsyncThunk<any>(
       });
       dispatch(slice.actions.setCreateLessonSentences(res.data.sentences));
     } catch (e) {
-      dispatch(slice.actions.setCreateLessonSentences(testWords.words));
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       /*dispatch(slice.actions.setLoading(false));*/
     }
@@ -221,10 +163,11 @@ export const createLessonThunk = createAsyncThunk<
           poem: "",
           reading: "",
           date: new Date(),
+          enabledTasks: [],
         }),
       );
     } catch (e) {
-      //rejectWithValue(e);
+      rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
     }

@@ -44,9 +44,9 @@ const CorrespondenceGame = () => {
   const [playLoseAudio] = useSound(loseSound);
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const selectedElement = useRef<HTMLElement | null>(null);
-  const [currentScoreCounter, setCurrentScoreCounter] = useState<
-    number | undefined
-  >(currentScore);
+  const [currentScoreCounter, setCurrentScoreCounter] = useState<number>(
+    currentScore || 0,
+  );
 
   useEffect(() => {
     dispatch(fetchCorrespondenceTasks());
@@ -78,7 +78,7 @@ const CorrespondenceGame = () => {
       setCanGoForward(true);
       if (isFirstTime && lessonId) {
         setIsFirstTime(false);
-        setCurrentScoreCounter((prevState) => (prevState ? prevState + 1 : 1));
+        setCurrentScoreCounter((prevState) => prevState + 1);
         await Games.sendGameResult({
           result: true,
           exerciseType: "correspondence",
@@ -130,6 +130,11 @@ const CorrespondenceGame = () => {
     <div className={style.container}>
       {taskBundle.length > 0 && (
         <div className={style.gameContainer}>
+          {maxScore && (
+            <h2>
+              {currentScoreCounter}/{maxScore}
+            </h2>
+          )}
           <div className={style.imgContainer}>
             {taskBundle.map((m) => (
               <div

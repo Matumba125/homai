@@ -253,6 +253,7 @@ export type CreateLessonStateType = {
   poem?: string;
   reading?: string;
   date: Date;
+  enabledTasks: EnabledTask[];
 };
 
 export type CreateLessonRequestType = CreateLessonStateType & {

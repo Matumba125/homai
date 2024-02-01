@@ -28,6 +28,7 @@ import { path } from "../../../../app/path";
 import CheckmarkRow from "./checkmark-row/checkmark-row";
 import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
 import { EnabledTask } from "../../../../app/api/api";
+import { format } from "date-fns";
 
 type CreateLessonParams = {
   lessonId: string;
@@ -35,7 +36,7 @@ type CreateLessonParams = {
 
 const CreateLesson = () => {
   useCheckTeacherRole();
-  const { theme, reading, poem, words, sentences } =
+  const { theme, reading, poem, words, sentences, enabledTasks, date } =
     useSelector(getCreateLessonData);
   const lessonLoading = useSelector(getClassLoading);
   const wrongWords = useSelector(getWrongWords);
@@ -60,7 +61,12 @@ const CreateLesson = () => {
   const [wordsNumber, setWordsNumber] = useState<number>(10);
   const [sentencesNumber, setSentencesNumber] = useState<number>(10);
   /*  const [listeningNumber, setListeningNumber] = useState<number>(10);*/
-  const [enabledTasks, setEnabledTasks] = useState<EnabledTask[]>([]);
+  const [currentEnabledTasks, setCurrentEnabledTasks] = useState<EnabledTask[]>(
+    [],
+  );
+  const [selectedDate, setSelectedDate] = useState<string>(
+    format(new Date(), "yyyy-MM-dd"),
+  );
 
   const onWordsGenerateClick = () => {
     dispatch(getCreateLessonWords({ existingWords: wordsValue }));
@@ -88,7 +94,7 @@ const CreateLesson = () => {
       /*setCheckmark3(true);*/
 
       // Update enabledTasks array for correspondence and speaking
-      setEnabledTasks((prevTasks) => {
+      setCurrentEnabledTasks((prevTasks) => {
         const updatedTasks = prevTasks.filter(
           (task) => task.type !== "correspondence" && task.type !== "speaking",
         );
@@ -107,7 +113,7 @@ const CreateLesson = () => {
       setCheckmark2(true);
 
       // Update enabledTasks array for sentence
-      setEnabledTasks((prevTasks) => {
+      setCurrentEnabledTasks((prevTasks) => {
         const updatedTasks = prevTasks.filter(
           (task) => task.type !== "sentence",
         );
@@ -136,12 +142,12 @@ const CreateLesson = () => {
     setCheckmark1(isChecked);
 
     if (isChecked) {
-      setEnabledTasks((prevTasks) => [
+      setCurrentEnabledTasks((prevTasks) => [
         ...prevTasks,
         { type: "correspondence", maxScore: wordsNumber },
       ]);
     } else {
-      setEnabledTasks((prevTasks) =>
+      setCurrentEnabledTasks((prevTasks) =>
         prevTasks.filter((task) => task.type !== "correspondence"),
       );
     }
@@ -152,7 +158,7 @@ const CreateLesson = () => {
     setWordsNumber(newWordsNumber);
 
     if (checkmark1) {
-      setEnabledTasks((prevTasks) =>
+      setCurrentEnabledTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.type === "correspondence"
             ? { ...task, maxScore: newWordsNumber }
@@ -167,12 +173,12 @@ const CreateLesson = () => {
     setCheckmark2(isChecked);
 
     if (isChecked) {
-      setEnabledTasks((prevTasks) => [
+      setCurrentEnabledTasks((prevTasks) => [
         ...prevTasks,
         { type: "sentence", maxScore: sentencesNumber },
       ]);
     } else {
-      setEnabledTasks((prevTasks) =>
+      setCurrentEnabledTasks((prevTasks) =>
         prevTasks.filter((task) => task.type !== "sentence"),
       );
     }
@@ -185,7 +191,7 @@ const CreateLesson = () => {
     setSentencesNumber(newSentencesNumber);
 
     if (checkmark2) {
-      setEnabledTasks((prevTasks) =>
+      setCurrentEnabledTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.type === "sentence"
             ? { ...task, maxScore: newSentencesNumber }
@@ -250,7 +256,9 @@ const CreateLesson = () => {
     if (sentences.length > 0) {
       setSentencesValue(sentences);
     }
-  }, [reading, poem, words, sentences]);
+    setCurrentEnabledTasks(enabledTasks);
+    setSelectedDate(format(date, "yyyy-MM-dd"));
+  }, [reading, poem, words, sentences, enabledTasks, date]);
 
   const onCreateLessonClick = () => {
     if (currentClass) {
@@ -258,7 +266,7 @@ const CreateLesson = () => {
         createLessonThunk({
           lessonId: lessonId ? +lessonId : undefined,
           classId: currentClass.id,
-          enabledTasks: enabledTasks,
+          enabledTasks: currentEnabledTasks,
         }),
       )
         .unwrap()
@@ -267,6 +275,7 @@ const CreateLesson = () => {
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(format(new Date(e.target.value), "yyyy-MM-dd"));
     dispatch(setCreateLessonDate(new Date(e.target.value)));
   };
   return (
@@ -285,6 +294,7 @@ const CreateLesson = () => {
           type="date"
           name="dateofbirth"
           id="dateofbirth"
+          value={selectedDate}
           onChange={handleDateChange}
         />
       </div>
