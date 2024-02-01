@@ -14,39 +14,32 @@ const PoemReading = () => {
   const dispatch = useDispatch<AppDispatch>();
   const poem = useSelector(getPoem);
   useCheckLessonId();
-  const smallAudioRef = useRef<HTMLAudioElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleSmallAudioClick = (smallAudio: string) => {
     const sound = new Audio(smallAudio);
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current = null;
-    }
-    if (smallAudioRef.current) {
-      smallAudioRef.current.pause(); // Pause previous small audio if exists
-      if (smallAudioRef.current.src === sound.src) {
-        smallAudioRef.current = null;
+      if (audioRef.current.src === sound.src) {
+        audioRef.current = null;
         return;
       }
+      audioRef.current = null;
     }
     sound.loop = true; // Set audio to loop
     sound.play();
-    smallAudioRef.current = sound; // Store reference to current small audio
+    audioRef.current = sound; // Store reference to current small audio
   };
 
   const handleAudioClick = (audio: string) => {
     const sound = new Audio(audio);
-    if (smallAudioRef.current) {
-      smallAudioRef.current.pause();
-      smallAudioRef.current = null;
-    }
     if (audioRef.current) {
       audioRef.current.pause(); // Pause previous audio if exists
       if (audioRef.current.src === sound.src) {
         audioRef.current = null;
         return;
       }
+      audioRef.current = null;
     }
     sound.addEventListener("ended", () => {
       sound.currentTime = 0; // Reset audio to start

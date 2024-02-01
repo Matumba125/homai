@@ -18,6 +18,24 @@ import {
 export const getCorrespondenceTasks = (
   state: AppStateType,
 ): CorrespondenceTaskType[] => {
+  return state.correspondence.tasks;
+};
+
+export const getCorrespondenceMaxScore = (
+  state: AppStateType,
+): number | undefined => {
+  return state.correspondence.maxScore;
+};
+
+export const getCorrespondenceCurrentScore = (
+  state: AppStateType,
+): number | undefined => {
+  return state.correspondence.currentScore;
+};
+
+export const getAvailableCorrespondenceTasks = (
+  state: AppStateType,
+): CorrespondenceTaskType[] => {
   return state.correspondence.availableTasks;
 };
 

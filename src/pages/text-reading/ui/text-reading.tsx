@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReadingText } from "../../../app/store/selectors";
 import { AppDispatch } from "../../../app/store/store";
@@ -11,13 +11,14 @@ import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailab
 
 const ReadingText = () => {
   useCheckStudentRole();
-  const [audio] = useState(new Audio());
+  const audioRef = useRef(new Audio());
   const [currentAudioMs, setCurrentAudioMs] = useState(0);
   const text = useSelector(getReadingText);
   const dispatch = useDispatch<AppDispatch>();
   useCheckLessonId();
 
   const handlePlayAudio = () => {
+    const audio = audioRef.current;
     if (text) {
       if (audio.paused) {
         // If paused, set the audio source and resume from the current position
@@ -31,8 +32,14 @@ const ReadingText = () => {
     }
   };
 
-  const handleSentenceClick = (start: number) => {
-    audio.currentTime = start / 1000; // Convert milliseconds to seconds
+  const handleSentenceClick = (
+    start: number,
+    event: MouseEvent<HTMLSpanElement>,
+  ) => {
+    event.stopPropagation();
+    const audio = audioRef.current;
+    setCurrentAudioMs(start);
+    audio.currentTime = start / 1000;
     audio.play();
   };
 
@@ -57,15 +64,18 @@ const ReadingText = () => {
   }, []);
 
   useEffect(() => {
-    audio.addEventListener("timeupdate", () => {
+    const audio = audioRef.current;
+    const updateTime = () => {
       setCurrentAudioMs(audio.currentTime * 1000); // Convert seconds to milliseconds
-    });
+    };
+
+    audio.addEventListener("timeupdate", updateTime);
 
     return () => {
       // Clean up event listener on component unmount
-      audio.removeEventListener("timeupdate", () => {});
+      audio.removeEventListener("timeupdate", updateTime);
     };
-  }, [audio]);
+  }, []);
 
   return (
     <div className={style.readingContainer}>
@@ -82,9 +92,11 @@ const ReadingText = () => {
                   <span
                     key={idx}
                     style={getTextColor(sentence.start, sentence.end)}
-                    onClick={() => handleSentenceClick(sentence.start)}
+                    onClick={(event) =>
+                      handleSentenceClick(sentence.start, event)
+                    }
                   >
-                    {sentence.text}{" "}
+                    {sentence.text}
                   </span>
                 ))}
               </div>

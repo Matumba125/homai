@@ -12,7 +12,13 @@ const axiosLiveInstance = axios.create({
 export type LessonMenuResponseType = {
   id: number;
   title: string;
-  tasks: Array<string>;
+  tasks: LessonMenuItemType[];
+};
+
+export type LessonMenuItemType = {
+  name: string;
+  maxScore?: number;
+  currentScore?: number;
 };
 
 export type ClassroomType = {
@@ -47,10 +53,17 @@ export type LessonListItemType = {
   title: string;
 };
 
+export type CorrespondenceResponseType = {
+  tasks: CorrespondenceTaskType[];
+  currentScore: number;
+  maxScore: number;
+};
+
 export type CorrespondenceTaskType = {
   id: number;
   word: string;
   image: string;
+  audioUrl: string;
 };
 
 export type SentenceTaskType = {
@@ -82,6 +95,13 @@ export type ParagraphType = {
   }>;
 };
 
+type SendResultsRequestType = {
+  lessonId: number;
+  item_id: number;
+  result: boolean;
+  exerciseType: "correspondence" | "sentence" | "reading";
+};
+
 export const Games = {
   getLessonMenu: (lessonId: number) => {
     return axiosLiveInstance.get<LessonMenuResponseType>(
@@ -92,7 +112,7 @@ export const Games = {
     return axiosLiveInstance.get<LessonListItemType[]>(`lessons-list`);
   },
   getCorrespondenceTasks: (lessonId: number) => {
-    return axiosLiveInstance.get<CorrespondenceTaskType[]>(
+    return axiosLiveInstance.get<CorrespondenceResponseType>(
       `tasks/correspondence/${lessonId}`,
     );
   },
@@ -112,17 +132,8 @@ export const Games = {
       formData,
     );
   },
-  sendCorrespondenceResult: (result: number, lessonId: number) => {
-    return axiosLiveInstance.put("tasks/correspondence/result", {
-      result,
-      lessonId,
-    });
-  },
-  sendSentenceResult: (result: number, lessonId: number) => {
-    return axiosLiveInstance.put("tasks/sentence/result", { result, lessonId });
-  },
-  sendSpeakingResult: (result: number, lessonId: number) => {
-    return axiosLiveInstance.put("tasks/speaking/result", { result, lessonId });
+  sendGameResult: (data: SendResultsRequestType) => {
+    return axiosLiveInstance.put("tasks/sentence/result", data);
   },
   getPoem: (lessonId: number) => {
     return axiosLiveInstance.get<PoemPartType[]>(`tasks/poem/${lessonId}`);

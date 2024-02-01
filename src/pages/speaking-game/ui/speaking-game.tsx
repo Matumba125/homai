@@ -36,7 +36,6 @@ const SpeakingGame = () => {
 
   const [selectedTask, setSelectedTask] = useState<SpeakingTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
-  const [counter, setCounter] = useState<number>(0);
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
@@ -79,11 +78,25 @@ const SpeakingGame = () => {
         if (res.data.result === "OK") {
           playWinAudio();
           setCanGoForward(true);
-          if (isFirstTime) {
-            setCounter((prevState) => prevState + 1);
+          if (isFirstTime && lessonId) {
             setIsFirstTime(false);
+            await Games.sendGameResult({
+              result: true,
+              exerciseType: "reading",
+              lessonId: lessonId,
+              item_id: selectedTask.id,
+            });
           }
         } else {
+          if (isFirstTime && lessonId) {
+            setIsFirstTime(false);
+            await Games.sendGameResult({
+              result: true,
+              exerciseType: "reading",
+              lessonId: lessonId,
+              item_id: selectedTask.id,
+            });
+          }
           setIsFirstTime(false);
           playLoseAudio();
         }
@@ -117,20 +130,10 @@ const SpeakingGame = () => {
 
   const onRestartClick = () => {
     dispatch(restartSpeakingTest());
-    setCounter(0);
   };
 
   const onCompleteClick = async () => {
-    if (lessonId) {
-      try {
-        await Games.sendSpeakingResult(counter, lessonId);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setCounter(0);
-        navigate(-1);
-      }
-    }
+    navigate(-1);
   };
 
   return (

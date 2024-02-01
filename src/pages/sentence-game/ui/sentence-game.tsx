@@ -39,7 +39,6 @@ const SentenceGame = () => {
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
-  const [counter, setCounter] = useState<number>(0);
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const SentenceGame = () => {
     }
   }, [tasks]);
 
-  const onShuffledArrayItemClick = (e: string) => {
+  const onShuffledArrayItemClick = async (e: string) => {
     const tempShuffledArray = [...shuffledArray].filter((el) => el !== e);
     setShuffledArray(tempShuffledArray);
     const tempResultArray = [...resultArray];
@@ -64,11 +63,24 @@ const SentenceGame = () => {
       if (tempResultArray.join(" ") === selectedTask.sentence) {
         playWinAudio();
         setCanGoForward(true);
-        if (isFirstTime) {
+        if (isFirstTime && lessonId) {
           setIsFirstTime(false);
-          setCounter((prevState) => prevState + 1);
+          await Games.sendGameResult({
+            result: true,
+            exerciseType: "sentence",
+            lessonId: lessonId,
+            item_id: selectedTask.id,
+          });
         }
       } else {
+        if (isFirstTime && lessonId) {
+          await Games.sendGameResult({
+            result: true,
+            exerciseType: "sentence",
+            lessonId: lessonId,
+            item_id: selectedTask.id,
+          });
+        }
         setIsFirstTime(false);
         playLoseAudio();
       }
@@ -96,21 +108,11 @@ const SentenceGame = () => {
   };
 
   const onCompleteClick = async () => {
-    if (lessonId) {
-      try {
-        await Games.sendSentenceResult(counter, lessonId);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setCounter(0);
-        navigate(-1);
-      }
-    }
+    navigate(-1);
   };
 
   const onRestartClick = () => {
     dispatch(restartSentenceTest());
-    setCounter(0);
   };
 
   return (

@@ -6,6 +6,8 @@ import { AppStateType } from "../../../app/store/store";
 export type CorrespondenceInitialStateType = {
   tasks: CorrespondenceTaskType[];
   availableTasks: CorrespondenceTaskType[];
+  maxScore?: number;
+  currentScore?: number;
 };
 
 const initialState: CorrespondenceInitialStateType = {
@@ -23,8 +25,11 @@ const slice = createSlice({
     setAvailableTasks(state, action: PayloadAction<CorrespondenceTaskType[]>) {
       state.availableTasks = action.payload;
     },
-    restartCorrespondenceTest(state) {
-      state.availableTasks = state.tasks;
+    setMaxScore(state, action: PayloadAction<number | undefined>) {
+      state.maxScore = action.payload;
+    },
+    setCurrentScore(state, action: PayloadAction<number | undefined>) {
+      state.currentScore = action.payload;
     },
     removeAvailableCorrespondenceTasks(state, action: PayloadAction<number[]>) {
       const tempArr = [...state.availableTasks];
@@ -36,8 +41,7 @@ const slice = createSlice({
   },
 });
 
-export const { removeAvailableCorrespondenceTasks, restartCorrespondenceTest } =
-  slice.actions;
+export const { removeAvailableCorrespondenceTasks } = slice.actions;
 
 export const fetchCorrespondenceTasks = createAsyncThunk<any>(
   "correspondence/fetchTasks",
@@ -48,8 +52,10 @@ export const fetchCorrespondenceTasks = createAsyncThunk<any>(
         const res = await Games.getCorrespondenceTasks(
           state.lessonMenu.lesson.id,
         );
-        dispatch(slice.actions.setTasks(res.data));
-        dispatch(slice.actions.setAvailableTasks(res.data));
+        dispatch(slice.actions.setTasks(res.data.tasks));
+        dispatch(slice.actions.setAvailableTasks(res.data.tasks));
+        dispatch(slice.actions.setMaxScore(res.data.maxScore));
+        dispatch(slice.actions.setCurrentScore(res.data.currentScore));
       }
     } catch (e) {
       rejectWithValue(e);

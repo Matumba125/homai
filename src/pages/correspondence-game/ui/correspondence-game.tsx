@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  getAvailableCorrespondenceTasks,
+  getCorrespondenceCurrentScore,
+  getCorrespondenceMaxScore,
   getCorrespondenceTasks,
   getCurrentLessonId,
 } from "../../../app/store/selectors";
@@ -7,7 +10,6 @@ import { useSelector } from "react-redux";
 import {
   fetchCorrespondenceTasks,
   removeAvailableCorrespondenceTasks,
-  restartCorrespondenceTest,
 } from "../bll/correspondenceReducer";
 import { useAppDispatch } from "../../../app/store/store";
 import style from "./correspondence-game.module.scss";
@@ -27,6 +29,9 @@ const CorrespondenceGame = () => {
   useCheckStudentRole();
   const { t } = useTranslation(["common"]);
   const tasks = useSelector(getCorrespondenceTasks);
+  const availableTasks = useSelector(getAvailableCorrespondenceTasks);
+  const maxScore = useSelector(getCorrespondenceMaxScore);
+  const currentScore = useSelector(getCorrespondenceCurrentScore);
   const lessonId = useSelector(getCurrentLessonId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -37,25 +42,32 @@ const CorrespondenceGame = () => {
   const [randomItem, setRandomItem] = useState<CorrespondenceTaskType>();
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
-  const [selectedCorrectly, setSelectedCorrectly] = useState<boolean>(false);
-  const [counter, setCounter] = useState<number>(0);
+  const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const selectedElement = useRef<HTMLElement | null>(null);
+  const [currentScoreCounter, setCurrentScoreCounter] = useState<
+    number | undefined
+  >(currentScore);
 
   useEffect(() => {
     dispatch(fetchCorrespondenceTasks());
   }, []); //eslint-disable-line;
 
   useEffect(() => {
-    if (tasks.length > 0) {
-      const newTempArray = shuffleArray([...tasks]).slice(0, 4);
-      setRandomItem(
-        newTempArray[Math.floor(Math.random() * newTempArray.length)],
-      );
+    if (availableTasks.length > 0) {
+      const selectedTask =
+        availableTasks[Math.floor(Math.random() * availableTasks.length)];
+      setRandomItem(selectedTask);
+      const newTempArray = shuffleArray([
+        ...shuffleArray(
+          [...tasks].filter((f) => f.id !== selectedTask.id),
+        ).slice(0, 3),
+        selectedTask,
+      ]);
       setTaskBundle(newTempArray);
     }
   }, [tasks]);
 
-  const onImageSelect = (id: number) => {
+  const onImageSelect = async (id: number) => {
     selectedElement.current?.classList.remove(style.correctImg, style.wrongImg);
     if (randomItem && id === randomItem.id) {
       selectedElement.current = document.getElementById(id.toString());
@@ -64,9 +76,15 @@ const CorrespondenceGame = () => {
       }
       playWinAudio();
       setCanGoForward(true);
-      if (!selectedCorrectly) {
-        setCounter((prevCounter) => prevCounter + 1);
-        setSelectedCorrectly(true);
+      if (isFirstTime && lessonId) {
+        setIsFirstTime(false);
+        setCurrentScoreCounter((prevState) => (prevState ? prevState + 1 : 1));
+        await Games.sendGameResult({
+          result: true,
+          exerciseType: "correspondence",
+          lessonId: lessonId,
+          item_id: randomItem.id,
+        });
       }
     } else {
       selectedElement.current = document.getElementById(id.toString());
@@ -75,33 +93,33 @@ const CorrespondenceGame = () => {
       }
       playLoseAudio();
       setCanGoForward(false);
-      setSelectedCorrectly(false);
+      if (isFirstTime && lessonId && randomItem) {
+        await Games.sendGameResult({
+          result: false,
+          exerciseType: "correspondence",
+          lessonId: lessonId,
+          item_id: randomItem.id,
+        });
+      }
+      setIsFirstTime(false);
     }
   };
 
   const onGoForwardClick = () => {
     setTaskBundle([]);
-    dispatch(removeAvailableCorrespondenceTasks(taskBundle.map((m) => m.id)));
+    if (randomItem) {
+      dispatch(removeAvailableCorrespondenceTasks([randomItem.id]));
+    }
     setCanGoForward(false);
-    setSelectedCorrectly(false); // Reset selectedCorrectly state
+    setIsFirstTime(true);
   };
 
   const onCompleteClick = async () => {
-    if (lessonId) {
-      try {
-        await Games.sendCorrespondenceResult(counter, lessonId);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setCounter(0);
-        navigate(-1);
-      }
-    }
+    navigate(-1);
   };
 
   const onRestartClick = () => {
-    dispatch(restartCorrespondenceTest());
-    setCounter(0);
+    dispatch(fetchCorrespondenceTasks());
   };
 
   const onSpeakerClick = () => {

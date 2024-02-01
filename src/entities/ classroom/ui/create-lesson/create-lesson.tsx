@@ -56,17 +56,19 @@ const CreateLesson = () => {
   // New local state and handlers for inputs
   const [checkmark1, setCheckmark1] = useState<boolean>(false);
   const [checkmark2, setCheckmark2] = useState<boolean>(false);
-  const [checkmark3, setCheckmark3] = useState<boolean>(false);
+  /*  const [checkmark3, setCheckmark3] = useState<boolean>(false);*/
   const [wordsNumber, setWordsNumber] = useState<number>(10);
   const [sentencesNumber, setSentencesNumber] = useState<number>(10);
-  const [listeningNumber, setListeningNumber] = useState<number>(10);
+  /*  const [listeningNumber, setListeningNumber] = useState<number>(10);*/
   const [enabledTasks, setEnabledTasks] = useState<EnabledTask[]>([]);
 
   const onWordsGenerateClick = () => {
     dispatch(getCreateLessonWords({ existingWords: wordsValue }));
+    setCheckmark1(true);
   };
   const onSentencesGenerateClick = () => {
     dispatch(getCreateLessonSentences());
+    setCheckmark2(true);
   };
 
   const onThemeValueChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +85,7 @@ const CreateLesson = () => {
     if (wordsValue) {
       dispatch(setCreateLessonWords(wordsValue));
       setCheckmark1(true);
-      setCheckmark3(true);
+      /*setCheckmark3(true);*/
 
       // Update enabledTasks array for correspondence and speaking
       setEnabledTasks((prevTasks) => {
@@ -93,7 +95,7 @@ const CreateLesson = () => {
         return [
           ...updatedTasks,
           { type: "correspondence", maxScore: wordsNumber },
-          { type: "speaking", maxScore: listeningNumber },
+          //{ type: "speaking", maxScore: listeningNumber },
         ];
       });
     }
@@ -193,7 +195,7 @@ const CreateLesson = () => {
     }
   };
 
-  const handleCheckmark3Change = (event: ChangeEvent<HTMLInputElement>) => {
+  /*  const handleCheckmark3Change = (event: ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
     setCheckmark3(isChecked);
 
@@ -207,9 +209,9 @@ const CreateLesson = () => {
         prevTasks.filter((task) => task.type !== "speaking"),
       );
     }
-  };
+  };*/
 
-  const handleListeningNumberChange = (
+  /*  const handleListeningNumberChange = (
     event: ChangeEvent<HTMLInputElement>,
   ) => {
     const newListeningNumber = Number(event.target.value);
@@ -224,7 +226,7 @@ const CreateLesson = () => {
         ),
       );
     }
-  };
+  };*/
 
   useEffect(() => {
     if (lessonId) {
@@ -251,7 +253,6 @@ const CreateLesson = () => {
   }, [reading, poem, words, sentences]);
 
   const onCreateLessonClick = () => {
-    debugger;
     if (currentClass) {
       dispatch(
         createLessonThunk({
@@ -344,14 +345,14 @@ const CreateLesson = () => {
           isDisabled={sentencesValue?.length === 0}
         />
 
-        <CheckmarkRow
+        {/*        <CheckmarkRow
           checkmarkValue={checkmark3}
           handleCheckmarkChange={handleCheckmark3Change}
           inputValue={listeningNumber}
           handleInputValueChange={handleListeningNumberChange}
           label={t("speaking-game")}
           isDisabled={wordsValue?.length === 0}
-        />
+        />*/}
       </div>
 
       <div className={style.buttonWrapper}>
