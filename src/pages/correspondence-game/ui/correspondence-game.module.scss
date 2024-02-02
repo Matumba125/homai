@@ -71,6 +71,23 @@
   }
 }
 
+@media only screen and (max-width: 1200px) {
+  .container {
+    .gameContainer {
+      gap: 20px
+    }
+    .imgContainer {
+      div {
+        width: 200px !important;
+        height: 200px !important;
+      }
+      img {
+        width: 190px !important;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .container {
     width: 95%;
@@ -86,3 +103,4 @@
     }
   }
 }
+
