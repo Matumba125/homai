@@ -6,14 +6,16 @@ export type GamePreviewProps = {
   onClick: () => void;
   title: string;
   backgroundColor: string;
-  score: string;
+  maxScore?: number;
+  currentScore?: number;
 };
 
 const GamePreview: FC<GamePreviewProps> = ({
   onClick,
   title,
   backgroundColor,
-  score,
+  maxScore,
+  currentScore,
 }) => {
   return (
     <div
@@ -22,7 +24,11 @@ const GamePreview: FC<GamePreviewProps> = ({
       style={{ backgroundColor: backgroundColor }}
     >
       <h3 className={style.navImgTitle}>{title}</h3>
-      <h3 className={style.navImgTitle}>{score}</h3>
+      {maxScore && (
+        <h3 className={style.navImgTitle}>{`${
+          currentScore ? currentScore : 0
+        }/${maxScore}`}</h3>
+      )}
       <img alt={"navImg"} src={navImg} className={style.navImg} />
     </div>
   );

@@ -53,7 +53,8 @@ const LessonMenu = () => {
                 onClick={() => onMenuItemClick(task.name)}
                 title={t(task.name.toLowerCase())}
                 backgroundColor={index % 2 === 0 ? "#4137EE" : "#FF6668"}
-                score={`${task.currentScore}/${task.maxScore}`}
+                maxScore={task.maxScore}
+                currentScore={task.currentScore}
               />
             );
           })}

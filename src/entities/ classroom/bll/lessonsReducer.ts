@@ -22,7 +22,6 @@ const initialState: TeacherRoomInitialStateType = {
     sentences: "",
     poem: "",
     reading: "",
-    date: new Date(),
     enabledTasks: [],
   },
   isLoading: false,
@@ -62,6 +61,16 @@ const slice = createSlice({
     setLessons(state, action: PayloadAction<LessonType[]>) {
       state.lessons = action.payload;
     },
+    setEmptyCreateLesson(state) {
+      state.createLesson = {
+        theme: "",
+        words: "",
+        sentences: "",
+        poem: "",
+        reading: "",
+        enabledTasks: [],
+      };
+    },
     setLesson(state, action: PayloadAction<LessonType>) {
       if (state.lessons) {
         const index = state.lessons.findIndex(
@@ -88,6 +97,7 @@ export const {
   setCreateLessonReading,
   setCreateLessonPoem,
   setCreateLessonDate,
+  setEmptyCreateLesson,
 } = slice.actions;
 
 export const getCreateLessonWords = createAsyncThunk<
@@ -162,7 +172,6 @@ export const createLessonThunk = createAsyncThunk<
           sentences: "",
           poem: "",
           reading: "",
-          date: new Date(),
           enabledTasks: [],
         }),
       );

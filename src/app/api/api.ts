@@ -258,7 +258,7 @@ export type CreateLessonStateType = {
   sentences: string;
   poem?: string;
   reading?: string;
-  date: Date;
+  date?: Date;
   enabledTasks: EnabledTask[];
 };
 

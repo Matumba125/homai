@@ -19,6 +19,7 @@ import {
   setCreateLessonSentences,
   setCreateLessonTheme,
   setCreateLessonWords,
+  setEmptyCreateLesson,
 } from "../../bll/lessonsReducer";
 import style from "./create-lesson.module.scss";
 import { useTranslation } from "react-i18next";
@@ -64,9 +65,7 @@ const CreateLesson = () => {
   const [currentEnabledTasks, setCurrentEnabledTasks] = useState<EnabledTask[]>(
     [],
   );
-  const [selectedDate, setSelectedDate] = useState<string>(
-    format(new Date(), "yyyy-MM-dd"),
-  );
+  const [selectedDate, setSelectedDate] = useState<string>();
 
   const onWordsGenerateClick = () => {
     dispatch(getCreateLessonWords({ existingWords: wordsValue }));
@@ -238,6 +237,9 @@ const CreateLesson = () => {
     if (lessonId) {
       dispatch(fetchLessonByIdThunk({ lessonId: +lessonId }));
     }
+    return () => {
+      dispatch(setEmptyCreateLesson());
+    };
   }, []);
 
   useEffect(() => {
@@ -257,7 +259,9 @@ const CreateLesson = () => {
       setSentencesValue(sentences);
     }
     setCurrentEnabledTasks(enabledTasks);
-    setSelectedDate(format(date, "yyyy-MM-dd"));
+    if (date) {
+      setSelectedDate(format(new Date(date), "yyyy-MM-dd"));
+    }
   }, [reading, poem, words, sentences, enabledTasks, date]);
 
   const onCreateLessonClick = () => {
