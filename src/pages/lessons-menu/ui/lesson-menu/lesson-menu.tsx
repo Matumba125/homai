@@ -20,7 +20,6 @@ type LessonMenuParams = {
 
 const LessonMenu = () => {
   useCheckStudentRole();
-  const { t } = useTranslation(["landing"]);
   const navigate = useNavigate();
   const error = useSelector(getLessonMenuError);
   const lessonMenu = useSelector(getLessonMenu);
@@ -51,7 +50,7 @@ const LessonMenu = () => {
             return (
               <GamePreview
                 onClick={() => onMenuItemClick(task.name)}
-                title={t(task.name.toLowerCase())}
+                title={task.name}
                 backgroundColor={index % 2 === 0 ? "#4137EE" : "#FF6668"}
                 maxScore={task.maxScore}
                 currentScore={task.currentScore}

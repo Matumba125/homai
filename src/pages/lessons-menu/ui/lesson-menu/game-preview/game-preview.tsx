@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import style from "../../lesson-menu.module.scss";
 import navImg from "../../../../../shared/assets/img/navImg.svg";
+import { useTranslation } from "react-i18next";
 
 export type GamePreviewProps = {
   onClick: () => void;
@@ -17,13 +18,19 @@ const GamePreview: FC<GamePreviewProps> = ({
   maxScore,
   currentScore,
 }) => {
+  const { t } = useTranslation(["landing"]);
+
   return (
     <div
       onClick={onClick}
       className={style.navImgWrapper}
-      style={{ backgroundColor: backgroundColor }}
+      style={{
+        backgroundColor: backgroundColor,
+        justifyContent:
+          title === "Poem" || title === "Read" ? "center" : "flex-start",
+      }}
     >
-      <h3 className={style.navImgTitle}>{title}</h3>
+      <h3 className={style.navImgTitle}>{t(title.toLowerCase())}</h3>
       {maxScore && (
         <h3 className={style.navImgTitle}>{`${
           currentScore ? currentScore : 0
