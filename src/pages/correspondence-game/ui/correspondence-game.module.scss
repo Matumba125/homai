@@ -71,18 +71,18 @@
   }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-height: 800px) {
   .container {
     .gameContainer {
       gap: 20px
     }
     .imgContainer {
       div {
-        width: 200px !important;
-        height: 200px !important;
+        width: 180px !important;
+        height: 180px !important;
       }
       img {
-        width: 190px !important;
+        width: 170px !important;
       }
     }
   }
