@@ -258,7 +258,9 @@ const CreateLesson = () => {
     if (sentences.length > 0) {
       setSentencesValue(sentences);
     }
-    setCurrentEnabledTasks(enabledTasks);
+    if (enabledTasks && enabledTasks.length > 0) {
+      setCurrentEnabledTasks(enabledTasks);
+    }
     if (date) {
       setSelectedDate(format(new Date(date), "yyyy-MM-dd"));
     }
