@@ -67,7 +67,7 @@ const CorrespondenceGame = () => {
       setTaskBundle(newTempArray);
       taskSoundRef.current = new Audio(selectedTask.audioUrl);
     }
-  }, [tasks]);
+  }, [availableTasks]);
 
   const onImageSelect = async (id: number) => {
     selectedElement.current?.classList.remove(style.correctImg, style.wrongImg);
