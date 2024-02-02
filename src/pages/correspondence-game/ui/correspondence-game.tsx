@@ -42,6 +42,7 @@ const CorrespondenceGame = () => {
   const [randomItem, setRandomItem] = useState<CorrespondenceTaskType>();
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
+  const taskSoundRef = useRef<HTMLAudioElement>();
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const selectedElement = useRef<HTMLElement | null>(null);
   const [currentScoreCounter, setCurrentScoreCounter] = useState<number>(
@@ -64,6 +65,7 @@ const CorrespondenceGame = () => {
         selectedTask,
       ]);
       setTaskBundle(newTempArray);
+      taskSoundRef.current = new Audio(selectedTask.audioUrl);
     }
   }, [tasks]);
 
@@ -123,7 +125,14 @@ const CorrespondenceGame = () => {
   };
 
   const onSpeakerClick = () => {
-    playWinAudio();
+    if (taskSoundRef.current && taskSoundRef.current.currentTime > 0) {
+      taskSoundRef.current.pause();
+      taskSoundRef.current.currentTime = 0;
+      return;
+    }
+    if (randomItem && taskSoundRef.current) {
+      taskSoundRef.current.play();
+    }
   };
 
   return (

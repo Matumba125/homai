@@ -38,6 +38,9 @@ const ReadingText = () => {
   ) => {
     event.stopPropagation();
     const audio = audioRef.current;
+    if (!audio.src && text) {
+      audio.src = text.audio;
+    }
     setCurrentAudioMs(start);
     audio.currentTime = start / 1000;
     audio.play();

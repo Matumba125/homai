@@ -14,7 +14,6 @@ import { shuffleArray } from "../../../shared/utilities/shuffleArray";
 import {
   fetchSentenceTasks,
   removeAvailableSentenceTasks,
-  restartSentenceTest,
 } from "../bll/sentenceReducer";
 import style from "./sentence-game.module.scss";
 import { Button } from "@mui/material";
@@ -26,7 +25,8 @@ import { useNavigate } from "react-router";
 const SentenceGame = () => {
   useCheckStudentRole();
   const { t } = useTranslation(["common"]);
-  const tasks = useSelector(getSentenceTasks);
+  const { maxScore, currentScore, availableTasks } =
+    useSelector(getSentenceTasks);
   const isLoading = useSelector(getSentenceTasksLoading);
   const lessonId = useSelector(getCurrentLessonId);
   const dispatch = useAppDispatch();
@@ -46,12 +46,12 @@ const SentenceGame = () => {
   }, []); //eslint-disable-line;
 
   useEffect(() => {
-    if (tasks.length > 0) {
-      const newTask = shuffleArray([...tasks])[0];
+    if (availableTasks.length > 0) {
+      const newTask = shuffleArray([...availableTasks])[0];
       setSelectedTask(newTask);
       setShuffledArray(shuffleArray(newTask.sentence.split(" ")));
     }
-  }, [tasks]);
+  }, [availableTasks]);
 
   const onShuffledArrayItemClick = async (e: string) => {
     const tempShuffledArray = [...shuffledArray].filter((el) => el !== e);
@@ -112,13 +112,14 @@ const SentenceGame = () => {
   };
 
   const onRestartClick = () => {
-    dispatch(restartSentenceTest());
+    dispatch(fetchSentenceTasks());
   };
 
   return (
     <div className={style.container}>
-      {tasks.length > 0 && (
+      {availableTasks.length > 0 && (
         <div className={style.gameContainer}>
+          <h2>{`${currentScore}/${maxScore}`}</h2>
           <div className={style.resultContainer}>
             {resultArray.map((resItem) => (
               <div
@@ -150,7 +151,7 @@ const SentenceGame = () => {
           </div>
         </div>
       )}
-      {tasks.length === 0 && !isLoading && (
+      {availableTasks.length === 0 && !isLoading && (
         <div className={style.gameContainer}>
           <div className={style.buttonsContainer}>
             <Button onClick={onCompleteClick} variant={"contained"}>

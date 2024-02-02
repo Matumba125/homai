@@ -1,11 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Games, SentenceTaskType } from "../../../app/api/api";
+import {
+  Games,
+  SentenceResponseType,
+  SentenceTaskType,
+} from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 
 export type SentenceInitialStateType = {
   tasks: SentenceTaskType[];
   availableTasks: SentenceTaskType[];
   isLoading: boolean;
+  maxScore?: number;
+  currentScore?: number;
 };
 
 const initialState: SentenceInitialStateType = {
@@ -24,11 +30,14 @@ const slice = createSlice({
     setAvailableTasks(state, action: PayloadAction<SentenceTaskType[]>) {
       state.availableTasks = action.payload;
     },
-    restartSentenceTest(state) {
-      state.availableTasks = state.tasks;
-    },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
+    },
+    setSentenceData(state, action: PayloadAction<SentenceResponseType>) {
+      state.tasks = action.payload.tasks;
+      state.availableTasks = action.payload.tasks;
+      state.maxScore = action.payload.maxScore;
+      state.currentScore = action.payload.currentScore;
     },
     removeAvailableSentenceTasks(state, action: PayloadAction<number>) {
       const tempArr = [...state.availableTasks];
@@ -37,8 +46,7 @@ const slice = createSlice({
   },
 });
 
-export const { removeAvailableSentenceTasks, restartSentenceTest } =
-  slice.actions;
+export const { removeAvailableSentenceTasks } = slice.actions;
 
 export const fetchSentenceTasks = createAsyncThunk<any>(
   "sentence/fetchTasks",
@@ -48,8 +56,7 @@ export const fetchSentenceTasks = createAsyncThunk<any>(
       if (state.lessonMenu.lesson.id) {
         dispatch(slice.actions.setLoading(true));
         const res = await Games.getSentenceTasks(state.lessonMenu.lesson.id);
-        dispatch(slice.actions.setTasks(res.data));
-        dispatch(slice.actions.setAvailableTasks(res.data));
+        dispatch(slice.actions.setSentenceData(res.data));
       }
     } catch (e) {
       rejectWithValue(e);

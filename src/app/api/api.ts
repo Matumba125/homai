@@ -66,9 +66,21 @@ export type CorrespondenceTaskType = {
   audioUrl: string;
 };
 
+export type SentenceResponseType = {
+  tasks: SentenceTaskType[];
+  maxScore: number;
+  currentScore: number;
+};
+
 export type SentenceTaskType = {
   id: number;
   sentence: string;
+};
+
+export type SpeakingTaskResponse = {
+  tasks: SpeakingTaskType[];
+  maxScore: number;
+  currentScore: number;
 };
 
 export type SpeakingTaskType = {
@@ -123,12 +135,12 @@ export const Games = {
     );
   },
   getSentenceTasks: (lessonId: number) => {
-    return axiosLiveInstance.get<SentenceTaskType[]>(
+    return axiosLiveInstance.get<SentenceResponseType>(
       `tasks/sentence/${lessonId}`,
     );
   },
   getSpeakingTasks: (lessonId: number) => {
-    return axiosLiveInstance.get<SpeakingTaskType[]>(
+    return axiosLiveInstance.get<SpeakingTaskResponse>(
       `tasks/speaking/${lessonId}`,
     );
   },

@@ -10,10 +10,10 @@ import {
   LessonType,
   PoemPartType,
   ReadingTextType,
-  SentenceTaskType,
-  SpeakingTaskType,
   UserDataType,
 } from "app/api/api";
+import { SentenceInitialStateType } from "../../pages/sentence-game/bll/sentenceReducer";
+import { SpeakingInitialStateType } from "../../pages/speaking-game/bll/speakingReducer";
 
 export const getCorrespondenceTasks = (
   state: AppStateType,
@@ -39,8 +39,10 @@ export const getAvailableCorrespondenceTasks = (
   return state.correspondence.availableTasks;
 };
 
-export const getSentenceTasks = (state: AppStateType): SentenceTaskType[] => {
-  return state.sentence.availableTasks;
+export const getSentenceTasks = (
+  state: AppStateType,
+): SentenceInitialStateType => {
+  return state.sentence;
 };
 
 export const getSentenceTasksLoading = (state: AppStateType): boolean => {
@@ -67,8 +69,10 @@ export const getLessonMenuError = (state: AppStateType): string | null => {
   return state.lessonMenu.error;
 };
 
-export const getSpeakingTasks = (state: AppStateType): SpeakingTaskType[] => {
-  return state.speaking.availableTasks;
+export const getSpeakingTasks = (
+  state: AppStateType,
+): SpeakingInitialStateType => {
+  return state.speaking;
 };
 
 export const getSpeakingTasksLoading = (state: AppStateType): boolean => {

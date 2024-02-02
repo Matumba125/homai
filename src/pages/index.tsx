@@ -43,6 +43,7 @@ export const Routing = () => {
     return (
       <Routes>
         <Route path={"/"} element={<Root />}>
+          <Route path="*" element={<Navigate to="/" />} />
           <Route index element={<Landing />} />
           <Route path={`${path.lesson}/:id`} element={<LessonMenu />} />
         </Route>

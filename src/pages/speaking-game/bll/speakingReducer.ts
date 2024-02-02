@@ -1,14 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Games, SpeakingTaskType } from "../../../app/api/api";
+import {
+  Games,
+  SpeakingTaskResponse,
+  SpeakingTaskType,
+} from "../../../app/api/api";
 import { AppStateType } from "../../../app/store/store";
 
-export type SentenceInitialStateType = {
+export type SpeakingInitialStateType = {
   tasks: SpeakingTaskType[];
   availableTasks: SpeakingTaskType[];
   isLoading: boolean;
+  maxScore?: number;
+  currentScore?: number;
 };
 
-const initialState: SentenceInitialStateType = {
+const initialState: SpeakingInitialStateType = {
   tasks: [],
   availableTasks: [],
   isLoading: true,
@@ -24,11 +30,14 @@ const slice = createSlice({
     setAvailableTasks(state, action: PayloadAction<SpeakingTaskType[]>) {
       state.availableTasks = action.payload;
     },
-    restartSpeakingTest(state) {
-      state.availableTasks = state.tasks;
-    },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
+    },
+    setSpeakingData(state, action: PayloadAction<SpeakingTaskResponse>) {
+      state.tasks = action.payload.tasks;
+      state.availableTasks = action.payload.tasks;
+      state.maxScore = action.payload.maxScore;
+      state.currentScore = action.payload.currentScore;
     },
     removeAvailableSpeakingTasks(state, action: PayloadAction<number>) {
       const tempArr = [...state.availableTasks];
@@ -37,8 +46,7 @@ const slice = createSlice({
   },
 });
 
-export const { removeAvailableSpeakingTasks, restartSpeakingTest } =
-  slice.actions;
+export const { removeAvailableSpeakingTasks } = slice.actions;
 
 export const fetchSpeakingTasks = createAsyncThunk<any>(
   "sentence/fetchTasks",
@@ -48,8 +56,7 @@ export const fetchSpeakingTasks = createAsyncThunk<any>(
       if (state.lessonMenu.lesson.id) {
         dispatch(slice.actions.setLoading(true));
         const res = await Games.getSpeakingTasks(state.lessonMenu.lesson.id);
-        dispatch(slice.actions.setTasks(res.data));
-        dispatch(slice.actions.setAvailableTasks(res.data));
+        dispatch(slice.actions.setSpeakingData(res.data));
       }
     } catch (e) {
       rejectWithValue(e);

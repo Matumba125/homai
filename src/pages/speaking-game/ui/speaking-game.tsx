@@ -15,7 +15,6 @@ import { shuffleArray } from "../../../shared/utilities/shuffleArray";
 import {
   fetchSpeakingTasks,
   removeAvailableSpeakingTasks,
-  restartSpeakingTest,
 } from "../bll/speakingReducer";
 import style from "./speaking-game.module.scss";
 import { Button } from "@mui/material";
@@ -27,7 +26,8 @@ const SpeakingGame = () => {
   useCheckStudentRole();
   const [recording, setRecording] = useState<boolean>(false);
   const { t } = useTranslation(["common"]);
-  const tasks = useSelector(getSpeakingTasks);
+  const { maxScore, currentScore, availableTasks } =
+    useSelector(getSpeakingTasks);
   const isLoading = useSelector(getSpeakingTasksLoading);
   const lessonId = useSelector(getCurrentLessonId);
   const dispatch = useAppDispatch();
@@ -45,11 +45,11 @@ const SpeakingGame = () => {
   }, []); //eslint-disable-line;
 
   useEffect(() => {
-    if (tasks.length > 0) {
-      const newTask = shuffleArray([...tasks])[0];
+    if (availableTasks.length > 0) {
+      const newTask = shuffleArray([...availableTasks])[0];
       setSelectedTask(newTask);
     }
-  }, [tasks]);
+  }, [availableTasks]);
 
   const mediaRecorder = useRef<MediaRecorder>();
   let chunks: any[] = [];
@@ -129,7 +129,7 @@ const SpeakingGame = () => {
   };
 
   const onRestartClick = () => {
-    dispatch(restartSpeakingTest());
+    dispatch(fetchSpeakingTasks());
   };
 
   const onCompleteClick = async () => {
@@ -138,8 +138,9 @@ const SpeakingGame = () => {
 
   return (
     <div className={style.container}>
-      {tasks.length > 0 && (
+      {availableTasks.length > 0 && (
         <div className={style.gameContainer}>
+          <h2>{`${currentScore}/${maxScore}`}</h2>
           <div className={style.gameBody}>
             <h2>{selectedTask && selectedTask.text}</h2>
             <Button
@@ -161,7 +162,7 @@ const SpeakingGame = () => {
           </div>
         </div>
       )}
-      {tasks.length === 0 && !isLoading && (
+      {availableTasks.length === 0 && !isLoading && (
         <div className={style.gameContainer}>
           <div className={style.buttonsContainer}>
             <Button onClick={onCompleteClick} variant={"contained"}>

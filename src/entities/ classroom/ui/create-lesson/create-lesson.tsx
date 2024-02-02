@@ -70,10 +70,18 @@ const CreateLesson = () => {
   const onWordsGenerateClick = () => {
     dispatch(getCreateLessonWords({ existingWords: wordsValue }));
     setCheckmark1(true);
+    setCurrentEnabledTasks((prevTasks) => [
+      ...prevTasks.filter((task) => task.type !== "correspondence"),
+      { type: "correspondence", maxScore: wordsNumber },
+    ]);
   };
   const onSentencesGenerateClick = () => {
     dispatch(getCreateLessonSentences());
     setCheckmark2(true);
+    setCurrentEnabledTasks((prevTasks) => [
+      ...prevTasks.filter((task) => task.type !== "sentence"),
+      { type: "sentence", maxScore: wordsNumber },
+    ]);
   };
 
   const onThemeValueChange = (event: ChangeEvent<HTMLInputElement>) => {
