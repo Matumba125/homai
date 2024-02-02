@@ -74,15 +74,15 @@
 @media only screen and (max-height: 800px) {
   .container {
     .gameContainer {
-      gap: 20px
+      gap: 15px
     }
     .imgContainer {
       div {
-        width: 180px !important;
-        height: 180px !important;
+        width: 150px !important;
+        height: 150px !important;
       }
       img {
-        width: 170px !important;
+        width: 140px !important;
       }
     }
   }
