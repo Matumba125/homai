@@ -12,7 +12,6 @@
     "strict": true,
     "types": ["react/next", "react-dom/next", "node"],
     "skipLibCheck": true,
-    "files": ["globals.d.ts"]
   },
-
+  "files": ["globals.d.ts"]
 }
