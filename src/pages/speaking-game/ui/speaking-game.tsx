@@ -37,6 +37,7 @@ const SpeakingGame = () => {
   const [selectedTask, setSelectedTask] = useState<SpeakingTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
+  const [currentScoreCounter, setCurrentScoreCounter] = useState<number>(0);
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
 
@@ -50,6 +51,12 @@ const SpeakingGame = () => {
       setSelectedTask(newTask);
     }
   }, [availableTasks]);
+
+  useEffect(() => {
+    if (currentScore) {
+      setCurrentScoreCounter(currentScore);
+    }
+  }, [currentScore]);
 
   const mediaRecorder = useRef<MediaRecorder>();
   let chunks: any[] = [];
@@ -80,6 +87,7 @@ const SpeakingGame = () => {
           setCanGoForward(true);
           if (isFirstTime && lessonId) {
             setIsFirstTime(false);
+            setCurrentScoreCounter((prevState) => prevState + 1);
             await Games.sendGameResult({
               result: true,
               exerciseType: "reading",
@@ -140,7 +148,7 @@ const SpeakingGame = () => {
     <div className={style.container}>
       {availableTasks.length > 0 && (
         <div className={style.gameContainer}>
-          <h2>{`${currentScore}/${maxScore}`}</h2>
+          <h2>{`${currentScoreCounter}/${maxScore}`}</h2>
           <div className={style.gameBody}>
             <h2>{selectedTask && selectedTask.text}</h2>
             <Button

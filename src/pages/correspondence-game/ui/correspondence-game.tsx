@@ -45,9 +45,7 @@ const CorrespondenceGame = () => {
   const taskSoundRef = useRef<HTMLAudioElement>();
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const selectedElement = useRef<HTMLElement | null>(null);
-  const [currentScoreCounter, setCurrentScoreCounter] = useState<number>(
-    currentScore || 0,
-  );
+  const [currentScoreCounter, setCurrentScoreCounter] = useState<number>(0);
 
   useEffect(() => {
     dispatch(fetchCorrespondenceTasks());
@@ -68,6 +66,12 @@ const CorrespondenceGame = () => {
       taskSoundRef.current = new Audio(selectedTask.audioUrl);
     }
   }, [availableTasks]);
+
+  useEffect(() => {
+    if (currentScore) {
+      setCurrentScoreCounter(currentScore);
+    }
+  }, [currentScore]);
 
   const onImageSelect = async (id: number) => {
     selectedElement.current?.classList.remove(style.correctImg, style.wrongImg);

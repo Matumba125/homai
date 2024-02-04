@@ -11,7 +11,7 @@ const Profile = () => {
     <div className={style.profileWrapper}>
       <div className={style.profileInfo}>
         <div className={style.userInfoWrapper}>
-          <h2>{user.username}</h2>
+          <h2>{user?.username}</h2>
         </div>
         <div>
           <Avatar size={"m"} onClick={() => {}} user={user} />

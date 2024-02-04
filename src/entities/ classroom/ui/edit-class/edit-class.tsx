@@ -7,7 +7,6 @@ import {
   changeStudentNameThunk,
   deleteStudentThunk,
   fetchClass,
-  StudentType,
   updateClassNameThunk,
 } from "../../bll/ classroomReducer";
 import { getClass } from "../../../../app/store/selectors";
@@ -18,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import ReactDOM from "react-dom";
 import { useCheckTeacherRole } from "../../../../shared/utilities/checkUserRole";
+import { StudentType } from "app/api/api";
 
 type EditClassParams = {
   id: string;

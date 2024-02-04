@@ -37,6 +37,7 @@ const SentenceGame = () => {
   const [resultArray, setResultArray] = useState<string[]>([]);
   const [selectedTask, setSelectedTask] = useState<SentenceTaskType>();
   const [canGoForward, setCanGoForward] = useState<boolean>(false);
+  const [currentScoreCounter, setCurrentScoreCounter] = useState<number>(0);
   const [playWinAudio] = useSound(winSound);
   const [playLoseAudio] = useSound(loseSound);
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
@@ -53,6 +54,12 @@ const SentenceGame = () => {
     }
   }, [availableTasks]);
 
+  useEffect(() => {
+    if (currentScore) {
+      setCurrentScoreCounter(currentScore);
+    }
+  }, [currentScore]);
+
   const onShuffledArrayItemClick = async (e: string) => {
     const tempShuffledArray = [...shuffledArray].filter((el) => el !== e);
     setShuffledArray(tempShuffledArray);
@@ -65,6 +72,7 @@ const SentenceGame = () => {
         setCanGoForward(true);
         if (isFirstTime && lessonId) {
           setIsFirstTime(false);
+          setCurrentScoreCounter((prevState) => prevState + 1);
           await Games.sendGameResult({
             result: true,
             exerciseType: "sentence",
@@ -119,7 +127,7 @@ const SentenceGame = () => {
     <div className={style.container}>
       {availableTasks.length > 0 && (
         <div className={style.gameContainer}>
-          <h2>{`${currentScore}/${maxScore}`}</h2>
+          <h2>{`${currentScoreCounter}/${maxScore}`}</h2>
           <div className={style.resultContainer}>
             {resultArray.map((resItem) => (
               <div

@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from "react";
 import { Avatar as AvatarMui } from "@mui/material";
-import { UserDataType } from "../../entities/user/bll/userReducer";
+import { UserDataType } from "app/api/api";
 
 type AvatarSize = "xs" | "s" | "m" | "l" | "xl";
 

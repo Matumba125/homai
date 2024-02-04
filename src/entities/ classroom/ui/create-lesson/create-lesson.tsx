@@ -266,8 +266,28 @@ const CreateLesson = () => {
     if (sentences.length > 0) {
       setSentencesValue(sentences);
     }
-    if (enabledTasks && enabledTasks.length > 0) {
+    if (enabledTasks?.length) {
       setCurrentEnabledTasks(enabledTasks);
+
+      const correspondenceTask = enabledTasks.find(
+        (f) => f.type === "correspondence",
+      );
+      if (correspondenceTask) {
+        setCheckmark1(true);
+        setWordsNumber(correspondenceTask.maxScore || 10);
+      }
+
+      const sentenceTask = enabledTasks.find((f) => f.type === "sentence");
+      if (sentenceTask) {
+        setCheckmark2(true);
+        setSentencesNumber(sentenceTask.maxScore || 10);
+      }
+
+      /*      const speakingTask = enabledTasks.find((f) => f.type === "speaking");
+      if (speakingTask) {
+        setCheckmark3(true);
+        setListeningNumber(speakingTask.maxScore || 10);
+      }*/
     }
     if (date) {
       setSelectedDate(format(new Date(date), "yyyy-MM-dd"));

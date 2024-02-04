@@ -6,7 +6,7 @@ type SpeakingAnswerResponseType = {
 
 const axiosLiveInstance = axios.create({
   withCredentials: true,
-  baseURL: "https://eng.aiteacher.ru/",
+  baseURL: "https://api.bashtel.online/",
 });
 
 export type LessonMenuResponseType = {
