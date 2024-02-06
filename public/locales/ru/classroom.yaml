@@ -2,6 +2,7 @@ are-you-sure-you-want-to-delete: Вы уверены, что хотите уда
 are-you-sure-you-want-to-delete-lesson: Вы уверены, что хотите удалить урок
 class-list: Список классов
 add-class: Добавить
+add: Добавить
 class: Класс
 students-list: Список учеников
 get-all-passwords: Получить все пароли
@@ -35,3 +36,5 @@ wrong-words: Для этих слов у нас нет картинок
 date: Дата
 save: Сохранить
 available: Доступен
+link-copied: Ссылка на урок скопирована
+add-student: Добавить ученика

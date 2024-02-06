@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../../app/store/store";
 import {
+  addStudentThunk,
   changeStudentNameThunk,
   deleteStudentThunk,
   fetchClass,
@@ -42,6 +43,9 @@ const EditClass = () => {
   const [modalStudent, setModalStudent] = useState<StudentType>();
   const [editingStudentId, setEditingStudentId] = useState<number>();
   const [studentName, setStudentName] = useState<string>("");
+  const [newStudentName, setNewStudentName] = useState<string>("");
+  const [addStudentModalOpen, setAddStudentModalOpen] =
+    useState<boolean>(false);
   const [editingClassName, setEditingClassName] = useState<string | undefined>(
     undefined,
   );
@@ -165,6 +169,23 @@ const EditClass = () => {
     setDeleteModalOpen(false);
   };
 
+  const onAddStudentClick = () => {
+    setAddStudentModalOpen(true);
+  };
+
+  const handleCloseAddStudentModal = () => {
+    setAddStudentModalOpen(false);
+  };
+
+  const handleAddStudent = async () => {
+    await dispatch(addStudentThunk(newStudentName));
+    setAddStudentModalOpen(false);
+  };
+
+  const handleNewStudentNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewStudentName(e.target.value);
+  };
+
   return (
     <div className={style.editClassContainer}>
       <div className={style.classTitleWrapper}>
@@ -240,6 +261,7 @@ const EditClass = () => {
               ))}
           </tbody>
         </table>
+        <Button onClick={onAddStudentClick}>{t("add")}</Button>
       </div>
 
       {/* Delete Modal */}
@@ -262,6 +284,18 @@ const EditClass = () => {
             </div>
           )}
         </>
+      </Modal>
+
+      <Modal
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        open={addStudentModalOpen}
+        onClose={handleCloseAddStudentModal}
+      >
+        <div className={style.modalContainer}>
+          <h2>{t("add-student")}</h2>
+          <input value={newStudentName} onChange={handleNewStudentNameChange} />
+          <Button onClick={handleAddStudent}>{t("save")}</Button>
+        </div>
       </Modal>
 
       {/* Password Modal */}

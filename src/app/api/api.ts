@@ -249,6 +249,11 @@ export type ChangeStudentNameRequestType = {
   newName: string;
 };
 
+export type AddStudentRequestType = {
+  classId: number;
+  studentName: string;
+};
+
 export type UpdateClassNameRequestType = {
   classId: number;
   newName: string;
@@ -353,6 +358,12 @@ export const TeacherRoom = {
   },
   deleteStudent: (studentId: number) => {
     return axiosLiveInstance.delete(`classes/delete-student/${studentId}`);
+  },
+  addStudent: (data: AddStudentRequestType) => {
+    return axiosLiveInstance.put<FetchClassResponseType>(
+      `classes/add-student/`,
+      data,
+    );
   },
   updateClassName: (data: UpdateClassNameRequestType) => {
     return axiosLiveInstance.put(`classes/update-class-name/${data.classId}`, {

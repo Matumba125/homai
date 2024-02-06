@@ -9,6 +9,7 @@ import {
   TeacherRoom,
   UpdateClassNameRequestType,
 } from "../../../app/api/api";
+import { AppStateType } from "../../../app/store/store";
 
 export type ClassroomInitialStateType = {
   classes: ClassroomType[];
@@ -139,6 +140,27 @@ export const changeStudentNameThunk = createAsyncThunk<
       rejectWithValue(e);
     } finally {
       dispatch(slice.actions.setLoading(false));
+    }
+  },
+);
+
+export const addStudentThunk = createAsyncThunk<any, string>(
+  "classroom/addStudentThunk",
+  async (studentName, { dispatch, rejectWithValue, getState }) => {
+    const state = getState() as AppStateType;
+    if (state.classroom.class?.id) {
+      try {
+        dispatch(slice.actions.setLoading(true));
+        const res = await TeacherRoom.addStudent({
+          studentName: studentName,
+          classId: state.classroom.class.id,
+        });
+        dispatch(slice.actions.setClass(res.data.class));
+      } catch (e) {
+        rejectWithValue(e);
+      } finally {
+        dispatch(slice.actions.setLoading(false));
+      }
     }
   },
 );

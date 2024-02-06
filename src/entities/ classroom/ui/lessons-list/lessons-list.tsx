@@ -1,4 +1,11 @@
-import { Button, IconButton, Modal, styled, Switch } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Modal,
+  Snackbar,
+  styled,
+  Switch,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,11 +56,12 @@ const LessonsList = () => {
   // Local state for modals
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalLesson, setModalLesson] = useState<LessonType>();
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleShare = async (id: number, link: string) => {
     try {
       await navigator.clipboard.writeText(link);
-      console.log("Content copied to clipboard");
+      setOpen(true);
     } catch (err) {
       console.error("Failed to copy: ", err);
     }
@@ -93,8 +101,18 @@ const LessonsList = () => {
     navigate(path.createLesson);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={style.editClassContainer}>
+      <Snackbar
+        open={open}
+        autoHideDuration={1500}
+        onClose={handleClose}
+        message={t("link-copied")}
+      />
       <div className={style.classTitleWrapper}>
         <h2>{t("class")}</h2>
         <div className={style.classTitleEditWrapper}>
