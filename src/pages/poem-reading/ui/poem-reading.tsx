@@ -56,6 +56,12 @@ const PoemReading = () => {
 
   useEffect(() => {
     dispatch(fetchPoem());
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, []);
 
   return (

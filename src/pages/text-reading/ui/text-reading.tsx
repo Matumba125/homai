@@ -11,7 +11,7 @@ import { useCheckLessonId } from "../../../shared/utilities/checkLessonIdAvailab
 
 const ReadingText = () => {
   useCheckStudentRole();
-  const audioRef = useRef(new Audio());
+  const audioRef = useRef<HTMLAudioElement>(new Audio());
   const [currentAudioMs, setCurrentAudioMs] = useState(0);
   const text = useSelector(getReadingText);
   const dispatch = useDispatch<AppDispatch>();
@@ -77,6 +77,8 @@ const ReadingText = () => {
     return () => {
       // Clean up event listener on component unmount
       audio.removeEventListener("timeupdate", updateTime);
+      audio.pause();
+      audio.currentTime = 0;
     };
   }, []);
 
